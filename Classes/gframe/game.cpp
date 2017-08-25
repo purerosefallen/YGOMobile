@@ -25,7 +25,7 @@
 #include <COGLESDriver.h>
 #endif
 
-const unsigned short PRO_VERSION = 0x233C;
+const unsigned short PRO_VERSION = 0x133F;
 
 namespace ygo {
 
@@ -183,7 +183,7 @@ bool Game::Initialize() {
 	newskin->drop();
 	//main menu
 	wchar_t strbuf[256];
-	myswprintf(strbuf, L"YGOPro Version:%X.0%X.%X", PRO_VERSION >> 12, (PRO_VERSION >> 4) & 0xff, PRO_VERSION & 0xf);
+	myswprintf(strbuf, L"YGOPro 222DIY Version:%X.0%X.%X", PRO_VERSION >> 12, (PRO_VERSION >> 4) & 0xff, PRO_VERSION & 0xf);
 #ifdef _IRR_ANDROID_PLATFORM_
 	wMainMenu = env->addWindow(rect<s32>(320 * xScale, 150 * yScale, 700 * xScale, 465 * yScale), false, strbuf);
 	wMainMenu->getCloseButton()->setVisible(false);

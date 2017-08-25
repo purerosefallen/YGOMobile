@@ -6,7 +6,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "cn.garymb.ygomobile"
+        applicationId "cn.garymb.ygomobile.222diy"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 310141
