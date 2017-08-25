@@ -10,6 +10,16 @@
 #include "field.h"
 #include "card.h"
 #include "effect.h"
+//222DIY
+int32 scriptlib::effect_set_owner(lua_State *L) {
+	check_param_count(L, 2);
+	check_param(L, PARAM_TYPE_EFFECT, 1);
+	check_param(L, PARAM_TYPE_CARD, 2);
+	effect* peffect = *(effect**) lua_touserdata(L, 1);
+	card* pcard = *(card**) lua_touserdata(L, 2);
+	peffect->owner = pcard;
+	return 0;
+}
 
 int32 scriptlib::effect_new(lua_State *L) {
 	check_param_count(L, 1);
@@ -145,7 +155,8 @@ int32 scriptlib::effect_set_count_limit(lua_State *L) {
 	if(v == 0)
 		v = 1;
 	peffect->flag[0] |= EFFECT_FLAG_COUNT_LIMIT;
-	peffect->reset_count |= ((v << 12) & 0xf000) | ((v << 8) & 0xf00);
+	peffect->count_limit = v;
+	peffect->count_limit_max = v;
 	peffect->count_code = code;
 	return 0;
 }
@@ -160,7 +171,7 @@ int32 scriptlib::effect_set_reset(lua_State *L) {
 	if(v & (RESET_PHASE) && !(v & (RESET_SELF_TURN | RESET_OPPO_TURN)))
 		v |= (RESET_SELF_TURN | RESET_OPPO_TURN);
 	peffect->reset_flag = v;
-	peffect->reset_count = (peffect->reset_count & 0xff00) | (c & 0xff);
+	peffect->reset_count = c;
 	return 0;
 }
 int32 scriptlib::effect_set_type(lua_State *L) {
@@ -537,7 +548,7 @@ int32 scriptlib::effect_is_activated(lua_State * L) {
 	check_param_count(L, 1);
 	check_param(L, PARAM_TYPE_EFFECT, 1);
 	effect* peffect = *(effect**) lua_touserdata(L, 1);
-	lua_pushboolean(L, (peffect->status & EFFECT_STATUS_ACTIVATED));
+	lua_pushboolean(L, (peffect->type & 0x7f0));
 	return 1;
 }
 
@@ -545,6 +556,6 @@ int32 scriptlib::effect_get_activate_location(lua_State *L) {
 	check_param_count(L, 1);
 	check_param(L, PARAM_TYPE_EFFECT, 1);
 	effect* peffect = *(effect**) lua_touserdata(L, 1);
-	lua_pushinteger(L, peffect->s_range);
+	lua_pushinteger(L, peffect->active_location);
 	return 1;
 }

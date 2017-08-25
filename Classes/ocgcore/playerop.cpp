@@ -165,7 +165,7 @@ int32 field::select_idle_command(uint16 step, uint8 playerid) {
 		return TRUE;
 	}
 }
-int32 field::select_effect_yes_no(uint16 step, uint8 playerid, card* pcard) {
+int32 field::select_effect_yes_no(uint16 step, uint8 playerid, uint32 description, card* pcard) {
 	if(step == 0) {
 		if((playerid == 1) && (core.duel_options & DUEL_SIMPLE_AI)) {
 			returns.ivalue[0] = 1;
@@ -175,6 +175,7 @@ int32 field::select_effect_yes_no(uint16 step, uint8 playerid, card* pcard) {
 		pduel->write_buffer8(playerid);
 		pduel->write_buffer32(pcard->data.code);
 		pduel->write_buffer32(pcard->get_info_location());
+		pduel->write_buffer32(description);
 		returns.ivalue[0] = -1;
 		return FALSE;
 	} else {
@@ -698,11 +699,7 @@ int32 field::sort_card(int16 step, uint8 playerid, uint8 is_chain) {
 		}
 		return FALSE;
 	} else {
-#ifdef _IRR_ANDROID_PLATFORM_
-		if(returns.bvalue[0] == 0xff)
-#else
 		if(returns.bvalue[0] == -1)
-#endif
 			return TRUE;
 		uint8 seq[64];
 		memset(seq, 0, 64);
