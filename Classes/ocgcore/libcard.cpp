@@ -55,6 +55,30 @@ int32 scriptlib::card_set_entity_code(lua_State *L) {
 	lua_pushinteger(L, pcard->set_entity_code(trace, remove_alias));
 	return 1;
 }
+int32 scriptlib::card_is_link_below(lua_State *L) {
+	check_param_count(L, 2);
+	check_param(L, PARAM_TYPE_CARD, 1);
+	card* pcard = *(card**) lua_touserdata(L, 1);
+	uint32 lnk = lua_tointeger(L, 2);
+	if(!(pcard->data.type & TYPE_LINK) || (pcard->status & STATUS_NO_LEVEL)
+	        || (!(pcard->data.type & TYPE_MONSTER) && !(pcard->current.location & LOCATION_MZONE)))
+		lua_pushboolean(L, 0);
+	else
+		lua_pushboolean(L, pcard->get_link() <= lnk);
+	return 1;
+}
+int32 scriptlib::card_is_link_above(lua_State *L) {
+	check_param_count(L, 2);
+	check_param(L, PARAM_TYPE_CARD, 1);
+	card* pcard = *(card**) lua_touserdata(L, 1);
+	uint32 lnk = lua_tointeger(L, 2);
+	if(!(pcard->data.type & TYPE_LINK) || (pcard->status & STATUS_NO_LEVEL)
+	        || (!(pcard->data.type & TYPE_MONSTER) && !(pcard->current.location & LOCATION_MZONE)))
+		lua_pushboolean(L, 0);
+	else
+		lua_pushboolean(L, pcard->get_link() >= lnk);
+	return 1;
+}
 
 int32 scriptlib::card_get_code(lua_State *L) {
 	check_param_count(L, 1);

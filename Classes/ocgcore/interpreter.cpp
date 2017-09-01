@@ -20,6 +20,9 @@ static const struct luaL_Reg cardlib[] = {
 	{ "GetAffectingEffect", scriptlib::card_get_affecting_effect },
 	{ "FilterEffect", scriptlib::card_filter_effect },
 	{ "SetEntityCode", scriptlib::card_set_entity_code },
+	{ "IsLinkBelow", scriptlib::card_is_link_below },
+	{ "IsLinkAbove", scriptlib::card_is_link_above },
+ 
 	{ "GetCode", scriptlib::card_get_code },
 	{ "GetOriginalCode", scriptlib::card_get_origin_code },
 	{ "GetOriginalCodeRule", scriptlib::card_get_origin_code_rule },
@@ -259,6 +262,8 @@ static const struct luaL_Reg cardlib[] = {
 static const struct luaL_Reg effectlib[] = {
 	//222DIY
 	{ "SetOwner", scriptlib::effect_set_owner },
+	{ "GetRange", scriptlib::effect_get_range },
+	{ "GetCountLimit", scriptlib::effect_get_count_limit },
 	
 	{ "CreateEffect", scriptlib::effect_new },
 	{ "GlobalEffect", scriptlib::effect_newex },
