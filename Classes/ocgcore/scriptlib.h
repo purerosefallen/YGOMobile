@@ -22,6 +22,7 @@ public:
 	static int32 card_filter_effect(lua_State *L);
 	static int32 card_is_link_below(lua_State *L);
 	static int32 card_is_link_above(lua_State *L);
+	static int32 card_set_card_data(lua_State *L);
 	static int32 effect_set_owner(lua_State *L);
 	static int32 effect_get_range(lua_State *L);
 	static int32 effect_get_count_limit(lua_State *L);

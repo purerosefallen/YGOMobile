@@ -1653,6 +1653,7 @@ int32 scriptlib::duel_get_location_count(lua_State *L) {
 	lua_pushinteger(L, pduel->game_field->get_useable_count(playerid, location, uplayer, reason, zone));
 	return 1;
 }
+//222DIY modded by Flandre
 int32 scriptlib::duel_get_location_count_fromex(lua_State *L) {
 	check_param_count(L, 1);
 	uint32 playerid = lua_tointeger(L, 1);
@@ -1670,8 +1671,13 @@ int32 scriptlib::duel_get_location_count_fromex(lua_State *L) {
 	if(lua_gettop(L) >= 3 && !lua_isnil(L, 3)) {
 		if(check_param(L, PARAM_TYPE_CARD, 3, TRUE)) {
 			mcard = *(card**) lua_touserdata(L, 3);
+			mcard->set_status(STATUS_TO_LEAVE_FROMEX, TRUE);
 		} else if(check_param(L, PARAM_TYPE_GROUP, 3, TRUE)) {
 			mgroup = *(group**) lua_touserdata(L, 3);
+			for(auto cit = mgroup->container.begin(); cit != mgroup->container.end(); ++cit) {
+				card* gcard = *cit;
+				gcard->set_status(STATUS_TO_LEAVE_FROMEX, TRUE);
+			}
 		} else
 			luaL_error(L, "Parameter %d should be \"Card\" or \"Group\".", 3);
 		for(int32 p = 0; p < 2; p++) {
@@ -1701,6 +1707,14 @@ int32 scriptlib::duel_get_location_count_fromex(lua_State *L) {
 		lua_pushinteger(L, pduel->game_field->get_useable_count_fromex(scard, playerid, uplayer, zone));
 	else
 		lua_pushinteger(L, pduel->game_field->get_useable_count(playerid, LOCATION_MZONE, uplayer, LOCATION_REASON_TOFIELD, zone));
+	if(mcard)
+		mcard->set_status(STATUS_TO_LEAVE_FROMEX, FALSE);
+	if(mgroup){
+		for(auto cit = mgroup->container.begin(); cit != mgroup->container.end(); ++cit) {
+			card* gcard = *cit;
+			gcard->set_status(STATUS_TO_LEAVE_FROMEX, FALSE);
+		}		
+	}
 	if(swapped) {
 		pduel->game_field->player[0].used_location = used_location[0];
 		pduel->game_field->player[1].used_location = used_location[1];

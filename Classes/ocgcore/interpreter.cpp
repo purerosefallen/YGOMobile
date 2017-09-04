@@ -22,6 +22,7 @@ static const struct luaL_Reg cardlib[] = {
 	{ "SetEntityCode", scriptlib::card_set_entity_code },
 	{ "IsLinkBelow", scriptlib::card_is_link_below },
 	{ "IsLinkAbove", scriptlib::card_is_link_above },
+	{ "SetCardData", scriptlib::card_set_card_data },
  
 	{ "GetCode", scriptlib::card_get_code },
 	{ "GetOriginalCode", scriptlib::card_get_origin_code },
