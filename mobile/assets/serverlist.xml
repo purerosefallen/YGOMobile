@@ -3,17 +3,17 @@
     <version>2</version>
 
     <server>
-        <player-name>YGOMobile User</player-name>
-        <name>娱乐决斗与宇宙首发群452384460</name>
-        <ip>s1.ygo233.com</ip>
-        <port>2333</port>
+        <player-name>Nanahira</player-name>
+        <name>YGOPRO 222DIY Server</name>
+        <ip>koishi.ygopro.win</ip>
+        <port>222</port>
         <keep>true</keep>
     </server>
-    <server>
-        <player-name>Knight of Hanoi</player-name>
-        <name>23333测试服务器</name>
-        <ip>s1.ygo233.com</ip>
-        <port>23333</port>
+	<server>
+        <player-name>Nanahira</player-name>
+        <name>YGOPRO 7210 Server</name>
+        <ip>koishi.ygopro.win</ip>
+        <port>7210</port>
         <keep>true</keep>
     </server>
 </servers>
