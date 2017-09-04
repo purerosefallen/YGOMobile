@@ -5,8 +5,8 @@ cp -rf ../../222DIY/git-build-server/lflist.conf mobile/assets/data/core/3.5/con
 rm -rf mobile/assets/data/core/3.5/config/strings.conf
 cat ../../koishi_ocgupd/ygopro-7210srv/strings.conf ../../222DIY/git-build-server/expansions/strings.conf > mobile/assets/data/core/3.5/config/strings.conf
 cp -rf ../script.zip mobile/assets/data
-echo Merging database
 
+echo Merging database
 mkdir databases
 cd databases
 cp -rf ../../../222DIY/git-build-server/expansions/222DIY.cdb .
@@ -26,9 +26,4 @@ setx Path %cd%
 cd ../ygopro-222DIY-mobile/libcore
 
 ndk-build -j4
-cd ..
-echo Pushing to GitHub
-git add . -A
-git commit -m build
-git push origin master
 pause
