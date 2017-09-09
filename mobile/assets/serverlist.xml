@@ -4,14 +4,14 @@
 
     <server>
         <player-name>Nanahira</player-name>
-        <name>YGOPRO 222DIY Server</name>
+        <name>YGOPRO 222DIY</name>
         <ip>koishi.ygopro.win</ip>
         <port>222</port>
         <keep>true</keep>
     </server>
-	<server>
+    <server>
         <player-name>Nanahira</player-name>
-        <name>YGOPRO 7210 Server</name>
+        <name>YGOPRO 7210 Koishi Server</name>
         <ip>koishi.ygopro.win</ip>
         <port>7210</port>
         <keep>true</keep>

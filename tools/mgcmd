@@ -1,0 +1,4 @@
+.output merge.mg
+.dump
+.output stdout
+.quit

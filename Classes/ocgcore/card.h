@@ -106,7 +106,7 @@ public:
 	};
 	//222DIY
 	uint32 set_entity_code(uint32 entity_code, bool remove_alias = false);
-	
+
 	struct sendto_param_t {
 		void set(uint8 p, uint8 pos, uint8 loc, uint8 seq = 0) {
 			playerid = p;
@@ -268,7 +268,7 @@ public:
 	int32 destination_redirect(uint8 destination, uint32 reason);
 	int32 add_counter(uint8 playerid, uint16 countertype, uint16 count, uint8 singly);
 	int32 remove_counter(uint16 countertype, uint16 count);
-	int32 is_can_add_counter(uint8 playerid, uint16 countertype, uint16 count, uint8 singly);
+	int32 is_can_add_counter(uint8 playerid, uint16 countertype, uint16 count, uint8 singly, uint32 loc);
 	int32 get_counter(uint16 countertype);
 	void set_material(card_set* materials);
 	void add_card_target(card* pcard);

@@ -20,10 +20,8 @@ static const struct luaL_Reg cardlib[] = {
 	{ "GetAffectingEffect", scriptlib::card_get_affecting_effect },
 	{ "FilterEffect", scriptlib::card_filter_effect },
 	{ "SetEntityCode", scriptlib::card_set_entity_code },
-	{ "IsLinkBelow", scriptlib::card_is_link_below },
-	{ "IsLinkAbove", scriptlib::card_is_link_above },
 	{ "SetCardData", scriptlib::card_set_card_data },
- 
+	
 	{ "GetCode", scriptlib::card_get_code },
 	{ "GetOriginalCode", scriptlib::card_get_origin_code },
 	{ "GetOriginalCodeRule", scriptlib::card_get_origin_code_rule },
@@ -216,6 +214,8 @@ static const struct luaL_Reg cardlib[] = {
 	{ "IsLevelAbove", scriptlib::card_is_level_above },
 	{ "IsRankBelow", scriptlib::card_is_rank_below },
 	{ "IsRankAbove", scriptlib::card_is_rank_above },
+	{ "IsLinkBelow", scriptlib::card_is_link_below },
+	{ "IsLinkAbove", scriptlib::card_is_link_above },
 	{ "IsAttackBelow", scriptlib::card_is_attack_below },
 	{ "IsAttackAbove", scriptlib::card_is_attack_above },
 	{ "IsDefenseBelow", scriptlib::card_is_defense_below },
@@ -361,7 +361,7 @@ static const struct luaL_Reg duellib[] = {
 	{ "ReadCard", scriptlib::duel_read_card },
 	{ "Exile", scriptlib::duel_exile },
 	{ "DisableActionCheck", scriptlib::duel_disable_action_check },
-	
+
 	{ "EnableGlobalFlag", scriptlib::duel_enable_global_flag },
 	{ "GetLP", scriptlib::duel_get_lp },
 	{ "SetLP", scriptlib::duel_set_lp },
@@ -587,7 +587,7 @@ interpreter::interpreter(duel* pd): coroutines(256) {
 	call_depth = 0;
 	//222DIY
 	disable_action_check = 0;
-	
+
 	set_duel_info(lua_state, pd);
 	//Initial
 	luaL_openlibs(lua_state);
