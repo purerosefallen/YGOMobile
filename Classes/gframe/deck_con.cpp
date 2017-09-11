@@ -97,7 +97,7 @@ void DeckBuilder::Terminate() {
 	mainGame->PopupElement(mainGame->wMainMenu);
 	mainGame->device->setEventReceiver(&mainGame->menuHandler);
 	mainGame->wACMessage->setVisible(false);
-	imageManager.ClearTexture();
+	mainGame->ClearTextures();
 	mainGame->scrFilter->setVisible(false);
 	int sel = mainGame->cbDBDecks->getSelected();
 	if(sel >= 0)
@@ -235,6 +235,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 					if(mainGame->chkCategory[i]->isChecked())
 						filter_effect |= filter;
 				mainGame->HideElement(mainGame->wCategories);
+				InstantSearch();
 				break;
 			}
 			case BUTTON_SIDE_OK: {
@@ -244,6 +245,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 					mainGame->env->addMessageBox(L"", dataManager.GetSysString(1410));
 					break;
 				}
+				mainGame->imgCard->setImage(imageManager.tCover[0]);
 				char deckbuf[1024];
 				char* pdeck = deckbuf;
 				BufferIO::WriteInt32(pdeck, deckManager.current_deck.main.size() + deckManager.current_deck.extra.size());
@@ -329,6 +331,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 				if (mainGame->btnMark[7]->isPressed())
 					filter_marks |= 0004;
 				mainGame->HideElement(mainGame->wLinkMarks);
+				InstantSearch();
 				break;
 			}
 			}
@@ -349,8 +352,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 		case irr::gui::EGET_EDITBOX_CHANGED: {
 			switch(id) {
 			case EDITBOX_KEYWORD: {
-				if(mainGame->gameConf.auto_search_limit >= 0 && (wcslen(mainGame->ebCardName->getText()) >= mainGame->gameConf.auto_search_limit))
-					StartFilter();
+				InstantSearch();
 				break;
 			}
 			}
@@ -467,6 +469,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 					break;
 				}
 				}
+				InstantSearch();
 				break;
 			}
 			case COMBOBOX_SORTTYPE: {
@@ -483,8 +486,13 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 						mainGame->ebDefense->setEnabled(true);
 					}
 				}
+				InstantSearch();
 				break;
 			}
+			case COMBOBOX_ATTRIBUTE:
+			case COMBOBOX_RACE:
+			case COMBOBOX_LIMIT:
+				InstantSearch();
 			}
 		}
 		default: break;
@@ -874,6 +882,10 @@ void DeckBuilder::FilterCards() {
 		mainGame->scrFilter->setPos(0);
 	}
 	SortList();
+}
+void DeckBuilder::InstantSearch() {
+	if(mainGame->gameConf.auto_search_limit >= 0 && (wcslen(mainGame->ebCardName->getText()) >= mainGame->gameConf.auto_search_limit))
+		StartFilter();
 }
 void DeckBuilder::ClearSearch() {
 	mainGame->cbCardType->setSelected(0);

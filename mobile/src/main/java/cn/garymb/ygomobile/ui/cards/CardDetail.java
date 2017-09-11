@@ -1,6 +1,5 @@
 package cn.garymb.ygomobile.ui.cards;
 
-import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +7,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import cn.garymb.ygomobile.ui.activities.PhotoViewActivity;
-import cn.garymb.ygomobile.bean.CardInfo;
-import cn.garymb.ygomobile.loader.ImageLoader;
 import cn.garymb.ygomobile.lite.R;
+import cn.garymb.ygomobile.loader.ImageLoader;
+import cn.garymb.ygomobile.ui.activities.BaseActivity;
+import cn.garymb.ygomobile.ui.activities.PhotoViewActivity;
 import cn.garymb.ygomobile.ui.adapters.BaseAdapterPlus;
+import cn.garymb.ygomobile.utils.CardUtils;
 import ocgcore.StringManager;
+import ocgcore.data.Card;
 import ocgcore.enums.CardType;
 
 /***
@@ -43,24 +44,24 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
     private ImageLoader imageLoader;
     private View mImageOpen,atkdefView;
 
-    private Context mContext;
+    private BaseActivity mContext;
     private StringManager mStringManager;
     private int curPosition;
-    private CardInfo mCardInfo;
+    private Card mCardInfo;
     private CardListProvider mProvider;
     private OnCardClickListener mListener;
 
     public interface OnCardClickListener {
-        void onOpenUrl(CardInfo cardInfo);
+        void onOpenUrl(Card cardInfo);
 
-        void onAddMainCard(CardInfo cardInfo);
+        void onAddMainCard(Card cardInfo);
 
-        void onAddSideCard(CardInfo cardInfo);
+        void onAddSideCard(Card cardInfo);
 
         void onClose();
     }
 
-    public CardDetail(Context context, ImageLoader imageLoader, StringManager stringManager) {
+    public CardDetail(BaseActivity context, ImageLoader imageLoader, StringManager stringManager) {
         super(LayoutInflater.from(context).inflate(R.layout.dialog_cardinfo, null));
         mContext = context;
         cardImage = bind(R.id.card_image);
@@ -95,7 +96,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
         });
         addMain.setOnClickListener((v) -> {
             if (mListener != null) {
-                CardInfo cardInfo = getCardInfo();
+                Card cardInfo = getCardInfo();
                 if (cardInfo == null) {
                     return;
                 }
@@ -104,7 +105,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
         });
         addSide.setOnClickListener((v) -> {
             if (mListener != null) {
-                CardInfo cardInfo = getCardInfo();
+                Card cardInfo = getCardInfo();
                 if (cardInfo == null) {
                     return;
                 }
@@ -113,7 +114,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
         });
         faq.setOnClickListener((v) -> {
             if (mListener != null) {
-                CardInfo cardInfo = getCardInfo();
+                Card cardInfo = getCardInfo();
                 if (cardInfo == null) {
                     return;
                 }
@@ -145,7 +146,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
         return view;
     }
 
-    public Context getContext() {
+    public BaseActivity getContext() {
         return mContext;
     }
 
@@ -153,7 +154,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
         mListener = listener;
     }
 
-    private void setCardInfo(CardInfo cardInfo) {
+    private void setCardInfo(Card cardInfo) {
         if (cardInfo == null) return;
         mCardInfo = cardInfo;
         imageLoader.bindImage(cardImage, cardInfo.Code, null, true);
@@ -163,7 +164,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
         name.setText(cardInfo.Name);
         desc.setText(cardInfo.Desc);
         cardcode.setText(String.format("%08d", cardInfo.Code));
-        type.setText(cardInfo.getAllTypeString(mStringManager).replace("/", "|"));
+        type.setText(CardUtils.getAllTypeString(cardInfo, mStringManager).replace("/", "|"));
         attrView.setText(mStringManager.getAttributeString(cardInfo.Attribute));
         otView.setText(mStringManager.getOtString(cardInfo.Ot, "" + cardInfo.Ot));
         long[] sets = cardInfo.getSetCode();
@@ -196,7 +197,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
             monsterlayout.setVisibility(View.VISIBLE);
             race.setVisibility(View.VISIBLE);
             String star = "";
-            for (int i = 0; i < cardInfo.Level; i++) {
+            for (int i = 0; i < cardInfo.getStar(); i++) {
                 star += "★";
             }
             level.setText(star);
@@ -207,7 +208,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
             }
             cardAtk.setText((cardInfo.Attack < 0 ? "?" : String.valueOf(cardInfo.Attack)));
             if (cardInfo.isType(CardType.Link)) {
-                cardDef.setText((cardInfo.Level < 0 ? "?" : "LINK-" + String.valueOf(cardInfo.Level)));
+                cardDef.setText((cardInfo.getStar() < 0 ? "?" : "LINK-" + String.valueOf(cardInfo.getStar())));
             } else {
                 cardDef.setText((cardInfo.Defense < 0 ? "?" : String.valueOf(cardInfo.Defense)));
             }
@@ -220,7 +221,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
         }
     }
 
-    public void bind(CardInfo cardInfo, final int position, final CardListProvider provider) {
+    public void bind(Card cardInfo, final int position, final CardListProvider provider) {
         curPosition = position;
         mProvider = provider;
         if (cardInfo != null) {
@@ -236,7 +237,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
         return mProvider;
     }
 
-    public CardInfo getCardInfo() {
+    public Card getCardInfo() {
         return mCardInfo;
     }
 
@@ -244,12 +245,12 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
         int position = getCurPosition();
         CardListProvider provider = getProvider();
         if (position == 0) {
-            Toast.makeText(getContext(), "已经是第一张啦", Toast.LENGTH_SHORT).show();
+            getContext().showToast( "已经是第一张啦", Toast.LENGTH_SHORT);
         } else {
 			int index = position ;
             do{
 				if(index==0){
-                    Toast.makeText(getContext(), "已经是第一张啦", Toast.LENGTH_SHORT).show();
+                    getContext().showToast( "已经是第一张啦", Toast.LENGTH_SHORT);
                     return;
 				}else{
                     index--;
@@ -258,7 +259,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
 			
             bind(provider.getCard(index), index, provider);
             if(position == 1){
-                Toast.makeText(getContext(), "已经是第一张啦", Toast.LENGTH_SHORT).show();
+                getContext().showToast( "已经是第一张啦", Toast.LENGTH_SHORT);
             }
         }
     }
@@ -270,7 +271,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
 			int index = position ;
             do{			
 				if(index==provider.getCardsCount() - 1){
-                    Toast.makeText(getContext(), "已经是最后一张啦", Toast.LENGTH_SHORT).show();
+                    getContext().showToast("已经是最后一张啦", Toast.LENGTH_SHORT);
 					return;
 				}else{
                     index++;
@@ -279,10 +280,10 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
 			
             bind(provider.getCard(index), index, provider);
             if(position == provider.getCardsCount() - 1){
-                Toast.makeText(getContext(), "已经是最后一张啦", Toast.LENGTH_SHORT).show();
+                getContext().showToast( "已经是最后一张啦", Toast.LENGTH_SHORT);
             }
         } else {
-            Toast.makeText(getContext(), "已经是最后一张啦", Toast.LENGTH_SHORT).show();
+            getContext().showToast( "已经是最后一张啦", Toast.LENGTH_SHORT);
         }
     }
 
@@ -295,7 +296,7 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
         }
 
         @Override
-        public void onOpenUrl(CardInfo cardInfo) {
+        public void onOpenUrl(Card cardInfo) {
 
         }
 
@@ -304,12 +305,12 @@ public class CardDetail extends BaseAdapterPlus.BaseViewHolder {
         }
 
         @Override
-        public void onAddSideCard(CardInfo cardInfo) {
+        public void onAddSideCard(Card cardInfo) {
 
         }
 
         @Override
-        public void onAddMainCard(CardInfo cardInfo) {
+        public void onAddMainCard(Card cardInfo) {
 
         }
     }

@@ -12,7 +12,7 @@ bool DataManager::LoadDB(const char* file) {
 	if(sqlite3_open_v2(file, &pDB, SQLITE_OPEN_READONLY, 0) != SQLITE_OK)
 		return Error(pDB);
 	sqlite3_stmt* pStmt;
-	const char* sql = "select * from datas,texts where datas._id=texts._id";
+	const char* sql = "select * from datas,texts where datas.id=texts.id";
 	if(sqlite3_prepare_v2(pDB, sql, -1, &pStmt, 0) != SQLITE_OK)
 		return Error(pDB);
 	CardDataC cd;
@@ -78,12 +78,7 @@ bool DataManager::LoadStrings(const char* file) {
 	char linebuf[256];
 	char strbuf[256];
 	int value;
-	fseek(fp, 0, SEEK_END);
-	int fsize = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	fgets(linebuf, 256, fp);
-	while(ftell(fp) < fsize) {
-		fgets(linebuf, 256, fp);
+	while(fgets(linebuf, 256, fp)) {
 		if(linebuf[0] != '!')
 			continue;
 		sscanf(linebuf, "!%s", strbuf);

@@ -27,15 +27,30 @@ InitOptions::InitOptions(void*data) :
 		int tmplength = 0;
 		m_opengles_version = BufferIO::ReadInt32(rawdata);
 		m_se_enabled = BufferIO::ReadInt32(rawdata) > 0;
-		//cache dir
-		ReadString(m_cache_dir, rawdata);
-		ReadString(m_db_dir, rawdata);
-		ReadString(m_core_config_version, rawdata);
-		ReadString(m_res_path, rawdata);
-		ReadString(m_external_path, rawdata);
+		
 		m_card_quality = BufferIO::ReadInt32(rawdata);
 		m_font_aa_enabled = BufferIO::ReadInt32(rawdata) > 0;
 		m_ps_enabled = BufferIO::ReadInt32(rawdata) > 0;
+		
+		//cache dir
+		ReadString(m_work_dir, rawdata);
+		//cdbs
+		cdb_count = BufferIO::ReadInt32(rawdata);
+		m_db_files = new io::path[cdb_count];
+		
+		for(int i = 0;i < cdb_count; i++){
+			io::path tmp_path;
+			ReadString(tmp_path, rawdata);
+			m_db_files[i] = tmp_path;
+		}
+		//zips
+		zip_count = BufferIO::ReadInt32(rawdata);
+		m_archive_files = new io::path[zip_count];
+		for(int i = 0 ;i < zip_count; i++){
+			io::path tmp_path;
+			ReadString(tmp_path, rawdata);
+			m_archive_files[i] = tmp_path;
+		}
 	}
 }
 
@@ -343,8 +358,14 @@ irr::io::path getResourcePath(ANDROID_APP app) {
 	return ret;
 }
 
+
+
 //Retrive last deck name.
 irr::io::path getLastDeck(ANDROID_APP app) {
+	return getSetting(app, "lastdeck");
+}
+
+irr::io::path getSetting(ANDROID_APP app, const char* key) {
 	irr::io::path ret;
 	if (!app || !app->activity || !app->activity->vm)
 		return ret;
@@ -359,10 +380,14 @@ irr::io::path getLastDeck(ANDROID_APP app) {
 			"getApplication", "()Landroid/app/Application;");
 	jobject application = jni->CallObjectMethod(lNativeActivity, MethodGetApp);
 	jclass classApp = jni->GetObjectClass(application);
-	jmethodID lastdeckMethod = jni->GetMethodID(classApp, "getLastDeck",
-			"()Ljava/lang/String;");
+	jmethodID lastdeckMethod = jni->GetMethodID(classApp, "getSetting",
+			"(Ljava/lang/String;)Ljava/lang/String;");
+	jstring keystring = jni->NewStringUTF(key);
 	jstring retString = (jstring) jni->CallObjectMethod(application,
-			lastdeckMethod);
+			lastdeckMethod, keystring);
+	if (keystring) {
+		jni->DeleteLocalRef(keystring);
+	}
 	jni->DeleteLocalRef(classApp);
 	jni->DeleteLocalRef(ClassNativeActivity);
 	const char* chars = jni->GetStringUTFChars(retString, NULL);
@@ -374,6 +399,10 @@ irr::io::path getLastDeck(ANDROID_APP app) {
 
 //save last deck name.
 void setLastDeck(ANDROID_APP app, const char* deckname) {
+	saveSetting(app, "lastdeck", deckname);
+}
+
+void saveSetting(ANDROID_APP app, const char* key, const char* value) {
 	if (!app || !app->activity || !app->activity->vm)
 		return;
 	JNIEnv* jni = 0;
@@ -387,12 +416,16 @@ void setLastDeck(ANDROID_APP app, const char* deckname) {
 			"getApplication", "()Landroid/app/Application;");
 	jobject application = jni->CallObjectMethod(lNativeActivity, MethodGetApp);
 	jclass classApp = jni->GetObjectClass(application);
-	jmethodID setDeckMethod = jni->GetMethodID(classApp, "setLastDeck",
-			"(Ljava/lang/String;)V");
-	jstring deckstring = jni->NewStringUTF(deckname);
-	jni->CallVoidMethod(application, setDeckMethod, deckstring);
-	if (deckstring) {
-		jni->DeleteLocalRef(deckstring);
+	jmethodID setDeckMethod = jni->GetMethodID(classApp, "saveSetting",
+			"(Ljava/lang/String;Ljava/lang/String;)V");
+	jstring keystring = jni->NewStringUTF(key);
+	jstring valuestring = jni->NewStringUTF(value);
+	jni->CallVoidMethod(application, setDeckMethod, keystring, valuestring);
+	if (keystring) {
+		jni->DeleteLocalRef(keystring);
+	}
+	if (valuestring) {
+		jni->DeleteLocalRef(valuestring);
 	}
 	jni->DeleteLocalRef(classApp);
 	jni->DeleteLocalRef(ClassNativeActivity);
