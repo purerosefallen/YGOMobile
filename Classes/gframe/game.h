@@ -13,6 +13,7 @@
 namespace ygo {
 
 struct Config {
+	bool _init;
 	bool use_d3d;
 	bool use_image_scale;
 	unsigned short antialias;

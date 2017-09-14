@@ -6,10 +6,14 @@ import cn.garymb.ygomobile.lite.BuildConfig;
 
 public interface Constants {
     boolean DEBUG = BuildConfig.DEBUG;
+    String PREF_START = "game_pref_";
     String PREF_LAST_YDK = "pref_last_ydk";
     String PREF_DEF_LAST_YDK = "new";
     String PREF_GAME_PATH = "pref_key_game_res_path";
     String PREF_DEF_GAME_DIR = "ygocore";
+
+    String PREF_GAME_VERSION = "game_version";
+    int DEF_PREF_GAME_VERSION = 0x233E;
 
 
     String PREF_IMAGE_QUALITY = "pref_key_game_image_quality";
@@ -81,6 +85,9 @@ public interface Constants {
 
     String PREF_ONLY_GAME = "pref_settings_only_game";
     boolean DEF_PREF_ONLY_GAME = false;
+
+    String PREF_READ_EX = "pref_settings_read_ex";
+    boolean DEF_PREF_READ_EX = false;
 
     int REQUEST_CUT_IMG = 0x1000 + 0x10;
     int REQUEST_CHOOSE_FILE = 0x1000 + 0x20;
@@ -167,7 +174,6 @@ public interface Constants {
     String QUERY_ROOM = "room";
 
     //额外的cdb
-    boolean READ_EX_CDB = true;
     boolean NETWORK_IMAGE = false;
     boolean SHOW_MYCARD = !"core".equals(BuildConfig.FLAVOR);
 }

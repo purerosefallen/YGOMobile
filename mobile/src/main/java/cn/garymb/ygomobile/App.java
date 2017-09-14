@@ -48,18 +48,29 @@ public class App extends GameApplication {
     }
 
     @Override
-    public void setLastDeck(String name) {
-        AppsSettings.get().setLastDeck(name);
-    }
-
-    @Override
     public String getFontPath() {
         return AppsSettings.get().getFontPath();
     }
 
+
     @Override
-    public String getLastDeck() {
-        return AppsSettings.get().getLastDeck();
+    public void saveSetting(String key, String value) {
+        AppsSettings.get().saveSettings(key, value);
+    }
+
+    @Override
+    public String getSetting(String key) {
+        return AppsSettings.get().getSettings(key);
+    }
+
+    @Override
+    public int getIntSetting(String key, int def) {
+        return AppsSettings.get().getIntSettings(key, def);
+    }
+
+    @Override
+    public void saveIntSetting(String key, int value) {
+        AppsSettings.get().saveIntSettings(key, value);
     }
 
     @Override

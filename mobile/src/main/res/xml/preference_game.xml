@@ -6,6 +6,11 @@
             android:key="pref_key_game_res_path"
             android:persistent="true"
             android:title="@string/settings_game_res_path"/>
+        <EditTextPreference
+            android:key="game_version"
+            android:persistent="true"
+            android:title="@string/game_version"
+            />
         <ListPreference
             android:entries="@array/opengl_version"
             android:entryValues="@array/opengl_version_value"
@@ -21,7 +26,12 @@
         <CheckBoxPreference
             android:key="pref_settings_only_game"
             android:persistent="true"
+            android:summary="@string/only_game_tip"
             android:title="@string/settings_pref_settings_only_game"/>
+        <CheckBoxPreference
+            android:key="pref_settings_read_ex"
+            android:persistent="true"
+            android:title="@string/title_use_ex"/>
         <CheckBoxPreference
             android:key="pref_key_game_sound_effect"
             android:persistent="true"

@@ -11,25 +11,26 @@ import org.json.JSONArray;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.StringTokenizer;
 
+import cn.garymb.ygomobile.ui.home.ResCheckTask;
 import cn.garymb.ygomobile.ui.preference.PreferenceFragmentPlus;
 import cn.garymb.ygomobile.utils.SystemUtils;
+import ocgcore.handler.CardManager;
 
 import static cn.garymb.ygomobile.Constants.CORE_SYSTEM_PATH;
 import static cn.garymb.ygomobile.Constants.DEF_PREF_FONT_SIZE;
 import static cn.garymb.ygomobile.Constants.DEF_PREF_ONLY_GAME;
+import static cn.garymb.ygomobile.Constants.DEF_PREF_READ_EX;
 import static cn.garymb.ygomobile.Constants.PREF_DEF_IMMERSIVE_MODE;
 import static cn.garymb.ygomobile.Constants.PREF_DEF_SENSOR_REFRESH;
 import static cn.garymb.ygomobile.Constants.PREF_FONT_SIZE;
 import static cn.garymb.ygomobile.Constants.PREF_IMMERSIVE_MODE;
 import static cn.garymb.ygomobile.Constants.PREF_LOCK_SCREEN;
 import static cn.garymb.ygomobile.Constants.PREF_ONLY_GAME;
+import static cn.garymb.ygomobile.Constants.PREF_READ_EX;
 import static cn.garymb.ygomobile.Constants.PREF_SENSOR_REFRESH;
 
 public class AppsSettings {
@@ -110,6 +111,10 @@ public class AppsSettings {
         return mSharedPreferences.getBoolean(PREF_ONLY_GAME, DEF_PREF_ONLY_GAME);
     }
 
+    public boolean isReadExpansions() {
+        return mSharedPreferences.getBoolean(PREF_READ_EX, DEF_PREF_READ_EX);
+    }
+
     public float getXScale() {
         return getScreenHeight() / (float) Constants.CORE_SKIN_BG_SIZE[0];
     }
@@ -141,11 +146,15 @@ public class AppsSettings {
         return options;
     }
 
+    public File getDataBaseFile() {
+        return new File(getDataBasePath(), Constants.DATABASE_NAME);
+    }
+
     private void makeCdbList(List<String> pathList) {
-        pathList.add(new File(getDataBasePath(), "cards.cdb").getAbsolutePath());
-        if (Constants.READ_EX_CDB) {
+        pathList.add(getDataBaseFile().getAbsolutePath());
+        if (isReadExpansions()) {
             File expansionsDir = getExpansionsPath();
-            if(expansionsDir.exists()) {
+            if (expansionsDir.exists()) {
                 File[] cdbs = expansionsDir.listFiles(new FileFilter() {
                     @Override
                     public boolean accept(File file) {
@@ -154,7 +163,10 @@ public class AppsSettings {
                 });
                 if (cdbs != null) {
                     for (File file : cdbs) {
-                        pathList.add(file.getAbsolutePath());
+                        if (CardManager.checkDataBase(file)) {
+                            //合法数据库才会加载
+                            pathList.add(file.getAbsolutePath());
+                        }
                     }
                 }
             }
@@ -169,17 +181,19 @@ public class AppsSettings {
         pathList.add(new File(getResourcePath(), Constants.CORE_PICS_ZIP).getAbsolutePath());
         pathList.add(new File(getResourcePath(), Constants.CORE_SCRIPTS_ZIP).getAbsolutePath());
         //
-        File expansionsDir = getExpansionsPath();
-        if(expansionsDir.exists()) {
-            File[] zips = expansionsDir.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File file) {
-                    return file.isFile() && file.getName().toLowerCase(Locale.US).endsWith(".zip");
-                }
-            });
-            if (zips != null) {
-                for (File file : zips) {
-                    pathList.add(file.getAbsolutePath());
+        if (isReadExpansions()) {
+            File expansionsDir = getExpansionsPath();
+            if (expansionsDir.exists()) {
+                File[] zips = expansionsDir.listFiles(new FileFilter() {
+                    @Override
+                    public boolean accept(File file) {
+                        return file.isFile() && file.getName().toLowerCase(Locale.US).endsWith(".zip");
+                    }
+                });
+                if (zips != null) {
+                    for (File file : zips) {
+                        pathList.add(file.getAbsolutePath());
+                    }
                 }
             }
         }
@@ -395,6 +409,66 @@ public class AppsSettings {
 
     public String getCurLastDeck() {
         return mSharedPreferences.getString(Constants.PREF_LAST_YDK, null);
+    }
+
+    public void saveIntSettings(String key, int value) {
+        if (Constants.PREF_GAME_VERSION.equals(key)) {
+            mSharedPreferences.putString(key, String.format("0x%X", value));
+        }
+        mSharedPreferences.putInt(Constants.PREF_START + key, value);
+    }
+
+    public int getIntSettings(String key, int def) {
+        if (Constants.PREF_GAME_VERSION.equals(key)) {
+            int val = mSharedPreferences.getInt(Constants.PREF_START + key, 0);
+            if (def > val) {
+                Log.i("kk", String.format("reset game_version=0x%X", def));
+                saveIntSettings(key, def);
+                return def;
+            }
+            Log.i("kk", String.format("game_version=0x%X", val));
+            return val;
+        } else {
+            int val = mSharedPreferences.getInt(Constants.PREF_START + key, def);
+            return val;
+        }
+    }
+
+    public String getVersionString(int value) {
+        int last = (value & 0xf);
+        int m = ((value >> 4) & 0xff);
+        int b = ((value >> 12) & 0xff);
+        return String.format("%X.%03X.%X", b, m, last);
+    }
+
+    public int getVersionValue(String str) {
+        String ver = str.trim().replace(".0", "").replace(".", "");
+        int v;
+        if (ver.startsWith("0x") || ver.startsWith("0X")) {
+            ver = ver.substring(2);
+        }
+        try {
+            v = Integer.parseInt(ver, 16);
+        } catch (Exception e) {
+            return -1;
+        }
+        return v;
+    }
+
+    public void saveSettings(String key, String value) {
+        if ("lastdeck".equals(key)) {
+            setLastDeck(value);
+        } else {
+            mSharedPreferences.putString(Constants.PREF_START + key, value);
+        }
+    }
+
+    public String getSettings(String key) {
+        if ("lastdeck".equals(key)) {
+            String val = getLastDeck();
+            return val;
+        }
+        return mSharedPreferences.getString(Constants.PREF_START + key, null);
     }
 
     public List<String> getLastRoomList() {

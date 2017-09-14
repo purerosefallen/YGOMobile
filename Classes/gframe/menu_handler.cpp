@@ -13,6 +13,11 @@ namespace ygo {
 void UpdateDeck() {
 	BufferIO::CopyWStr(mainGame->cbDeckSelect->getItem(mainGame->cbDeckSelect->getSelected()),
 		mainGame->gameConf.lastdeck, 64);
+		
+	char linebuf[256];	
+	BufferIO::EncodeUTF8(mainGame->gameConf.lastdeck, linebuf);
+	android::setLastDeck(mainGame->appMain, linebuf);
+		
 	char deckbuf[1024];
 	char* pdeck = deckbuf;
 	BufferIO::WriteInt32(pdeck, deckManager.current_deck.main.size() + deckManager.current_deck.extra.size());
@@ -41,6 +46,7 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 			switch(id) {
 			case BUTTON_MODE_EXIT: {
 				mainGame->soundEffectPlayer->doPressButton();
+				mainGame->SaveConfig();
 				mainGame->device->closeDevice();
 				break;
 			}
@@ -190,6 +196,7 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 				mainGame->HideElement(mainGame->wHostPrepare);
 				mainGame->ShowElement(mainGame->wLanWindow);
 				mainGame->wChat->setVisible(false);
+				mainGame->SaveConfig();
 				if(exit_on_return)
 					mainGame->device->closeDevice();
 				break;

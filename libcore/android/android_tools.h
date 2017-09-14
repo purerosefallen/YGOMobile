@@ -50,10 +50,14 @@ public:
 	}
 	~InitOptions()
     {
-		if(m_db_files != NULL)
-          delete m_db_files;
-	    if(m_archive_files != NULL)
-		  delete m_archive_files;
+		if(m_db_files != NULL){
+			delete[] m_db_files;
+		}
+		m_db_files = NULL;
+		if(m_archive_files != NULL){
+			delete[] m_archive_files;
+		}
+		m_archive_files = NULL;
     }
 private:
 	irr::io::path m_work_dir;
@@ -143,10 +147,14 @@ extern irr::io::path getFontPath(ANDROID_APP app);
 //Retrive last deck name.
 extern irr::io::path getLastDeck(ANDROID_APP app);
 
+extern int getIntSetting(ANDROID_APP app, const char* key,int defvalue);
+
 extern irr::io::path getSetting(ANDROID_APP app, const char* key);
 
 //save last deck name.
 extern void setLastDeck(ANDROID_APP app, const char* deckname);
+
+extern void saveIntSetting(ANDROID_APP app, const char* key, int value);
 
 extern void saveSetting(ANDROID_APP app, const char* key, const char* value);
 

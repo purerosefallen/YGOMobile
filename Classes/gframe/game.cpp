@@ -25,7 +25,7 @@
 #include <COGLESDriver.h>
 #endif
 
-const unsigned short PRO_VERSION = 0x133F;
+unsigned short PRO_VERSION = 0x133F;
 
 namespace ygo {
 
@@ -40,6 +40,7 @@ bool Game::Initialize() {
 	srand(time(0));
 	irr::SIrrlichtCreationParameters params = irr::SIrrlichtCreationParameters();
 #ifdef _IRR_ANDROID_PLATFORM_
+    PRO_VERSION = android::getIntSetting(app, "game_version", PRO_VERSION);
 	android::InitOptions *options = android::getInitOptions(app);
 	glversion = options->getOpenglVersion();
 	if (glversion == 0) {
@@ -1485,6 +1486,9 @@ void Game::RefreshSingleplay() {
 }
 void Game::LoadConfig() {
 	wchar_t wstr[256];
+	if(gameConf._init)return;
+	PRO_VERSION = android::getIntSetting(appMain, "game_version", PRO_VERSION);
+	gameConf._init = TRUE;
 	gameConf.antialias = 1;
 	gameConf.serverport = 7911;
 	gameConf.textfontsize = 16;
@@ -1500,26 +1504,87 @@ void Game::LoadConfig() {
 	gameConf.lastport[0] = 0;
 	gameConf.roompass[0] = 0;
 	//settings
-	gameConf.chkMAutoPos = 0;
-	gameConf.chkSTAutoPos = 0;
-	gameConf.chkRandomPos = 0;
-	gameConf.chkAutoChain = 0;
-	gameConf.chkWaitChain = 0;
-	gameConf.chkIgnore1 = 0;
-	gameConf.chkIgnore2 = 0;
-	gameConf.chkHideSetname = 0;
-	gameConf.control_mode = 0;
-	gameConf.draw_field_spell = 1;
-	gameConf.separate_clear_button = 1;
-	gameConf.auto_search_limit = -1;
-	gameConf.chkIgnoreDeckChanges = 0;
+	gameConf.chkMAutoPos = android::getIntSetting(appMain, "chkMAutoPos", 0);
+	gameConf.chkSTAutoPos = android::getIntSetting(appMain, "chkSTAutoPos", 0);
+	gameConf.chkRandomPos = android::getIntSetting(appMain, "chkRandomPos", 0);
+	gameConf.chkAutoChain = android::getIntSetting(appMain, "chkAutoChain", 0);
+	gameConf.chkWaitChain = android::getIntSetting(appMain, "chkWaitChain", 0);
+	gameConf.chkIgnore1 = android::getIntSetting(appMain, "chkIgnore1", 0);
+	gameConf.chkIgnore2 = android::getIntSetting(appMain, "chkIgnore2", 0);
+	gameConf.chkHideSetname = android::getIntSetting(appMain, "chkHideSetname", 0);
+	gameConf.control_mode = android::getIntSetting(appMain, "control_mode", 0);
+	gameConf.draw_field_spell = android::getIntSetting(appMain, "draw_field_spell", 0);
+	gameConf.separate_clear_button = android::getIntSetting(appMain, "separate_clear_button", 0);
+	gameConf.auto_search_limit = android::getIntSetting(appMain, "auto_search_limit", 1);
+	gameConf.chkIgnoreDeckChanges = android::getIntSetting(appMain, "chkIgnoreDeckChanges", 0);
 }
 
 void Game::SaveConfig() {
-	char linebuf[256];	
-	BufferIO::EncodeUTF8(gameConf.lastdeck, linebuf);
-	android::setLastDeck(appMain, linebuf);
+	//char linebuf[256];	
+	//BufferIO::EncodeUTF8(gameConf.lastdeck, linebuf);
+	//android::setLastDeck(appMain, linebuf);
+	int cur;
+	cur = chkMAutoPos->isChecked()?1:0;
+	if(cur != gameConf.chkMAutoPos){
+		gameConf.chkMAutoPos = cur;
+		 android::saveIntSetting(appMain, "chkMAutoPos", gameConf.chkMAutoPos);
+	}
+	
+	cur = chkSTAutoPos->isChecked()?1:0;
+	if(cur != gameConf.chkSTAutoPos){
+		gameConf.chkSTAutoPos = cur;
+		 android::saveIntSetting(appMain, "chkSTAutoPos", gameConf.chkSTAutoPos);
+	}
+	
+	cur = chkRandomPos->isChecked()?1:0;
+	if(cur != gameConf.chkRandomPos){
+		gameConf.chkRandomPos = cur;
+		 android::saveIntSetting(appMain, "chkRandomPos", gameConf.chkRandomPos);
+	}
+	
+	cur = chkAutoChain->isChecked()?1:0;
+	if(cur != gameConf.chkAutoChain){
+		gameConf.chkAutoChain = cur;
+		 android::saveIntSetting(appMain, "chkAutoChain", gameConf.chkAutoChain);
+	}
+
+	cur = chkIgnore1->isChecked()?1:0;
+	if(cur != gameConf.chkIgnore1){
+		gameConf.chkIgnore1 = cur;
+		 android::saveIntSetting(appMain, "chkIgnore1", gameConf.chkIgnore1);
+	}
+	
+	cur = chkIgnore2->isChecked()?1:0;
+	if(cur != gameConf.chkIgnore2){
+		gameConf.chkIgnore2 = cur;
+		 android::saveIntSetting(appMain, "chkIgnore2", gameConf.chkIgnore2);
+	}
+	
+	cur = chkHideSetname->isChecked()?1:0;
+	if(cur != gameConf.chkHideSetname){
+		gameConf.chkHideSetname = cur;
+		 android::saveIntSetting(appMain, "chkHideSetname", gameConf.chkHideSetname);
+	}
+
+	cur = chkIgnoreDeckChanges->isChecked()?1:0;
+	if(cur != gameConf.chkIgnoreDeckChanges){
+		gameConf.chkIgnoreDeckChanges = cur;
+		 android::saveIntSetting(appMain, "chkIgnoreDeckChanges", gameConf.chkIgnoreDeckChanges);
+	}
+	
+	cur = chkAutoSearch->isChecked()?0:-1;
+	if(cur != gameConf.auto_search_limit){
+		gameConf.auto_search_limit = cur;
+		 android::saveIntSetting(appMain, "auto_search_limit", gameConf.auto_search_limit);
+	}
+//gameConf.control_mode = control_mode->isChecked()?1:0;
+//	  android::saveIntSetting(appMain, "control_mode", gameConf.control_mode);
+//gameConf.draw_field_spell = draw_field_spell->isChecked()?1:0;
+//	  android::saveIntSetting(appMain, "draw_field_spell", gameConf.draw_field_spell);
+//gameConf.separate_clear_button = separate_clear_button->isChecked()?1:0;
+//	  android::saveIntSetting(appMain, "separate_clear_button", gameConf.separate_clear_button);
 }
+
 void Game::ShowCardInfo(int code) {
 	CardData cd;
 	wchar_t formatBuffer[256];
