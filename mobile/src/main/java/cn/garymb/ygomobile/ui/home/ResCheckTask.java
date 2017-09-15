@@ -1,7 +1,9 @@
 package cn.garymb.ygomobile.ui.home;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
@@ -13,13 +15,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import cn.garymb.ygomobile.App;
 import cn.garymb.ygomobile.AppsSettings;
 import cn.garymb.ygomobile.Constants;
 import cn.garymb.ygomobile.lite.R;
+import cn.garymb.ygomobile.ui.plus.DialogPlus;
 import cn.garymb.ygomobile.utils.FileUtils;
 import cn.garymb.ygomobile.utils.IOUtils;
 import cn.garymb.ygomobile.utils.SystemUtils;
 import ocgcore.ConfigManager;
+import ocgcore.handler.CardManager;
 
 import static cn.garymb.ygomobile.Constants.ASSETS_PATH;
 
@@ -33,7 +38,7 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
     private AppsSettings mSettings;
     private Context mContext;
     private ResCheckListener mListener;
-    private ProgressDialog dialog = null;
+    private DialogPlus dialog = null;
     private Handler handler;
     private boolean isNewVersion;
 
@@ -48,7 +53,7 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        dialog = ProgressDialog.show(mContext, null, mContext.getString(R.string.check_res));
+        dialog = DialogPlus.show(mContext, null, mContext.getString(R.string.check_res));
         int vercode = SystemUtils.getVersion(mContext);
         if (mSettings.getAppVersion() < vercode) {
             mSettings.setAppVersion(vercode);
@@ -62,10 +67,10 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
     protected void onPostExecute(final Integer result) {
         super.onPostExecute(result);
         //关闭异常
-        if(dialog.isShowing()) {
+        if (dialog.isShowing()) {
             try {
                 dialog.dismiss();
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
@@ -97,43 +102,21 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
     protected Integer doInBackground(Void... params) {
         if (Constants.DEBUG)
             Log.d(TAG, "check start");
-        boolean needsUpdate = false;
+        boolean needsUpdate = isNewVersion;
         //core config
         setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.core_config)));
-        String newConfigVersion = null, currentConfigVersion = null;
-        File verPath = new File(mSettings.getResourcePath(), Constants.CORE_CONFIG_PATH);
-        if (!verPath.exists() || TextUtils.isEmpty(currentConfigVersion = getCurVersion(verPath))) {
-            //
-            setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.core_config)));
-            int error = copyCoreConfig(verPath.getAbsolutePath(), true);
-            if (error != ERROR_NONE) {
-                return error;
-            }
-            needsUpdate = true;
-            currentConfigVersion = getCurVersion(verPath);
-            if (TextUtils.isEmpty(currentConfigVersion)) {
-                if (Constants.DEBUG)
-                    Log.e(TAG, "check core config currentConfigVersion is null:" + verPath);
-                return ERROR_CORE_CONFIG;
-            }
-        }
-        //check core config
-
-        try {
-            newConfigVersion = mContext.getAssets().list(getDatapath(Constants.CORE_CONFIG_PATH))[0];
-        } catch (Exception e) {
-            if (Constants.DEBUG)
-                Log.e(TAG, "check core config", e);
-            return ERROR_CORE_CONFIG;
-        }
-        mSettings.setCoreConfigVersion(newConfigVersion);
-        needsUpdate = isNewVersion || needsUpdate || !currentConfigVersion.equals(newConfigVersion);
         //res
         try {
             String resPath = mSettings.getResourcePath();
             IOUtils.createNoMedia(resPath);
             checkDirs();
-            copyCoreConfig(verPath.getAbsolutePath(), needsUpdate);
+            copyCoreConfig(resPath, needsUpdate);
+            if(AppsSettings.get().isUseExtraCards()){
+                //自定义数据库无效，则用默认的
+                if(!CardManager.checkDataBase(AppsSettings.get().getDataBaseFile())){
+                    AppsSettings.get().setUseExtraCards(false);
+                }
+            }
             //设置字体
             new ConfigManager(mSettings.getSystemConfig()).setFontSize(mSettings.getFontSize());
 //            copyCoreConfig(new File(mSettings.getResourcePath(), GameSettings.CORE_CONFIG_PATH).getAbsolutePath());
@@ -162,7 +145,7 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
             }
             setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.cards_cdb)));
             copyCdbFile(needsUpdate);
-            if(isNewVersion) {
+            if (isNewVersion) {
                 if (IOUtils.hasAssets(mContext, getDatapath(Constants.CORE_PICS_ZIP))) {
                     setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.images)));
                     IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.CORE_PICS_ZIP),
@@ -189,8 +172,29 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
         }
         if (copyDb) {
             IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.DATABASE_NAME), mSettings.getDataBasePath(), needsUpdate);
-            doSomeTrickOnDatabase(dbFile.getAbsolutePath());
+//            doSomeTrickOnDatabase(dbFile.getAbsolutePath());
         }
+    }
+
+    public static boolean checkDataBase(String path) {
+        if(!new File(path).exists()){
+            return false;
+        }
+        SQLiteDatabase db = null;
+        try {
+            db = SQLiteDatabase.openDatabase(path, null,
+                    SQLiteDatabase.OPEN_READWRITE);
+            Cursor cursor = db.rawQuery("select * from datas,texts where datas.id=texts.id limit 1;", null);
+            if (cursor == null) {
+                return false;
+            }
+            cursor.close();
+        } catch (Exception e) {
+            return false;
+        } finally {
+            IOUtils.close(db);
+        }
+        return true;
     }
 
     public static void doSomeTrickOnDatabase(String myPath)
@@ -232,11 +236,11 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
 
     private void checkDirs() {
         String[] dirs = {Constants.CORE_SCRIPT_PATH,
-                         Constants.CORE_SINGLE_PATH,
-                         Constants.CORE_DECK_PATH,
-                         Constants.CORE_REPLAY_PATH,
-                         Constants.FONT_DIRECTORY,
-                         Constants.CORE_IMAGE_PATH
+                Constants.CORE_SINGLE_PATH,
+                Constants.CORE_DECK_PATH,
+                Constants.CORE_REPLAY_PATH,
+                Constants.FONT_DIRECTORY,
+                Constants.CORE_IMAGE_PATH
         };
         File dirFile = null;
         for (String dir : dirs) {
@@ -253,7 +257,7 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
             return null;
         }
         String[] files = verPath.list();
-        if(files==null){
+        if (files == null) {
             return null;
         }
         for (String file : files) {
@@ -269,14 +273,13 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
 
     private int copyCoreConfig(String toPath, boolean needsUpdate) {
         try {
-            String path = getDatapath(Constants.CORE_CONFIG_PATH);
+            String path = getDatapath("conf");
             int count = IOUtils.copyFilesFromAssets(mContext, path, toPath, needsUpdate);
             if (count < 3) {
                 return ERROR_CORE_CONFIG_LOST;
             }
             //替换换行符
-            File stringfile = new File(AppsSettings.get().getResourcePath(),
-                    String.format(Constants.CORE_STRING_PATH, AppsSettings.get().getCoreConfigVersion()));
+            File stringfile = new File(AppsSettings.get().getResourcePath(), Constants.CORE_STRING_PATH);
             fixString(stringfile.getAbsolutePath());
             return ERROR_NONE;
         } catch (IOException e) {

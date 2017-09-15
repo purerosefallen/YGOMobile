@@ -27,8 +27,8 @@ import cn.garymb.ygomobile.loader.ICardLoader;
 import cn.garymb.ygomobile.lite.R;
 import cn.garymb.ygomobile.ui.adapters.SimpleSpinnerAdapter;
 import cn.garymb.ygomobile.ui.adapters.SimpleSpinnerItem;
-import ocgcore.bean.CardSet;
-import ocgcore.bean.LimitList;
+import ocgcore.data.CardSet;
+import ocgcore.data.LimitList;
 import ocgcore.LimitManager;
 import ocgcore.StringManager;
 import ocgcore.enums.CardAttribute;
@@ -285,7 +285,8 @@ public class CardSearcher implements View.OnClickListener {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 long value = getSelect(limitListSpinner);
-                if (value < 0) {
+                if (value <= 0) {
+                    reset(limitSpinner);
                     limitSpinner.setVisibility(View.INVISIBLE);
                 } else {
                     limitSpinner.setVisibility(View.VISIBLE);
@@ -601,6 +602,7 @@ public class CardSearcher implements View.OnClickListener {
         if (limitListSpinner.getAdapter().getCount() > 1) {
             limitListSpinner.setSelection(1);
         }
+        reset(limitSpinner);
         reset(typeSpinner);
         reset(typeSTSpinner);
         reset(setcodeSpinner);

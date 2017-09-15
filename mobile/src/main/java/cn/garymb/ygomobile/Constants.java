@@ -6,14 +6,16 @@ import cn.garymb.ygomobile.lite.BuildConfig;
 
 public interface Constants {
     boolean DEBUG = BuildConfig.DEBUG;
+    String PREF_START = "game_pref_";
     String PREF_LAST_YDK = "pref_last_ydk";
     String PREF_DEF_LAST_YDK = "new";
     String PREF_GAME_PATH = "pref_key_game_res_path";
     String PREF_DEF_GAME_DIR = "ygocore";
 
+    String PREF_GAME_VERSION = "game_version";
+    int DEF_PREF_GAME_VERSION = 0x233E;
 
-    String PREF_GAME_VERSION = "pref_key_core_version";
-    String PREF_DEF_GAME_VERSION = "3.5";
+
     String PREF_IMAGE_QUALITY = "pref_key_game_image_quality";
     int PREF_DEF_IMAGE_QUALITY = 1;
     String PREF_GAME_FONT = "pref_key_game_font_name";
@@ -50,10 +52,9 @@ public interface Constants {
     String DEFAULT_FONT_NAME = "ygo.ttf";
     String DATABASE_NAME = "cards.cdb";
     String FONT_DIRECTORY = "fonts";
-    String CORE_CONFIG_PATH = "core";
-    String CORE_STRING_PATH = "core/%s/config/strings.conf";
-    String CORE_LIMIT_PATH = "core/%s/config/lflist.conf";
-    String CORE_SYSTEM_PATH = "core/%s/config/system.conf";
+    String CORE_STRING_PATH = "strings.conf";
+    String CORE_LIMIT_PATH = "lflist.conf";
+    String CORE_SYSTEM_PATH = "system.conf";
     String CORE_SKIN_PATH = "textures";
     String CORE_SKIN_PENDULUM_PATH = CORE_SKIN_PATH + "/extra";
     String CORE_DECK_PATH = "deck";
@@ -65,10 +66,10 @@ public interface Constants {
     String CORE_SCRIPTS_ZIP = "scripts.zip";
     String CORE_PICS_ZIP = "pics.zip";
     String CORE_SKIN_COVER = "cover.jpg";
-    String CORE_SKIN_BG = "bg.jpg";
+    String CORE_SKIN_BG = "bg_menu.jpg";
     String UNKNOWN_IMAGE = "unknown.jpg";
     String YDK_FILE_EX = ".ydk";
-    int[] CORE_SKIN_BG_SIZE = new int[]{1024, 640};
+    int[] CORE_SKIN_BG_SIZE = new int[]{1280, 720};
     int[] CORE_SKIN_CARD_COVER_SIZE = new int[]{177, 254};
     boolean SUPPORT_BPG = true;
     String BPG = ".bpg";
@@ -80,6 +81,13 @@ public interface Constants {
 
     String PREF_FONT_SIZE = "pref_settings_font_size";
     int DEF_PREF_FONT_SIZE = 14;
+
+
+    String PREF_ONLY_GAME = "pref_settings_only_game";
+    boolean DEF_PREF_ONLY_GAME = false;
+
+    String PREF_READ_EX = "pref_settings_read_ex";
+    boolean DEF_PREF_READ_EX = false;
 
     int REQUEST_CUT_IMG = 0x1000 + 0x10;
     int REQUEST_CHOOSE_FILE = 0x1000 + 0x20;
@@ -103,8 +111,8 @@ public interface Constants {
     int DECK_SIDE_MAX = 15;
     int DECK_EXTRA_COUNT = (DECK_SIDE_MAX / DECK_WIDTH_COUNT * DECK_WIDTH_COUNT < DECK_SIDE_MAX) ? DECK_WIDTH_COUNT * 2 : DECK_WIDTH_COUNT;
     int DECK_SIDE_COUNT = DECK_EXTRA_COUNT;
-    String ALIPAY_URL = "HTTPS://QR.ALIPAY.COM/FKX04360PTBURPG1QZE9AA";
-    String DOWNLOAD_HOME = "http://yun.baidu.com/share/home?uk=3121448261";
+    String ALIPAY_URL = "https://qr.alipay.com/FKX06538E7ARJS06E2F886";
+    String DOWNLOAD_HOME = "http://pan.baidu.com/s/1o7RMcMA";
     String URL_HELP = "http://www.jianshu.com/p/a43f5d951a25";
     String WIKI_SEARCH_URL = "http://www.ourocg.cn/S.aspx?key=";
 
@@ -120,7 +128,7 @@ public interface Constants {
     /***
      * 长按删除
      */
-    long LONG_PRESS_DRAG = 500;
+    long LONG_PRESS_DRAG = 800;
     /***
      * adb shell am start -n cn.garymb.ygomobile/cn.garymb.ygomobile.ui.home.MainActivity -a ygomobile.intent.action.DECK --es android.intent.extra.TEXT 青眼白龙.ydk
      * <p>
@@ -164,4 +172,8 @@ public interface Constants {
     String QUERY_PORT = "port";
     String QUERY_USER = "user";
     String QUERY_ROOM = "room";
+
+    //额外的cdb
+    boolean NETWORK_IMAGE = false;
+    boolean SHOW_MYCARD = !"core".equals(BuildConfig.FLAVOR);
 }

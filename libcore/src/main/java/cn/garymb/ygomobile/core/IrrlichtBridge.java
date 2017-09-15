@@ -158,11 +158,15 @@ public final class IrrlichtBridge {
     public interface IrrlichtApplication {
         String getCardImagePath();
 
-        void setLastDeck(String name);
+        void saveSetting(String key, String value);
 
         String getFontPath();
 
-        String getLastDeck();
+        String getSetting(String key);
+
+        int getIntSetting(String key,int def);
+
+        void saveIntSetting(String key,int value);
 
         float getScreenWidth();
 

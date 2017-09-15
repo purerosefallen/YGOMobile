@@ -1,17 +1,23 @@
 package cn.garymb.ygomobile.ui.home;
 
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 
+import cn.garymb.ygomobile.AppsSettings;
+import cn.garymb.ygomobile.Constants;
 import cn.garymb.ygomobile.GameUriManager;
 import cn.garymb.ygomobile.YGOMobileActivity;
 import cn.garymb.ygomobile.YGOStarter;
@@ -19,11 +25,14 @@ import cn.garymb.ygomobile.core.IrrlichtBridge;
 import cn.garymb.ygomobile.lite.R;
 import cn.garymb.ygomobile.ui.plus.DialogPlus;
 import cn.garymb.ygomobile.ui.plus.VUiKit;
+import cn.garymb.ygomobile.utils.AlipayPayUtils;
 import cn.garymb.ygomobile.utils.ComponentUtils;
+import cn.garymb.ygomobile.utils.IOUtils;
 import cn.garymb.ygomobile.utils.NetUtils;
 
 import static cn.garymb.ygomobile.Constants.ACTION_RELOAD;
 import static cn.garymb.ygomobile.Constants.ALIPAY_URL;
+import static cn.garymb.ygomobile.Constants.NETWORK_IMAGE;
 
 public class MainActivity extends HomeActivity {
     private GameUriManager mGameUriManager;
@@ -50,7 +59,7 @@ public class MainActivity extends HomeActivity {
                         .setOnCloseLinster((dlg) -> {
                             dlg.dismiss();
                             //mImageUpdater
-                            if (NetUtils.isConnected(getContext())) {
+                            if (NETWORK_IMAGE && NetUtils.isConnected(getContext())) {
                                 if (!mImageUpdater.isRunning()) {
                                     mImageUpdater.start();
                                 }
@@ -122,51 +131,24 @@ public class MainActivity extends HomeActivity {
     }
 
     @Override
-    protected void updateImages() {
-        if (!mImageUpdater.isRunning()) {
-            mImageUpdater.start();
-        } else {
-            Toast.makeText(this, R.string.downloading_images, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    /**
-     * 支付
-     *
-     * @param qrCode
-     */
-    @Override
-    protected void openAliPay2Pay(String qrCode) {
-        if (openAlipayPayPage(this, qrCode)) {
-            Toast.makeText(this, "感谢您的支持", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "呀，没装支付宝", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public static boolean openAlipayPayPage(Context context, String qrcode) {
-        try {
-            qrcode = URLEncoder.encode(ALIPAY_URL, "utf-8");
-        } catch (Exception e) {
-        }
-        try {
-            final String alipayqr = "alipayqr://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=" + qrcode;
-            openUri(context, alipayqr + "%3F_s%3Dweb-other&_t=" + System.currentTimeMillis());
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    /**
-     * 发送一个intent
-     *
-     * @param context
-     * @param s
-     */
-    private static void openUri(Context context, String s) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(s));
-        context.startActivity(intent);
+    public void updateImages() {
+        DialogPlus dialog  = new DialogPlus(this);
+        dialog.setTitle("公告");
+        dialog.setMessage("由于版权关系，github禁止卡图库下载。\n" +
+                    "使用此功能仅用于复制被误清理的卡图包。\n" +
+                    "如果内置卡图也被举报，那么以后不内置卡图。");
+        dialog.show();
+        VUiKit.defer().when(()->{
+            if (IOUtils.hasAssets(this, ResCheckTask.getDatapath(Constants.CORE_PICS_ZIP))) {
+                try {
+                    IOUtils.copyFilesFromAssets(this, ResCheckTask.getDatapath(Constants.CORE_PICS_ZIP),
+                            AppsSettings.get().getResourcePath(), true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).done((rs)->{
+            dialog.dismiss();
+        });
     }
 }

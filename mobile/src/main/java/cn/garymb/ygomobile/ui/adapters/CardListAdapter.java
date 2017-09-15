@@ -7,22 +7,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tubb.smrv.SwipeHorizontalMenuLayout;
-import com.tubb.smrv.SwipeMenuLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
-import cn.garymb.ygomobile.bean.CardInfo;
 import cn.garymb.ygomobile.lite.R;
 import cn.garymb.ygomobile.loader.ImageLoader;
 import cn.garymb.ygomobile.ui.cards.CardListProvider;
 import cn.garymb.ygomobile.ui.cards.deck.ImageTop;
-import cn.garymb.ygomobile.ui.events.CardInfoEvent;
+import cn.garymb.ygomobile.bean.events.CardInfoEvent;
+import cn.garymb.ygomobile.utils.CardUtils;
 import ocgcore.StringManager;
-import ocgcore.bean.LimitList;
+import ocgcore.data.Card;
+import ocgcore.data.LimitList;
 import ocgcore.enums.CardType;
 import ocgcore.enums.LimitType;
 
-public class CardListAdapter extends BaseRecyclerAdapterPlus<CardInfo, ViewHolder> implements CardListProvider {
+public class CardListAdapter extends BaseRecyclerAdapterPlus<Card, ViewHolder> implements CardListProvider {
     private StringManager mStringManager;
     private ImageTop mImageTop;
     private LimitList mLimitList;
@@ -42,7 +42,7 @@ public class CardListAdapter extends BaseRecyclerAdapterPlus<CardInfo, ViewHolde
     }
 
     @Override
-    public CardInfo getCard(int posotion) {
+    public Card getCard(int posotion) {
         return getItem(posotion);
     }
 
@@ -62,6 +62,9 @@ public class CardListAdapter extends BaseRecyclerAdapterPlus<CardInfo, ViewHolde
     }
 
     public void hideMenu(View view) {
+        if (view == null) {
+            view = mShowMenuView;
+        }
         if (view != null) {
             Object tag = view.getTag(view.getId());
             if (tag != null && tag instanceof ViewHolder) {
@@ -96,7 +99,7 @@ public class CardListAdapter extends BaseRecyclerAdapterPlus<CardInfo, ViewHolde
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        CardInfo item = getItem(position);
+        Card item = getItem(position);
         imageLoader.bindImage(holder.cardImage, item.Code);
         holder.cardName.setText(item.Name);
         if (item.isType(CardType.Monster)) {
@@ -108,7 +111,7 @@ public class CardListAdapter extends BaseRecyclerAdapterPlus<CardInfo, ViewHolde
             }
 //            holder.view_bar.setVisibility(View.VISIBLE);
             String star = "";
-            for (int i = 0; i < item.Level; i++) {
+            for (int i = 0; i < item.getStar(); i++) {
                 star += "★";
             }
             holder.cardLevel.setText(star);
@@ -119,7 +122,7 @@ public class CardListAdapter extends BaseRecyclerAdapterPlus<CardInfo, ViewHolde
             }
             holder.cardAtk.setText((item.Attack < 0 ? "?" : String.valueOf(item.Attack)));
             if (item.isType(CardType.Link)) {
-                holder.cardDef.setText(item.Level < 0 ? "?" : "LINK-" + String.valueOf(item.Level));
+                holder.cardDef.setText(item.getStar() < 0 ? "?" : "LINK-" + String.valueOf(item.getStar()));
                 holder.TextDef.setText("");
             } else {
                 holder.cardDef.setText((item.Defense < 0 ? "?" : String.valueOf(item.Defense)));
@@ -156,7 +159,7 @@ public class CardListAdapter extends BaseRecyclerAdapterPlus<CardInfo, ViewHolde
             holder.rightImage.setVisibility(View.GONE);
         }
         //卡片类型
-        holder.cardType.setText(item.getAllTypeString(mStringManager));
+        holder.cardType.setText(CardUtils.getAllTypeString(item, mStringManager));
         if (holder.codeView != null) {
             holder.codeView.setText(String.format("%08d", item.Code));
         }
@@ -179,17 +182,21 @@ public class CardListAdapter extends BaseRecyclerAdapterPlus<CardInfo, ViewHolde
     public void bindMenu(ViewHolder holder, int position) {
         if (holder.btnMain != null) {
             holder.btnMain.setOnClickListener((v) -> {
+                mShowMenuView = holder.itemView;
                 EventBus.getDefault().post(new CardInfoEvent(position, true));
-                holder.mMenuLayout.smoothCloseMenu();
+//                holder.mMenuLayout.smoothCloseMenu();
             });
         }
         if (holder.btnSide != null) {
             holder.btnSide.setOnClickListener((v) -> {
+                mShowMenuView = holder.itemView;
                 EventBus.getDefault().post(new CardInfoEvent(position, false));
-                holder.mMenuLayout.smoothCloseMenu();
+//                holder.mMenuLayout.smoothCloseMenu();
             });
         }
     }
+
+    private View mShowMenuView;
 }
 
 class ViewHolder extends BaseRecyclerAdapterPlus.BaseViewHolder {

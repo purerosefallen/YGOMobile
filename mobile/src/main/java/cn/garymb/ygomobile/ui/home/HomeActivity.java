@@ -5,11 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
@@ -32,6 +29,7 @@ import cn.garymb.ygomobile.AppsSettings;
 import cn.garymb.ygomobile.Constants;
 import cn.garymb.ygomobile.YGOStarter;
 import cn.garymb.ygomobile.bean.ServerInfo;
+import cn.garymb.ygomobile.bean.events.ServerInfoEvent;
 import cn.garymb.ygomobile.lite.R;
 import cn.garymb.ygomobile.ui.activities.AboutActivity;
 import cn.garymb.ygomobile.ui.activities.BaseActivity;
@@ -40,28 +38,22 @@ import cn.garymb.ygomobile.ui.adapters.ServerListAdapter;
 import cn.garymb.ygomobile.ui.adapters.SimpleListAdapter;
 import cn.garymb.ygomobile.ui.cards.CardSearchAcitivity;
 import cn.garymb.ygomobile.ui.cards.DeckManagerActivity;
-import cn.garymb.ygomobile.ui.events.ServerInfoEvent;
 import cn.garymb.ygomobile.ui.online.MyCardActivity;
 import cn.garymb.ygomobile.ui.plus.DialogPlus;
 import cn.garymb.ygomobile.ui.preference.SettingsActivity;
 
-import static cn.garymb.ygomobile.Constants.ALIPAY_URL;
-
-abstract class HomeActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
-    protected DrawerLayout mDrawerlayout;
+abstract class HomeActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,HomeActivityMenu.CallBack {
     protected SwipeMenuRecyclerView mServerList;
     private ServerListAdapter mServerListAdapter;
     private ServerListManager mServerListManager;
+    private HomeActivityMenu mHomeActivityMenu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = $(R.id.toolbar);
-        setSupportActionBar(toolbar);
         setExitAnimEnable(false);
         mServerList = $(R.id.list_server);
-        mDrawerlayout = $(R.id.drawer_layout);
         mServerListAdapter = new ServerListAdapter(this);
         //server list
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -75,22 +67,12 @@ abstract class HomeActivity extends BaseActivity implements NavigationView.OnNav
         mServerListManager.syncLoadData();
 
         //nav
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerlayout, toolbar, R.string.search_open, R.string.search_close);
-        mDrawerlayout.addDrawerListener(toggle);
-        toggle.syncState();
-        NavigationView navigationView = $(R.id.nav_main);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getHeaderView(0)
-                .findViewById(R.id.nav_donation)
-                .setOnClickListener((v) -> {
-                    openAliPay2Pay(ALIPAY_URL);
-                });
         //event
         EventBus.getDefault().register(this);
-        $(R.id.help).setOnClickListener((v)->{
-            WebActivity.open(this, getString(R.string.help), Constants.URL_HELP);
-        });
+//        $(R.id.help).setOnClickListener((v) -> {
+//            WebActivity.open(this, getString(R.string.help), Constants.URL_HELP);
+//        });
+        mHomeActivityMenu = new HomeActivityMenu(this, $(R.id.bmb));
     }
 
     @Override
@@ -129,7 +111,6 @@ abstract class HomeActivity extends BaseActivity implements NavigationView.OnNav
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (doMenu(item.getItemId())) {
-            closeDrawer();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -138,10 +119,24 @@ abstract class HomeActivity extends BaseActivity implements NavigationView.OnNav
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (doMenu(item.getItemId())) {
-            closeDrawer();
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void addServerInfo() {
+        mServerListManager.addServer();
+    }
+
+    @Override
+    public HomeActivity getActivity() {
+        return this;
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
     }
 
     private boolean doMenu(int id) {
@@ -182,7 +177,9 @@ abstract class HomeActivity extends BaseActivity implements NavigationView.OnNav
                 startActivity(new Intent(this, DeckManagerActivity.class));
                 break;
             case R.id.action_mycard:
-                startActivity(new Intent(this, MyCardActivity.class));
+                if (Constants.SHOW_MYCARD) {
+                    startActivity(new Intent(this, MyCardActivity.class));
+                }
                 break;
             case R.id.action_help: {
                 WebActivity.open(this, getString(R.string.help), Constants.URL_HELP);
@@ -201,24 +198,13 @@ abstract class HomeActivity extends BaseActivity implements NavigationView.OnNav
 
     @Override
     public void onBackPressed() {
-        if (mDrawerlayout.isDrawerOpen(Gravity.LEFT)) {
-            mDrawerlayout.closeDrawer(Gravity.LEFT);
-            return;
-        }
         if (System.currentTimeMillis() - exitLasttime <= 3000) {
             super.onBackPressed();
         } else {
-            Toast.makeText(this, R.string.back_tip, Toast.LENGTH_SHORT).show();
+            showToast(R.string.back_tip, Toast.LENGTH_SHORT);
             exitLasttime = System.currentTimeMillis();
         }
     }
-
-    private void closeDrawer() {
-        if (mDrawerlayout.isDrawerOpen(Gravity.LEFT)) {
-            mDrawerlayout.closeDrawer(Gravity.LEFT);
-        }
-    }
-
 
     public void joinRoom(int position) {
         ServerInfo serverInfo = mServerListAdapter.getItem(position);
@@ -310,7 +296,5 @@ abstract class HomeActivity extends BaseActivity implements NavigationView.OnNav
 
     protected abstract void openGame();
 
-    protected abstract void updateImages();
-
-    protected abstract void openAliPay2Pay(String qrCode);
+    public abstract void updateImages();
 }

@@ -13,6 +13,11 @@ namespace ygo {
 void UpdateDeck() {
 	BufferIO::CopyWStr(mainGame->cbDeckSelect->getItem(mainGame->cbDeckSelect->getSelected()),
 		mainGame->gameConf.lastdeck, 64);
+		
+	char linebuf[256];	
+	BufferIO::EncodeUTF8(mainGame->gameConf.lastdeck, linebuf);
+	android::setLastDeck(mainGame->appMain, linebuf);
+		
 	char deckbuf[1024];
 	char* pdeck = deckbuf;
 	BufferIO::WriteInt32(pdeck, deckManager.current_deck.main.size() + deckManager.current_deck.extra.size());
@@ -41,6 +46,7 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 			switch(id) {
 			case BUTTON_MODE_EXIT: {
 				mainGame->soundEffectPlayer->doPressButton();
+				mainGame->SaveConfig();
 				mainGame->device->closeDevice();
 				break;
 			}
@@ -190,6 +196,7 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 				mainGame->HideElement(mainGame->wHostPrepare);
 				mainGame->ShowElement(mainGame->wLanWindow);
 				mainGame->wChat->setVisible(false);
+				mainGame->SaveConfig();
 				if(exit_on_return)
 					mainGame->device->closeDevice();
 				break;
@@ -232,9 +239,6 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 				mainGame->btnReplayStep->setVisible(false);
 				mainGame->btnReplayUndo->setVisible(false);
 				mainGame->wPhase->setVisible(true);
-				mainGame->dField.panel = 0;
-				mainGame->dField.hovered_card = 0;
-				mainGame->dField.clicked_card = 0;
 				mainGame->dField.Clear();
 				mainGame->HideElement(mainGame->wReplay);
 				mainGame->device->setEventReceiver(&mainGame->dField);
@@ -306,11 +310,11 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 				myswprintf(infobuf, L"%d/%d/%d %02d:%02d:%02d\n", st->tm_year + 1900, st->tm_mon + 1, st->tm_mday, st->tm_hour, st->tm_min, st->tm_sec);
 				repinfo.append(infobuf);
 				wchar_t namebuf[4][20];
-				BufferIO::CopyWStr((unsigned short*)&ReplayMode::cur_replay.replay_data[0], namebuf[0], 20);
-				BufferIO::CopyWStr((unsigned short*)&ReplayMode::cur_replay.replay_data[40], namebuf[1], 20);
+				ReplayMode::cur_replay.ReadName(namebuf[0]);
+				ReplayMode::cur_replay.ReadName(namebuf[1]);
 				if(ReplayMode::cur_replay.pheader.flag & REPLAY_TAG) {
-					BufferIO::CopyWStr((unsigned short*)&ReplayMode::cur_replay.replay_data[80], namebuf[2], 20);
-					BufferIO::CopyWStr((unsigned short*)&ReplayMode::cur_replay.replay_data[120], namebuf[3], 20);
+					ReplayMode::cur_replay.ReadName(namebuf[2]);
+					ReplayMode::cur_replay.ReadName(namebuf[3]);
 				}
 				if(ReplayMode::cur_replay.pheader.flag & REPLAY_TAG)
 					myswprintf(infobuf, L"%ls\n%ls\n===VS===\n%ls\n%ls\n", namebuf[0], namebuf[1], namebuf[2], namebuf[3]);

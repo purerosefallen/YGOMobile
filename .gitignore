@@ -52,6 +52,8 @@ libYGOMobile.so
 /mobile/src/main/res/drawable-xhdpi/Thumbs.db
 Thumbs.db
 
-# makeso.bat
-/temp
 /ndk
+/temp
+/Classes/ocgcore
+/Compile.log
+/libcore
