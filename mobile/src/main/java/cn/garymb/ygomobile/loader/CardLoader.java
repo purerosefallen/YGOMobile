@@ -1,18 +1,15 @@
 package cn.garymb.ygomobile.loader;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import cn.garymb.ygomobile.AppsSettings;
 import cn.garymb.ygomobile.Constants;
@@ -60,12 +57,16 @@ public class CardLoader implements ICardLoader {
         }
     }
 
-    public Map<Long, Card> readCards(List<Long> ids, LimitList limitList) {
+    public SparseArray<Card> readCards(List<Integer> ids) {
+        return readCards(ids, mLimitList);
+    }
+
+    public SparseArray<Card> readCards(List<Integer> ids, LimitList limitList) {
         if (!isOpen()) {
             return null;
         }
-        Map<Long, Card> map = new HashMap<>();
-        for (Long id : ids) {
+        SparseArray<Card> map = new SparseArray<>();
+        for (Integer id : ids) {
             if (id != 0) {
                 map.put(id, mCardManager.getCard(id));
             }
@@ -95,14 +96,14 @@ public class CardLoader implements ICardLoader {
         return mLimitList;
     }
 
-    public Map<Long, Card> readAllCardCodes() {
+    public SparseArray<Card> readAllCardCodes() {
         if (DEBUG) {
-            Map<Long, Card> tmp = new HashMap<>();
-            tmp.put(269012L, new Card(269012L).type(524290L));
-            tmp.put(27551L, new Card(27551L).type(131076L));
-            tmp.put(32864L, new Card(32864L).type(131076L));
-            tmp.put(62121L, new Card(62121L).type(131076L));
-            tmp.put(135598L, new Card(135598L).type(131076L));
+            SparseArray<Card> tmp = new SparseArray<>();
+            tmp.put(269012, new Card(269012).type(524290L));
+            tmp.put(27551, new Card(27551).type(131076L));
+            tmp.put(32864, new Card(32864).type(131076L));
+            tmp.put(62121, new Card(62121).type(131076L));
+            tmp.put(135598, new Card(135598).type(131076L));
             return tmp;
         } else {
             return mCardManager.getAllCards();
@@ -121,20 +122,33 @@ public class CardLoader implements ICardLoader {
         Dialog wait = DialogPlus.show(context, null, context.getString(R.string.searching));
         VUiKit.defer().when(() -> {
             List<Card> tmp = new ArrayList<Card>();
-            Map<Long, Card> cards = mCardManager.getAllCards();
-            Iterator<Card> cardIterator = cards.values().iterator();
-            while (cardIterator.hasNext()) {
-                Card card = cardIterator.next();
+            SparseArray<Card> cards = mCardManager.getAllCards();
+            int count = cards.size();
+            for (int i = 0; i < count; i++) {
+                Card card = cards.valueAt(i);
                 if (searchInfo == null || searchInfo.check(card)) {
                     tmp.add(card);
                 }
             }
-            Collections.sort(tmp, ASC);
+            if (searchInfo != null && searchInfo.getInCards() != null) {
+                final List<Integer> ids = searchInfo.getInCards();
+                Collections.sort(tmp, new Comparator<Card>() {
+                    @Override
+                    public int compare(Card o1, Card o2) {
+                        int index1 = ids.indexOf(Integer.valueOf(o1.Code));
+                        int index2 = ids.indexOf(Integer.valueOf(o2.Code));
+                        return index1 - index2;
+                    }
+                });
+            } else {
+                Collections.sort(tmp, ASC);
+            }
             return tmp;
         }).fail((e) -> {
             if (mCallBack != null) {
                 mCallBack.onSearchResult(null);
             }
+            Log.e("kk", "search", e);
             wait.dismiss();
         }).done((tmp) -> {
             if (mCallBack != null) {
@@ -198,7 +212,7 @@ public class CardLoader implements ICardLoader {
         if (limitlist > 0) {
             LimitType cardLimitType = LimitType.valueOf(limit);
             if (limitList != null) {
-                List<Long> ids;
+                List<Integer> ids;
                 if (cardLimitType == LimitType.Forbidden) {
                     ids = limitList.forbidden;
                 } else if (cardLimitType == LimitType.Limit) {

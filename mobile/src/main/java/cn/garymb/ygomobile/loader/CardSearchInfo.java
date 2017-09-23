@@ -15,15 +15,19 @@ class CardSearchInfo {
     long race, category;
     String atk, def;
     boolean islink;
-    List<Long> inCards;
+    List<Integer> inCards;
     long[] types;
     long setcode;
 
     CardSearchInfo() {
     }
 
+    List<Integer> getInCards() {
+        return inCards;
+    }
+
     public boolean check(Card card) {
-        if(inCards != null && !inCards.contains(card.Code)){
+        if (inCards != null && !inCards.contains(Integer.valueOf(card.Code))) {
             return false;
         }
         if (!TextUtils.isEmpty(word)) {
@@ -66,7 +70,7 @@ class CardSearchInfo {
         if (!TextUtils.isEmpty(atk)) {
             if (atk.contains("-")) {
                 String[] atks = atk.split("-");
-                if (!(card.Attack >= i(atks[0]) && i(atks[1]) <= card.Attack)) {
+                if (!(i(atks[0]) <= card.Attack) && card.Attack <= i(atks[1])) {
                     return false;
                 }
             } else {
@@ -84,7 +88,7 @@ class CardSearchInfo {
             } else {
                 if (def.contains("-")) {
                     String[] defs = def.split("-");
-                    if (!(card.Defense >= i(defs[0]) && i(defs[1]) <= card.Defense)) {
+                    if (!(i(defs[0]) <= card.Defense && card.Defense <= i(defs[1]))) {
                         return false;
                     }
                 } else {
@@ -117,32 +121,36 @@ class CardSearchInfo {
             }
         }
         if (types.length > 0) {
-            //通常魔法
             boolean st = false;
-            if (types[0] == CardType.Spell.value() || types[0] == CardType.Trap.value()
-                    || types[0] == CardType.Normal.value()) {
-                if (types.length > 2) {
-                    if (types[2] == CardType.Normal.value()) {
-                        if (!card.isType(CardType.Normal)) {
-                            return false;
-                        }
-                        st = true;
-                    }
-                } else if (types.length > 1) {
-                    if (types[1] == CardType.Normal.value()) {
-                        if (!card.isType(CardType.Normal)) {
-                            return false;
-                        }
-                        st = true;
-                    }
+            for (long cardType : types) {
+                if (cardType == CardType.Spell.value() || cardType == CardType.Trap.value()) {
+                    st = true;
+                    break;
                 }
             }
-            if (!st) {
-                for (long type : types) {
-                    if (type > 0) {
-                        if ((card.Type & type) != type) {
-                            return false;
+
+            for (long type : types) {
+                if (type > 0) {
+                    if (st) {
+                        //魔法
+                        if (type == CardType.Normal.value()) {
+                            //通常
+                            if (card.isType(CardType.Normal)) {
+                                //带通常的魔法陷阱
+                                if (card.Type != (CardType.Spell.value() | CardType.Normal.value())
+                                        && card.Type != (CardType.Trap.value() | CardType.Normal.value())) {
+                                    return false;
+                                }
+                            } else {
+                                //只有魔法/陷阱
+                                if (card.Type != CardType.Spell.value() && card.Type != CardType.Trap.value())
+                                    return false;
+                            }
+                            continue;
                         }
+                    }
+                    if ((card.Type & type) != type) {
+                        return false;
                     }
                 }
             }

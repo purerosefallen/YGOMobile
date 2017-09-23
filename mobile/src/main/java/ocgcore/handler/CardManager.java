@@ -3,42 +3,49 @@ package ocgcore.handler;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.WorkerThread;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.garymb.ygomobile.AppsSettings;
 import cn.garymb.ygomobile.utils.IOUtils;
+import cn.garymb.ygomobile.utils.MD5Util;
 import ocgcore.data.Card;
 
 
 public class CardManager {
     private String dbDir, exDbPath;
-    private final HashMap<Long, Card> cardDataHashMap = new HashMap<>();
+    private final SparseArray<Card> cardDataHashMap = new SparseArray<>();
+    private final Map<String, String> mCardCache = new HashMap<>();
 
     public CardManager(String dbDir, String exPath) {
         this.dbDir = dbDir;
         this.exDbPath = exPath;
     }
 
-    public Card getCard(long code) {
-        return cardDataHashMap.get(Long.valueOf(code));
+    public Card getCard(int code) {
+        return cardDataHashMap.get(Integer.valueOf(code));
     }
 
     public int getCount() {
         return cardDataHashMap.size();
     }
 
-    public HashMap<Long, Card> getAllCards() {
+    public SparseArray<Card> getAllCards() {
         return cardDataHashMap;
     }
 
     @WorkerThread
     public void loadCards() {
-        File[] dirs = {new File(dbDir), new File(exDbPath)};
-        for (File dir : dirs) {
+        int count = readAllCards(AppsSettings.get().getDataBaseFile(), cardDataHashMap);
+        Log.i("Irrlicht", "load defualt cdb:" + count);
+        if (AppsSettings.get().isReadExpansions()) {
+            File dir = new File(exDbPath);
             if (dir.exists()) {
                 File[] files = dir.listFiles(new FilenameFilter() {
                     @Override
@@ -50,8 +57,14 @@ public class CardManager {
                 //读取全部卡片
                 if (files != null) {
                     for (File file : files) {
-                        int count = readAllCards(file, cardDataHashMap);
-                        Log.i("Irrlicht", "load " + count + " cdb:" + file);
+                        final String path = file.getAbsolutePath();
+                        String md5 = MD5Util.getFileMD5(path);
+                        String last = mCardCache.get(path);
+                        if (!TextUtils.equals(md5, last)) {
+                            mCardCache.put(path, md5);
+                            count = readAllCards(file, cardDataHashMap);
+                            Log.i("Irrlicht", "load " + count + " cdb:" + file);
+                        }
                     }
                 }
             }
@@ -59,7 +72,7 @@ public class CardManager {
     }
 
     public static boolean checkDataBase(File file) {
-        if(!file.exists()){
+        if (!file.exists()) {
             return false;
         }
         Cursor reader = null;
@@ -89,7 +102,7 @@ public class CardManager {
     }
 
     @WorkerThread
-    protected int readAllCards(File file, Map<Long, Card> cardMap) {
+    protected int readAllCards(File file, SparseArray<Card> cardMap) {
         if (!file.exists()) {
             return 0;
         }
@@ -108,7 +121,7 @@ public class CardManager {
                 if (reader != null && reader.moveToFirst()) {
                     do {
                         Card cardData = new Card();
-                        cardData.Code = reader.getLong(0);
+                        cardData.Code = reader.getInt(0);
                         cardData.Ot = reader.getInt(1);
                         cardData.Alias = reader.getInt(2);
                         cardData.Setcode = reader.getLong(3);

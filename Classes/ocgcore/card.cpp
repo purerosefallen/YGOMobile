@@ -911,8 +911,9 @@ uint32 card::get_rank() {
 		return 0;
 	if(assume_type == ASSUME_RANK)
 		return assume_value;
-	if(!(current.location & LOCATION_MZONE))
-		return data.level;
+	//222DIY modded from ygocc
+	//if(!(current.location & LOCATION_MZONE))
+	//	return data.level;
 	if (temp.level != 0xffffffff)
 		return temp.level;
 	effect_set effects;

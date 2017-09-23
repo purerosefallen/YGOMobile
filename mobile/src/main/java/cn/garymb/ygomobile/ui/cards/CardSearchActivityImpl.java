@@ -54,7 +54,7 @@ class CardSearchActivityImpl extends BaseActivity implements CardLoader.CallBack
         setSupportActionBar(toolbar);
         enableBackHome();
         mDrawerlayout = $(R.id.drawer_layout);
-        mImageLoader = new ImageLoader(this);
+        mImageLoader = ImageLoader.get(this);
         mListView = $(R.id.list_cards);
         mCardListAdapater = new CardListAdapter(this, mImageLoader);
         mCardListAdapater.setItemBg(true);
@@ -113,13 +113,17 @@ class CardSearchActivityImpl extends BaseActivity implements CardLoader.CallBack
                 super.onScrollStateChanged(recyclerView, newState);
                 switch (newState) {
                     case RecyclerView.SCROLL_STATE_IDLE:
-                        Glide.with(getContext()).resumeRequests();
+                        if(!isFinishing()) {
+                            Glide.with(getContext()).resumeRequests();
+                        }
                         break;
                     case RecyclerView.SCROLL_STATE_DRAGGING:
                         Glide.with(getContext()).pauseRequests();
                         break;
                     case RecyclerView.SCROLL_STATE_SETTLING:
-                        Glide.with(getContext()).resumeRequests();
+                        if(!isFinishing()) {
+                            Glide.with(getContext()).resumeRequests();
+                        }
                         break;
                 }
             }
@@ -141,6 +145,7 @@ class CardSearchActivityImpl extends BaseActivity implements CardLoader.CallBack
 
     @Override
     protected void onDestroy() {
+        ImageLoader.onDestory(this);
         try {
             mImageLoader.close();
         } catch (IOException e) {

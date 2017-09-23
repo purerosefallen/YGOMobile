@@ -1,7 +1,6 @@
 package cn.garymb.ygomobile.ui.preference.fragments;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -36,8 +35,8 @@ import cn.garymb.ygomobile.utils.IOUtils;
 import ocgcore.ConfigManager;
 
 import static cn.garymb.ygomobile.Constants.ACTION_RELOAD;
-import static cn.garymb.ygomobile.Constants.DEF_PREF_GAME_VERSION;
 import static cn.garymb.ygomobile.Constants.PREF_DECK_DELETE_DILAOG;
+import static cn.garymb.ygomobile.Constants.PREF_DECK_MANAGER_V2;
 import static cn.garymb.ygomobile.Constants.PREF_FONT_ANTIALIAS;
 import static cn.garymb.ygomobile.Constants.PREF_FONT_SIZE;
 import static cn.garymb.ygomobile.Constants.PREF_GAME_FONT;
@@ -79,7 +78,7 @@ public class SettingFragment extends PreferenceFragmentPlus {
 
         addPreferencesFromResource(R.xml.preference_game);
         bind(PREF_GAME_PATH, mSettings.getResourcePath());
-        bind(PREF_GAME_VERSION, String.format("0x%X", mSettings.getIntSettings(PREF_GAME_VERSION, DEF_PREF_GAME_VERSION)));
+        bind(PREF_GAME_VERSION, mSettings.getVersionString(mSettings.getGameVersion()));
         bind(PREF_SOUND_EFFECT, mSettings.isSoundEffect());
         bind(PREF_LOCK_SCREEN, mSettings.isLockSreenOrientation());
         bind(PREF_FONT_ANTIALIAS, mSettings.isFontAntiAlias());
@@ -90,12 +89,13 @@ public class SettingFragment extends PreferenceFragmentPlus {
         bind(PREF_IMAGE_QUALITY, mSettings.getCardQuality());
         bind(PREF_GAME_FONT, mSettings.getFontPath());
         bind(PREF_READ_EX, mSettings.isReadExpansions());
+        bind(PREF_DECK_MANAGER_V2, mSettings.isUseDeckManagerV2());
         Preference preference = findPreference(PREF_READ_EX);
         if (preference != null) {
             preference.setSummary(mSettings.getExpansionsPath().getAbsolutePath());
         }
         bind(PREF_DECK_DELETE_DILAOG, mSettings.isDialogDelete());
-        bind(PREF_USE_EXTRA_CARD_CARDS, mSettings.isUseExtraCards());
+        //bind(PREF_USE_EXTRA_CARD_CARDS, mSettings.isUseExtraCards());
         bind(SETTINGS_COVER, new File(mSettings.getCoreSkinPath(), Constants.CORE_SKIN_COVER).getAbsolutePath());
         bind(SETTINGS_CARD_BG, new File(mSettings.getCoreSkinPath(), Constants.CORE_SKIN_BG).getAbsolutePath());
         bind(PREF_FONT_SIZE, mSettings.getFontSize());
@@ -109,7 +109,7 @@ public class SettingFragment extends PreferenceFragmentPlus {
         if (PREF_GAME_VERSION.equals(preference.getKey())) {
             int v = AppsSettings.get().getVersionValue(value.toString());
             if (v > 0 && v <= AppsSettings.get().getVersionValue("0xF99F")) {
-                mSettings.saveIntSettings(preference.getKey(), v);
+                mSettings.setGameVersion(v);
                 super.onPreferenceChange(preference, AppsSettings.get().getVersionString(v));
                 return true;
             } else {

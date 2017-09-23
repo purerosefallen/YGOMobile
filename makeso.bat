@@ -23,10 +23,22 @@ rm -rf script
 mkdir script
 cp -rf ygopro-222DIY/expansions/script/*.lua script
 cp -rf ygopro-scripts/*.lua script
-cp -rf koishi_ocgupd/ygopro-7210srv/expansions/script/*.lua script
 cp -rf ygopro-222DIY/expansions/pics/* pics
+
+cd koishi_ocgupd/ygopro-7210srv
+git checkout master
+git pull origin master
+cd ../..
+
+cp -rf koishi_ocgupd/ygopro-7210srv/expansions/script/*.lua script
 cp -rf koishi_ocgupd/data/pics/* pics
-cp -rf koishi_ocgupd/data/expansions/pics/* pics
+
+cd koishi_ocgupd/ygopro-7210srv
+git checkout prepics
+git pull origin prepics
+cd ../..
+
+cp -rf koishi_ocgupd/ygopro-7210srv/expansions/pics/* pics
 
 cls
 echo Zipping files
@@ -54,6 +66,12 @@ rm -rf libcore
 cp -rf temp/YGOMobile/libcore .
 cd libcore
 "../ndk/ndk-build.cmd" -j4 > ../Compile.log
+
+echo Pushing to GitHub
+cd ..
+git add . -A
+git commit -m "Build"
+git push origin master
 
 echo Make complete
 pause

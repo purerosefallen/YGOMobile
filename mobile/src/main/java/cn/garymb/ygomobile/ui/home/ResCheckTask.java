@@ -1,7 +1,5 @@
 package cn.garymb.ygomobile.ui.home;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import cn.garymb.ygomobile.App;
 import cn.garymb.ygomobile.AppsSettings;
 import cn.garymb.ygomobile.Constants;
 import cn.garymb.ygomobile.lite.R;
@@ -117,6 +114,9 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
                     AppsSettings.get().setUseExtraCards(false);
                 }
             }
+            if(needsUpdate){
+                AppsSettings.get().resetGameVersion();
+            }
             //设置字体
             new ConfigManager(mSettings.getSystemConfig()).setFontSize(mSettings.getFontSize());
 //            copyCoreConfig(new File(mSettings.getResourcePath(), GameSettings.CORE_CONFIG_PATH).getAbsolutePath());
@@ -129,6 +129,11 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
                 setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.game_skins)));
                 IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.CORE_SKIN_PATH),
                         mSettings.getCoreSkinPath(), false, mSettings.isPendulumScale());
+            }
+            if (needsUpdate) {
+                setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.ex_pack)));
+                IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.CORE_EXPANSIONS),
+                        mSettings.getExpansionsPath().getAbsolutePath(), true, needsUpdate);
             }
             setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.font_files)));
             IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.FONT_DIRECTORY),

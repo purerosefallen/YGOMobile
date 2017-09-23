@@ -10,17 +10,17 @@ public class LimitList {
     /**
      * 0
      */
-    public final List<Long> forbidden;
+    public final List<Integer> forbidden;
     /**
      * 1
      */
-    public final List<Long> limit;
+    public final List<Integer> limit;
     /**
      * 2
      */
-    public final List<Long> semiLimit;
+    public final List<Integer> semiLimit;
 
-    public final List<Long> allList;
+    public final List<Integer> allList;
 
     public LimitList() {
         forbidden = new ArrayList<>();
@@ -38,17 +38,15 @@ public class LimitList {
         this.name = name;
     }
 
-    public void addSemiLimit(Long id) {
+    public void addSemiLimit(Integer id) {
         if (!semiLimit.contains(id)) {
             semiLimit.add(id);
-            allList.add(id);
         }
     }
 
-    public void addLimit(Long id) {
+    public void addLimit(Integer id) {
         if (!limit.contains(id)) {
             limit.add(id);
-            allList.add(id);
         }
     }
 
@@ -56,14 +54,18 @@ public class LimitList {
         return allList.contains(id);
     }
 
-    public void addForbidden(Long id) {
+    public void addForbidden(Integer id) {
         if (!forbidden.contains(id)) {
             forbidden.add(id);
-            allList.add(id);
         }
     }
 
-    public List<Long> getCodeList() {
+    public List<Integer> getCodeList() {
+        if (allList.size() == 0) {
+            allList.addAll(forbidden);
+            allList.addAll(limit);
+            allList.addAll(semiLimit);
+        }
         return allList;
     }
 
@@ -71,8 +73,9 @@ public class LimitList {
         return check(cardInfo.Code, cardInfo.Alias, type);
     }
 
-    public boolean check(Long code, Long alias, LimitType type) {
+    public boolean check(Integer code, Integer alias, LimitType type) {
         if (type == LimitType.All) {
+            getCodeList();
             return allList.contains(code) || allList.contains(alias);
         } else if (type == LimitType.Limit) {
             return limit.contains(code) || limit.contains(alias);
@@ -97,9 +100,9 @@ public class LimitList {
     public String toString() {
         return "LimitList{" +
                 "name='" + name + '\'' +
-                ", forbidden=" + forbidden.size() +
-                ", limit=" + limit.size() +
-                ", semiLimit=" + semiLimit.size() +
+                ", forbidden=" + forbidden +
+                ", limit=" + limit +
+                ", semiLimit=" + semiLimit +
                 '}';
     }
 }

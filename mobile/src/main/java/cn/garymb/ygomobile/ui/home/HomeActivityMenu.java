@@ -11,14 +11,19 @@ import com.nightonke.boommenu.BoomMenuButton;
 
 import cn.garymb.ygomobile.Constants;
 import cn.garymb.ygomobile.YGOStarter;
+import cn.garymb.ygomobile.lite.BuildConfig;
 import cn.garymb.ygomobile.lite.R;
 import cn.garymb.ygomobile.ui.activities.AboutActivity;
 import cn.garymb.ygomobile.ui.activities.WebActivity;
 import cn.garymb.ygomobile.ui.cards.CardSearchAcitivity;
 import cn.garymb.ygomobile.ui.cards.DeckManagerActivity;
+import cn.garymb.ygomobile.ui.cards.DeckManagerActivity2;
 import cn.garymb.ygomobile.ui.online.MyCardActivity;
 import cn.garymb.ygomobile.ui.plus.DefaultOnBoomListener;
 import cn.garymb.ygomobile.ui.preference.SettingsActivity;
+import cn.garymb.ygomobile.utils.AlipayPayUtils;
+
+import static cn.garymb.ygomobile.Constants.ALIPAY_URL;
 
 class HomeActivityMenu {
     public interface CallBack {
@@ -38,7 +43,9 @@ class HomeActivityMenu {
 
     private final static int MENU_UPDATE_IAMGES = 6;
     private final static int MENU_SETTINGS = 7;
-    private final static int MENU_ABOUT = 8;
+    //private final static int MENU_ABOUT = 8;
+
+    private final static int MENU_DONATION = 8;
 
 
     private CallBack mCallBack;
@@ -54,7 +61,9 @@ class HomeActivityMenu {
 
         addMenuButton(getActivity().getString(R.string.download_images), R.drawable.downloadimages);
         addMenuButton(getActivity().getString(R.string.action_settings), R.drawable.setting);
-        addMenuButton(getActivity().getString(R.string.action_about), R.drawable.about);
+//        addMenuButton(getActivity().getString(R.string.action_about), R.drawable.about);
+
+        addMenuButton(getActivity().getString(R.string.donation), R.drawable.about);
 
     }
 
@@ -69,7 +78,7 @@ class HomeActivityMenu {
                     startActivity(new Intent(getActivity(), CardSearchAcitivity.class));
                     break;
                 case MENU_DECK_MANAGER:
-                    startActivity(new Intent(getActivity(), DeckManagerActivity.class));
+                    startActivity(new Intent(getActivity(), DeckManagerActivity.getDeckManager()));
                     break;
                 case MENU_MYCARD:
                     if (Constants.SHOW_MYCARD) {
@@ -85,9 +94,9 @@ class HomeActivityMenu {
                 case MENU_UPDATE_IAMGES:
                     getActivity().updateImages();
                     break;
-                case MENU_ABOUT:
+              /* case MENU_ABOUT:
                     startActivity(new Intent(getActivity(), AboutActivity.class));
-                    break;
+                    break;*/
                 case MENU_GAME:
                     YGOStarter.startGame(getActivity(), null);
 //                    DialogPlus builder = new DialogPlus(getActivity());
@@ -100,6 +109,13 @@ class HomeActivityMenu {
 //                    });
 //                    builder.show();
                     break;
+                case MENU_DONATION:
+                    if (AlipayPayUtils.openAlipayPayPage(getActivity(), ALIPAY_URL)) {
+                    Toast.makeText(getActivity(), "感谢您的支持", Toast.LENGTH_SHORT).show();
+                     } else {
+                   Toast.makeText(getActivity(), "呀，没装支付宝", Toast.LENGTH_SHORT).show();
+                     }
+                     break;
             }
         }
     };

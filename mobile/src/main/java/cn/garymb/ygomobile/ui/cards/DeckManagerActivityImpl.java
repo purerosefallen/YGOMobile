@@ -1,6 +1,5 @@
 package cn.garymb.ygomobile.ui.cards;
 
-import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.support.v7.widget.helper.ItemTouchHelper2;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,12 +34,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import cn.garymb.ygomobile.AppsSettings;
 import cn.garymb.ygomobile.Constants;
 import cn.garymb.ygomobile.bean.Deck;
 import cn.garymb.ygomobile.bean.DeckInfo;
+import cn.garymb.ygomobile.bean.events.CardInfoEvent;
 import cn.garymb.ygomobile.lite.R;
 import cn.garymb.ygomobile.ui.activities.WebActivity;
 import cn.garymb.ygomobile.ui.adapters.SimpleSpinnerAdapter;
@@ -49,7 +49,6 @@ import cn.garymb.ygomobile.ui.cards.deck.DeckItem;
 import cn.garymb.ygomobile.ui.cards.deck.DeckItemTouchHelper;
 import cn.garymb.ygomobile.ui.cards.deck.DeckItemType;
 import cn.garymb.ygomobile.ui.cards.deck.DeckLayoutManager;
-import cn.garymb.ygomobile.bean.events.CardInfoEvent;
 import cn.garymb.ygomobile.ui.plus.AOnGestureListener;
 import cn.garymb.ygomobile.ui.plus.DialogPlus;
 import cn.garymb.ygomobile.ui.plus.VUiKit;
@@ -514,14 +513,14 @@ class DeckManagerActivityImpl extends BaseCardsAcitivity implements RecyclerView
     }
 
     private boolean checkLimit(Card cardInfo, boolean tip) {
-        Map<Long, Integer> mCount = mDeckAdapater.getCardCount();
+        SparseArray<Integer> mCount = mDeckAdapater.getCardCount();
         if (mLimitList != null && mLimitList.check(cardInfo, LimitType.Forbidden)) {
             if (tip) {
                 showToast(getString(R.string.tip_card_max, 0), Toast.LENGTH_SHORT);
             }
             return false;
         }
-        Long id = cardInfo.Alias > 0 ? cardInfo.Alias : cardInfo.Code;
+        Integer id = cardInfo.Alias > 0 ? cardInfo.Alias : cardInfo.Code;
         Integer count = mCount.get(id);
         if (count != null) {
             if (mLimitList != null && mLimitList.check(cardInfo, LimitType.Limit)) {
@@ -624,31 +623,6 @@ class DeckManagerActivityImpl extends BaseCardsAcitivity implements RecyclerView
                 builder.show();
             }
             break;
-          /*  case R.id.action_manager: {
-                //显示对话框:
-                //选择禁卡表
-                //卡组列表
-                DialogPlus dialogPlus = new DialogPlus(this);
-//                View view = LayoutInflater.from(this).inflate(R.layout.dialog_deck, null);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                dialogPlus.setTitle(R.string.deck_manager);
-                dialogPlus.setView(R.layout.dialog_deck);
-                Spinner ydks = (Spinner) dialogPlus.$(R.id.sp_ydk_list);
-                initDecksListSpinners(ydks);
-                Spinner limits = (Spinner) dialogPlus.$(R.id.sp_limit_list);
-                initLimitListSpinners(limits);
-                dialogPlus.setLeftButtonListener((dlg, rs) -> {
-                    LimitList limitList = getSelectLimitList(limits);
-                    setLimitList(limitList);
-                    File file = getSelectDeck(ydks);
-                    if (file != null) {
-                        dlg.dismiss();
-                        loadDeck(file);
-                    }
-                });
-                dialogPlus.show();
-            }
-            break;*/
             case R.id.action_unsort:
                 //打乱
                 mDeckAdapater.unSort();
@@ -669,40 +643,6 @@ class DeckManagerActivityImpl extends BaseCardsAcitivity implements RecyclerView
         final String uriString = deck.toAppUri().toString();
         final String httpUri = deck.toHttpUri().toString();
         shareUrl(uriString, label);
-        /*
-        RequestQueue mQueue = Volley.newRequestQueue(this);
-        final String url = "http://dwz.wailian.work/api.php?url="
-                + Base64.encodeToString(uriString.getBytes(), Base64.NO_WRAP)+"&site=sina";
-        Log.i("kk", "url=" + url);
-        StringRequest stringRequest = new StringRequest(url,
-                (response) -> {
-                    Log.i("kk", "json=" + response);
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(response);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    if (null != jsonObject) {
-                        if("error".equals(jsonObject.optString("result"))){
-                            Log.e("kk", "json=" + jsonObject.optString("data"));
-                        }else {
-                            JSONObject data = jsonObject.optJSONObject("data");
-                            if (data != null) {
-                                shareUrl(data.optString("short_url"), label);
-                                return;
-                            }
-                        }
-                    }
-                    shareUrl(httpUri, label);
-                },
-                (error) -> {
-                    Log.e("kk", "error=" + error);
-                    shareUrl(httpUri, label);
-                }
-        );
-        mQueue.add(stringRequest);
-        */
     }
 
     private void shareUrl(String uri, String label) {

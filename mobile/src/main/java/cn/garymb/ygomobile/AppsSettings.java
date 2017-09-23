@@ -15,15 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import cn.garymb.ygomobile.ui.home.ResCheckTask;
+import cn.garymb.ygomobile.core.GameConfig;
 import cn.garymb.ygomobile.ui.preference.PreferenceFragmentPlus;
 import cn.garymb.ygomobile.utils.SystemUtils;
 import ocgcore.handler.CardManager;
 
+import static cn.garymb.ygomobile.Constants.CORE_EXPANSIONS;
 import static cn.garymb.ygomobile.Constants.CORE_SYSTEM_PATH;
+import static cn.garymb.ygomobile.Constants.DEF_PREF_DECK_MANAGER_V2;
 import static cn.garymb.ygomobile.Constants.DEF_PREF_FONT_SIZE;
 import static cn.garymb.ygomobile.Constants.DEF_PREF_ONLY_GAME;
 import static cn.garymb.ygomobile.Constants.DEF_PREF_READ_EX;
+import static cn.garymb.ygomobile.Constants.PREF_DECK_MANAGER_V2;
 import static cn.garymb.ygomobile.Constants.PREF_DEF_IMMERSIVE_MODE;
 import static cn.garymb.ygomobile.Constants.PREF_DEF_SENSOR_REFRESH;
 import static cn.garymb.ygomobile.Constants.PREF_FONT_SIZE;
@@ -115,6 +118,10 @@ public class AppsSettings {
         return mSharedPreferences.getBoolean(PREF_READ_EX, DEF_PREF_READ_EX);
     }
 
+    public boolean isUseDeckManagerV2() {
+        return mSharedPreferences.getBoolean(PREF_DECK_MANAGER_V2, DEF_PREF_DECK_MANAGER_V2);
+    }
+
     public float getXScale() {
         return getScreenHeight() / (float) Constants.CORE_SKIN_BG_SIZE[0];
     }
@@ -174,7 +181,7 @@ public class AppsSettings {
     }
 
     public File getExpansionsPath() {
-        return new File(getResourcePath(), "expansions");
+        return new File(getResourcePath(), CORE_EXPANSIONS);
     }
 
     private void makeZipList(List<String> pathList) {
@@ -412,26 +419,23 @@ public class AppsSettings {
     }
 
     public void saveIntSettings(String key, int value) {
-        if (Constants.PREF_GAME_VERSION.equals(key)) {
-            mSharedPreferences.putString(key, String.format("0x%X", value));
-        }
         mSharedPreferences.putInt(Constants.PREF_START + key, value);
     }
 
     public int getIntSettings(String key, int def) {
-        if (Constants.PREF_GAME_VERSION.equals(key)) {
-            int val = mSharedPreferences.getInt(Constants.PREF_START + key, 0);
-            if (def > val) {
-                Log.i("kk", String.format("reset game_version=0x%X", def));
-                saveIntSettings(key, def);
-                return def;
-            }
-            Log.i("kk", String.format("game_version=0x%X", val));
-            return val;
-        } else {
-            int val = mSharedPreferences.getInt(Constants.PREF_START + key, def);
-            return val;
-        }
+        return mSharedPreferences.getInt(Constants.PREF_START + key, def);
+    }
+
+    public void resetGameVersion() {
+        saveIntSettings(Constants.PREF_GAME_VERSION, GameConfig.getVersion());
+    }
+
+    public int getGameVersion() {
+        return getIntSettings(Constants.PREF_GAME_VERSION, GameConfig.getVersion());
+    }
+
+    public void setGameVersion(int v) {
+        saveIntSettings(Constants.PREF_GAME_VERSION, v);
     }
 
     public String getVersionString(int value) {

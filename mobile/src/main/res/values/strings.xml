@@ -125,7 +125,7 @@
     <string name="card_add_main">+Main Deck</string>
     <string name="card_add_side">+Side Deck</string>
     <string name="deck_main" formatted="false">Main:%d  Monster:%d Spell:%d Trap:%d</string>
-    <string name="deck_extra" formatted="false">Extra:%d  Fusion:%d Synchro:%d Xyx:%d</string>
+    <string name="deck_extra" formatted="false">Extra:%d  Fusion:%d Synchro:%d Xyx:%d Link:%d</string>
     <string name="deck_side" formatted="false">Side:%d  Monster:%d Spell:%d Trap:%d</string>
     <string name="card_result">Cards List</string>
     <string name="unsort">Unsort</string>
@@ -187,6 +187,9 @@
     <string name="tip_network_image">image server is close</string>
     <string name="game_version">Game Version</string>
     <string name="tip">Info</string>
-    <string name="error_game_ver">版本格式不对应该是X.0XX.X，小于F.099.F</string>
-    <string name="tip_no_netwrok">请确认已经连接网络</string>
+    <string name="error_game_ver">it should be X.0XX.X，less of F.099.F</string>
+    <string name="tip_no_netwrok">please confirm net works</string>
+    <string name="message">"because of the copyright,\n github forbade downloading hi-quality card pics.\n using this function to replace the pics if deleted."</string>
+    <string name="ex_pack">扩展卡包</string>
+    <string name="deck_manager_v2">组卡器V2</string>
 </resources>

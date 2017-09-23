@@ -13,8 +13,6 @@ public interface Constants {
     String PREF_DEF_GAME_DIR = "ygocore";
 
     String PREF_GAME_VERSION = "game_version";
-    int DEF_PREF_GAME_VERSION = 0x233E;
-
 
     String PREF_IMAGE_QUALITY = "pref_key_game_image_quality";
     int PREF_DEF_IMAGE_QUALITY = 1;
@@ -58,6 +56,7 @@ public interface Constants {
     String CORE_SKIN_PATH = "textures";
     String CORE_SKIN_PENDULUM_PATH = CORE_SKIN_PATH + "/extra";
     String CORE_DECK_PATH = "deck";
+    String CORE_EXPANSIONS ="expansions";
     String CORE_SINGLE_PATH = "single";
     String CORE_IMAGE_PATH = "pics";
     String CORE_IMAGE_FIELD_PATH = "field";
@@ -89,6 +88,9 @@ public interface Constants {
     String PREF_READ_EX = "pref_settings_read_ex";
     boolean DEF_PREF_READ_EX = false;
 
+    String PREF_DECK_MANAGER_V2 = "pref_settings_deck_manager_v2";
+    boolean DEF_PREF_DECK_MANAGER_V2 = false;
+
     int REQUEST_CUT_IMG = 0x1000 + 0x10;
     int REQUEST_CHOOSE_FILE = 0x1000 + 0x20;
     int REQUEST_CHOOSE_IMG = 0x1000 + 0x21;
@@ -105,13 +107,14 @@ public interface Constants {
     int STRING_LIMIT_START = 1315;
     int STRING_CATEGORY_START = 1100;
     int DEFAULT_CARD_COUNT = 500;
+    int DECK_WIDTH_MAX_COUNT = 15;
     int DECK_WIDTH_COUNT = 10;
     int DECK_MAIN_MAX = 60;
     int DECK_EXTRA_MAX = 15;
     int DECK_SIDE_MAX = 15;
     int DECK_EXTRA_COUNT = (DECK_SIDE_MAX / DECK_WIDTH_COUNT * DECK_WIDTH_COUNT < DECK_SIDE_MAX) ? DECK_WIDTH_COUNT * 2 : DECK_WIDTH_COUNT;
     int DECK_SIDE_COUNT = DECK_EXTRA_COUNT;
-    String ALIPAY_URL = "https://qr.alipay.com/FKX06538E7ARJS06E2F886";
+    String ALIPAY_URL = "HTTPS://QR.ALIPAY.COM/FKX06491UAXJMGIDTYVC0C";
     String DOWNLOAD_HOME = "http://pan.baidu.com/s/1o7RMcMA";
     String URL_HELP = "http://www.jianshu.com/p/a43f5d951a25";
     String WIKI_SEARCH_URL = "http://www.ourocg.cn/S.aspx?key=";

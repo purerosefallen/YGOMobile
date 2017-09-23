@@ -2,6 +2,7 @@ package cn.garymb.ygomobile.ui.cards.deck;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,10 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.garymb.ygomobile.Constants;
 import cn.garymb.ygomobile.bean.Deck;
@@ -177,102 +175,6 @@ class DeckItemUtils {
             IOUtils.close(outputStream);
         }
         return true;
-    }
-
-    public static DeckInfo readDeck(CardLoader cardLoader, File file, LimitList limitList) {
-        DeckInfo deckInfo = null;
-        FileInputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(file);
-            deckInfo = readDeck(cardLoader, inputStream, limitList);
-        } catch (Exception e) {
-            Log.e("deckreader", "read 1", e);
-        } finally {
-            IOUtils.close(inputStream);
-        }
-        return deckInfo;
-    }
-
-    public static DeckInfo readDeck(CardLoader cardLoader, InputStream inputStream, LimitList limitList) {
-        List<Long> main = new ArrayList<>();
-        List<Long> extra = new ArrayList<>();
-        List<Long> side = new ArrayList<>();
-        HashMap<Long, Integer> mIds = new HashMap<>();
-        InputStreamReader in = null;
-        try {
-            in = new InputStreamReader(inputStream, "utf-8");
-            BufferedReader reader = new BufferedReader(in);
-            String line = null;
-            DeckItemType type = DeckItemType.Space;
-            while ((line = reader.readLine()) != null) {
-                if (line.startsWith("!side")) {
-                    type = DeckItemType.SideCard;
-                    continue;
-                }
-                if (line.startsWith("#")) {
-                    if (line.startsWith("#main")) {
-                        type = DeckItemType.MainCard;
-                    } else if (line.startsWith("#extra")) {
-                        type = DeckItemType.ExtraCard;
-                    }
-                    continue;
-                }
-                line = line.trim();
-                if (line.length() == 0 || !TextUtils.isDigitsOnly(line)) {
-                    if (Constants.DEBUG)
-                        Log.w("kk", "read not number " + line);
-                    continue;
-                }
-                long id = Long.parseLong(line);
-                if (type == DeckItemType.MainCard && main.size() < Constants.DECK_MAIN_MAX) {
-                    Integer i = mIds.get(id);
-                    if (i == null) {
-                        mIds.put(id, 1);
-                        main.add(id);
-                    } else if (i < Constants.CARD_MAX_COUNT) {
-                        mIds.put(id, i + 1);
-                        main.add(id);
-                    }
-                } else if (type == DeckItemType.ExtraCard && extra.size() < Constants.DECK_EXTRA_MAX) {
-                    Integer i = mIds.get(id);
-                    if (i == null) {
-                        mIds.put(id, 1);
-                        extra.add(id);
-                    } else if (i < Constants.CARD_MAX_COUNT) {
-                        mIds.put(id, i + 1);
-                        extra.add(id);
-                    }
-                } else if (type == DeckItemType.SideCard && side.size() < Constants.DECK_SIDE_MAX) {
-                    Integer i = mIds.get(id);
-                    if (i == null) {
-                        mIds.put(id, 1);
-                        side.add(id);
-                    } else if (i < Constants.CARD_MAX_COUNT) {
-                        mIds.put(id, i + 1);
-                        side.add(id);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            Log.e("deckreader", "read 2", e);
-        } finally {
-            IOUtils.close(in);
-        }
-        DeckInfo deckInfo = new DeckInfo();
-        Map<Long, Card> tmp = cardLoader.readCards(main, limitList);
-        for (Long id : main) {
-            deckInfo.addMainCards(tmp.get(id));
-        }
-        tmp = cardLoader.readCards(extra, limitList);
-        for (Long id : extra) {
-            deckInfo.addExtraCards(tmp.get(id));
-        }
-        tmp = cardLoader.readCards(side, limitList);
-//        Log.i("kk", "desk:" + tmp.size()+"/"+side.size());
-        for (Long id : side) {
-            deckInfo.addSideCards(tmp.get(id));
-        }
-        return deckInfo;
     }
 
     public static void makeItems(DeckInfo mDeck, DeckAdapater adapater) {

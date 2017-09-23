@@ -9,9 +9,12 @@ android {
         applicationId "cn.garymb.ygomobile.koishi"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 310152
+        versionCode 310157
         versionName "TEST VERSION"
         vectorDrawables.useSupportLibrary = true
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -20,6 +23,9 @@ android {
     productFlavors {
         core {
             applicationIdSuffix ".lite"
+            ndk {
+                abiFilters "armeabi-v7a","x86"
+            }
         }
         mycard {
 
@@ -42,14 +48,14 @@ android {
             assets.srcDirs = ['assets']
         }
     }
-    splits {
-        abi {
-            enable true
-            reset()
-            include 'x86', 'armeabi-v7a'
-            universalApk false
-        }
-    }
+//    splits {
+//        abi {
+//            enable true
+//            reset()
+//            include 'x86', 'armeabi-v7a'
+//            universalApk false
+//        }
+//    }
     lintOptions {
         ignoreWarnings true
     }

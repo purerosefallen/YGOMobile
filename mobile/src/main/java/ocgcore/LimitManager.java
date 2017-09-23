@@ -20,16 +20,11 @@ import static cn.garymb.ygomobile.Constants.CORE_LIMIT_PATH;
 public class LimitManager {
     private static LimitManager sManager = new LimitManager();
     private final List<LimitList> mLimitLists = new ArrayList<>();
-    private volatile boolean isLoad = false;
     private String lastMd5;
     private int mCount;
 
     private LimitManager() {
 
-    }
-
-    public boolean isLoad() {
-        return isLoad;
     }
 
     public static LimitManager get() {
@@ -70,7 +65,6 @@ public class LimitManager {
         }
         mLimitLists.clear();
         mLimitLists.add(new LimitList(null));
-        isLoad = false;
         InputStreamReader in = null;
         FileInputStream inputStream = null;
         try {
@@ -93,7 +87,7 @@ public class LimitManager {
                 } else if (tmp != null) {
                     String[] words = line.trim().split("[\t| ]+");
                     if (words.length >= 2) {
-                        long id = toNumber(words[0]);
+                        int id = toNumber(words[0]);
                         int count = (int) toNumber(words[1]);
                         switch (count) {
                             case 0:
@@ -117,17 +111,16 @@ public class LimitManager {
             IOUtils.close(in);
         }
         mCount = mLimitLists.size();
-        isLoad = true;
         return true;
     }
 
-    private long toNumber(String str) {
-        long i = 0;
+    private int toNumber(String str) {
+        int i = 0;
         try {
             if (str.startsWith("0x")) {
-                i = Long.parseLong(str.replace("0x", ""), 0x10);
+                i = Integer.parseInt(str.replace("0x", ""), 0x10);
             } else {
-                i = Long.parseLong(str);
+                i = Integer.parseInt(str);
             }
         } catch (Exception e) {
 
