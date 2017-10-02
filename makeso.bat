@@ -15,6 +15,7 @@ cat ../koishi_ocgupd/ygopro-7210srv/strings.conf expansions/strings.conf > ../..
 
 cls
 echo Copying files
+
 git checkout data
 git pull origin data
 
@@ -43,12 +44,10 @@ cd ../..
 
 cp -rf koishi_ocgupd/ygopro-7210srv/expansions/pics/* pics
 
-cls
-echo Zipping files
-rm -rf ../mobile/assets/data/script.zip
-rm -rf ../../pics.zip
-"../tools/7za.exe" a ../mobile/assets/data/script.zip script -xr!.git* -mx=0
-"../tools/7za.exe" a ../../pics.zip pics -xr!.git* -mx=0
+rm -rf ../mobile/assets/data/pics
+rm -rf ../mobile/assets/data/script
+cp -rf pics ../mobile/assets/data
+cp -rf script ../mobile/assets/data
 
 cls
 echo Merging databases
