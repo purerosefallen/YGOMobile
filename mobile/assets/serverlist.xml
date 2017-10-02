@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <servers>
     <version>2</version>
-
     <server>
-        <player-name>YGOMobile User</player-name>
-        <name>娱乐决斗与宇宙首发群452384460</name>
-        <ip>s1.ygo233.com</ip>
-        <port>2333</port>
+        <player-name>Komeiji Koishi</player-name>
+        <name>YGOPRO 222DIY</name>
+        <ip>koishi.ygopro.win</ip>
+        <port>222</port>
         <keep>true</keep>
     </server>
-    <server>
-        <player-name>Knight of Hanoi</player-name>
-        <name>23333测试服务器</name>
-        <ip>s1.ygo233.com</ip>
-        <port>23333</port>
-        <keep>true</keep>
-    </server>
-    <!--<server>
-        <player-name>泰迪熊</player-name>
-        <name>777服务器</name>
-        <ip>119.23.146.219</ip>
+	<server>
+        <player-name>Komeiji Koishi</player-name>
+        <name>YGOPRO 7210srv</name>
+        <ip>koishi.ygopro.win</ip>
         <port>7210</port>
         <keep>true</keep>
-    </server>-->
+    </server>
 </servers>
