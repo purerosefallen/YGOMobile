@@ -44,10 +44,16 @@ cd ../..
 
 cp -rf koishi_ocgupd/ygopro-7210srv/expansions/pics/* pics
 
-rm -rf ../mobile/assets/data/pics
+REM rm -rf ../mobile/assets/data/pics
 rm -rf ../mobile/assets/data/script
-cp -rf pics ../mobile/assets/data
+REM cp -rf pics ../mobile/assets/data
 cp -rf script ../mobile/assets/data
+
+cls
+echo Zipping pics
+
+rm -rf ../../pics.zip
+"../tools/7za.exe" a ../../pics.zip pics -xr!.git* -mx=9
 
 cls
 echo Merging databases
@@ -61,8 +67,17 @@ rm -rf ../mobile/assets/data/cards.cdb
 
 cls
 echo Compiling core
+
 cd ../libcore
 "../ndk/ndk-build.cmd" -j4 > ../Compile.log
+
+cls
+echo Pushing to GitHub
+
+git add . -A
+git commit -m fix
+cd ..
+
 
 echo Make complete
 pause
