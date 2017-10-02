@@ -9,9 +9,9 @@ cd temp/ygopro-222DIY
 git checkout master
 git pull origin master
 cp -rf ocgcore ../../Classes
-cp -rf lflist.conf ../../mobile/assets/data/core/3.5/config
-rm -rf ../../mobile/assets/data/core/3.5/config/strings.conf
-cat ../koishi_ocgupd/ygopro-7210srv/strings.conf expansions/strings.conf > ../../mobile/assets/data/core/3.5/config/strings.conf
+cp -rf lflist.conf ../../mobile/assets/data/conf
+rm -rf ../../mobile/assets/data/conf/strings.conf
+cat ../koishi_ocgupd/ygopro-7210srv/strings.conf expansions/strings.conf > ../../mobile/assets/data/conf/strings.conf
 
 cls
 echo Copying files
@@ -45,15 +45,10 @@ cd ../..
 cp -rf koishi_ocgupd/ygopro-7210srv/expansions/pics/* pics
 
 REM rm -rf ../mobile/assets/data/pics
-rm -rf ../mobile/assets/data/script
+REM rm -rf ../mobile/assets/data/script
 REM cp -rf pics ../mobile/assets/data
-cp -rf script ../mobile/assets/data
+REM cp -rf script ../mobile/assets/data
 
-cls
-echo Zipping pics
-
-rm -rf ../../pics.zip
-"../tools/7za.exe" a ../../pics.zip pics -xr!.git* -mx=9
 
 cls
 echo Merging databases
@@ -66,6 +61,13 @@ rm -rf ../mobile/assets/data/cards.cdb
 "../tools/sqlite3.exe" ../mobile/assets/data/cards.cdb < merge.mg
 
 cls
+echo Zipping data
+
+rm -rf pics/*.db
+rm -rf ../../ygopro-222DIY-mobiledata.7z
+"../tools/7za.exe" a ../../ygopro-222DIY-mobiledata.7z pics script -xr!.git* -mx=9
+
+cls
 echo Compiling core
 
 cd ../libcore
@@ -74,10 +76,10 @@ cd ../libcore
 cls
 echo Pushing to GitHub
 
-git add . -A
-git commit -m fix
 cd ..
-
+git add . -A
+git commit -m Build
+git push origin master
 
 echo Make complete
 pause
