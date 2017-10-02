@@ -22,11 +22,9 @@ import ocgcore.handler.CardManager;
 
 import static cn.garymb.ygomobile.Constants.CORE_EXPANSIONS;
 import static cn.garymb.ygomobile.Constants.CORE_SYSTEM_PATH;
-import static cn.garymb.ygomobile.Constants.DEF_PREF_DECK_MANAGER_V2;
 import static cn.garymb.ygomobile.Constants.DEF_PREF_FONT_SIZE;
 import static cn.garymb.ygomobile.Constants.DEF_PREF_ONLY_GAME;
 import static cn.garymb.ygomobile.Constants.DEF_PREF_READ_EX;
-import static cn.garymb.ygomobile.Constants.PREF_DECK_MANAGER_V2;
 import static cn.garymb.ygomobile.Constants.PREF_DEF_IMMERSIVE_MODE;
 import static cn.garymb.ygomobile.Constants.PREF_DEF_SENSOR_REFRESH;
 import static cn.garymb.ygomobile.Constants.PREF_FONT_SIZE;
@@ -119,7 +117,7 @@ public class AppsSettings {
     }
 
     public boolean isUseDeckManagerV2() {
-        return mSharedPreferences.getBoolean(PREF_DECK_MANAGER_V2, DEF_PREF_DECK_MANAGER_V2);
+        return false;//mSharedPreferences.getBoolean(PREF_DECK_MANAGER_V2, DEF_PREF_DECK_MANAGER_V2);
     }
 
     public float getXScale() {
@@ -423,11 +421,21 @@ public class AppsSettings {
     }
 
     public int getIntSettings(String key, int def) {
-        return mSharedPreferences.getInt(Constants.PREF_START + key, def);
+        int v = mSharedPreferences.getInt(Constants.PREF_START + key, def);
+        if (v == def) {
+            Log.d("kk", "default " + key + "=" + getVersionString(v));
+        }
+        return v;
     }
 
-    public void resetGameVersion() {
+    public int resetGameVersion() {
+        int version = GameConfig.getVersion();
+        if (getIntSettings(Constants.PREF_GAME_VERSION, 0) == 0) {
+            //用户没设置过版本号
+            return version;
+        }
         saveIntSettings(Constants.PREF_GAME_VERSION, GameConfig.getVersion());
+        return version;
     }
 
     public int getGameVersion() {

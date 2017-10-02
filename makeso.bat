@@ -54,24 +54,13 @@ rm -rf ../mobile/assets/data/cards.cdb
 "../tools/sqlite3.exe" ../mobile/assets/data/cards.cdb < merge.mg
 "../tools/sqlite3.exe" koishi_ocgupd/ygopro-7210srv/expansions/pre-release.cdb < ../tools/mgcmd
 "../tools/sqlite3.exe" ../mobile/assets/data/cards.cdb < merge.mg
-"../tools/sqlite3.exe" koishi_ocgupd/ygopro-7210srv/expansions/pre-update.cdb < ../tools/mgcmd
-"../tools/sqlite3.exe" ../mobile/assets/data/cards.cdb < merge.mg
 "../tools/sqlite3.exe" ygopro-222DIY/expansions/222DIY.cdb < ../tools/mgcmd
 "../tools/sqlite3.exe" ../mobile/assets/data/cards.cdb < merge.mg
 
 cls
 echo Compiling core
-cd ..
-rm -rf libcore
-cp -rf temp/YGOMobile/libcore .
-cd libcore
+cd ../libcore
 "../ndk/ndk-build.cmd" -j4 > ../Compile.log
-
-echo Pushing to GitHub
-cd ..
-git add . -A
-git commit -m "Build"
-git push origin master
 
 echo Make complete
 pause
