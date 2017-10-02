@@ -2,6 +2,9 @@
 
 echo Building data
 
+cp -rf tools/ic_icon.png mobile/src/main/res/drawable
+cp -rf tools/Application.mk libcore/jni
+
 cd temp/ygopro-222DIY
 git checkout master
 git pull origin master
