@@ -45,9 +45,9 @@ cd ../..
 cp -rf koishi_ocgupd/ygopro-7210srv/expansions/pics/* pics
 
 REM rm -rf ../mobile/assets/data/pics
-REM rm -rf ../mobile/assets/data/script
+rm -rf ../mobile/assets/data/script
 REM cp -rf pics ../mobile/assets/data
-REM cp -rf script ../mobile/assets/data
+cp -rf script ../mobile/assets/data
 
 
 cls
@@ -64,22 +64,14 @@ cls
 echo Zipping data
 
 rm -rf pics/*.db
-rm -rf ../../ygopro-222DIY-mobiledata.7z
-"../tools/7za.exe" a ../../ygopro-222DIY-mobiledata.7z pics script -xr!.git* -mx=9
+rm -rf ../../mobilepics.7z
+"../tools/7za.exe" a ../../mobilepics.7z pics -xr!.git* -mx=9
 
 cls
 echo Compiling core
 
 cd ../libcore
 "../ndk/ndk-build.cmd" -j4 > ../Compile.log
-
-cls
-echo Pushing to GitHub
-
-cd ..
-git add . -A
-git commit -m Build
-git push origin master
 
 echo Make complete
 pause
