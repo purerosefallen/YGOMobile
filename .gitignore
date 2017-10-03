@@ -54,5 +54,6 @@ Thumbs.db
 
 /ndk
 /temp
-/Classes/ocgcore
+/Classes/ocgcore/*.cpp
+/Classes/ocgcore/*.h
 /Compile.log
