@@ -50,7 +50,7 @@ libYGOMobile.so
 /mobile/assets/data/textures/Thumbs.db
 /mobile/src/main/res/drawable-xhdpi/Thumbs.db
 Thumbs.db
-
+# customs
 /ndk
 /temp
 /Classes/ocgcore/*.cpp
