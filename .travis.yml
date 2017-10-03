@@ -12,6 +12,7 @@ android:
   - extra-android-m2repository
   - extra-android-support
 before_install:
+- sdkmanager --update
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip
 - unzip -q android-ndk-r15b-linux-x86_64.zip
 
