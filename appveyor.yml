@@ -19,15 +19,19 @@ install:
   - ../android-ndk-r15b/ndk-build.cmd -j4
   
   - cd ..
+  - cp -rf libcore/libs .
+  
+  - 7z a libs.7z libs -mx=9 -xr!.git*
+  
   - git clone https://github.com/Smile-DK/ygopro-svrelease
-  - rm -rf ygopro-svrelease/libcore
-  - cp -rf libcore ygopro-svrelease
+  - cd ygopro-svrelease
+  - rm -rf libs
+  - cp -rf ../libs .
   
   - git add . -A
-  - git commit -m "Libcore Compiled by Appveyor"
+  - git commit -m "YGOMobile Library Compiled by Appveyor"
   - git push %Smile%Smile-DK/ygopro-svrelease master
   
-  - 7z a libcore.7z libcore -mx=9 -xr!.git*
 
 build: off
 
@@ -39,8 +43,8 @@ cache:
   - android-ndk-r15b-windows-x86_64.zip
 
 artifacts:
-  - path: libcore.7z
-    name: libcore
+  - path: libs.7z
+    name: YGOMobile Library
 
 branches:
   only:
