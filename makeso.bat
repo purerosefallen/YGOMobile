@@ -2,9 +2,6 @@
 
 echo Building data
 
-cp -rf tools/ic_icon.png mobile/src/main/res/drawable
-cp -rf tools/Application.mk libcore/jni
-
 cd temp/koishi_ocgupd/ygopro-7210srv
 git checkout master
 git pull origin master
@@ -69,8 +66,17 @@ rm -rf ../../mobilepics.7z
 
 cls
 echo Compiling core
+cd YGOMobile
+git pull origin master
+cd ../..
+rm -rf libcore
+cp -rf temp/YGOMobile/libcore .
+cp -rf tools/Application.mk libcore/jni
+rm -rf mobile/src
+cp -rf temp/YGOMobile/mobile/src mobile
+cp -rf tools/ic_icon.png mobile/src/main/res/drawable
 
-cd ../libcore
+cd libcore
 "../ndk/ndk-build.cmd" -j4 > ../Compile.log
 
 echo Make complete
