@@ -10,9 +10,6 @@ install:
   - git clone https://github.com/purerosefallen/ygopro-222DIY
   - cp -rf ygopro-222DIY/ocgcore Classes
 
-  - rm -rf libcore
-  - git clone http://git.oschina.net/keyongyu/YGOMobile
-  - cp -rf YGOMobile/libcore .
   - cp -rf tools/Application.mk libcore/jni
 
   - cd libcore
