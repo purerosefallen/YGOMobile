@@ -19,7 +19,7 @@ install:
   - cd android-ndk-r15b
   - setx PATH %cd%
   - cd ../libcore
-  - "../android-ndk-r15b/ndk-build.cmd" -j4
+  - ndk-build -j4
   
   - cd ..
   - git clone https://github.com/Smile-DK/ygopro-svrelease
