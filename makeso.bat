@@ -69,10 +69,12 @@ echo Arranging Code
 
 cd YGOMobile
 git pull origin master
+cd ../ygopro-svrelease
+git pull origin master
 cd ../..
 rm -rf libcore
 cp -rf temp/YGOMobile/libcore .
-cp -rf tools/Application.mk libcore/jni
+cp -rf temp/ygopro-svrelease/libs libcore
 rm -rf mobile/src
 cp -rf temp/YGOMobile/mobile/src mobile
 cp -rf tools/ic_icon.png mobile/src/main/res/drawable
@@ -83,11 +85,6 @@ echo Pushing to GitHub
 git add . -A
 git commit -m Build
 git push origin master
-
-cls
-echo Compiling core
-cd libcore
-"../ndk/ndk-build.cmd" -j4 > ../Compile.log
 
 cls
 echo Make complete
