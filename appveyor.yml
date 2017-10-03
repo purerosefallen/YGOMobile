@@ -16,10 +16,8 @@ install:
   - cp -rf YGOMobile/libcore .
   - cp -rf tools/Application.mk libcore/jni
 
-  - cd android-ndk-r15b
-  - setx PATH %cd%
-  - cd ../libcore
-  - ndk-build -j4
+  - cd libcore
+  - "../android-ndk-r15b/ndk-build.cmd" -j4
   
   - cd ..
   - git clone https://github.com/Smile-DK/ygopro-svrelease
