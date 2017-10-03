@@ -1,0 +1,56 @@
+language: android 
+sudo: true
+android:
+  components:
+  - tools
+  - build-tools-23.0.3
+  - android-23
+  - extra-android-m2repository
+  - extra-android-support
+before_install:
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15c-linux-x86_64.zip
+- unzip android-ndk-r15b-linux-x86_64.zip
+
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/master.zip
+- unzip ygopro-222DIY-master.zip
+- cp -rf ygopro-222DIY-master/expansions mobile/assets/data
+- cp -rf ygopro-222DIY-master/ocgcore Classes
+- cp -rf ygopro-222DIY-master/lflist.conf mobile/assets/data/conf
+
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/master.zip
+- unzip ygopro-7210srv-master.zip
+- cp -rf ygopro-7210srv-master/expansions mobile/assets/data
+- cp -rf ygopro-7210srv-master/strings.conf mobile/assets/data/conf
+- cp -rf ygopro-7210srv-master/cards.cdb mobile/assets/data
+
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Smile-DK/ygopro-scripts/archive/master.zip
+- unzip ygopro-scripts-master.zip
+- mv ygopro-scripts-master mobile/assets/data/script
+
+- cp -rf tools/Application.mk libcore/jni
+- cp -rf tools/ic_icon.png mobile/src/main/res/drawable
+
+script:
+- cd libcore
+- ./../android-ndk-r15c/ndk-build -j4
+- cd ..
+- ./gradlew :libcore:assembleRelease :mobile:assembleCoreRelease :mobile:assembleMycardRelease
+
+- git config --global user.name "Smile-DK"
+- git config --global user.email "2236141431@qq.com"
+- git clone https://github.com/Smile-DK/ygopro-svrelease
+- cd ygopro-svrelease
+- rm -rf mobile
+- cp -rf ../mobile/build/outputs/apk/*.apk mobile
+- cp -rf ../mobile/*.apk mobile
+
+- git add . -A
+- git commit -m "YGOMobile Build by Travis"
+- git push $SMILE/Smile-DK/ygopro-svrelease master
+
+- cd ..
+
+branches:
+  only:
+  - master
+  - /\d+\..+/
