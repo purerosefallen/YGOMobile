@@ -1,5 +1,5 @@
 language: android 
-# sudo: true
+sudo: false
 jdk:
 - oraclejdk8
 android:
@@ -41,7 +41,7 @@ before_install:
 - ./../android-ndk-r15b/ndk-build -j4
 - cd ..
 
--sudo chmod 777 ./gradlew
+- sudo chmod 777 ./gradlew
 
 script:
 - ./gradlew :libcore:assembleRelease :mobile:assembleCoreRelease :mobile:assembleMycardRelease
