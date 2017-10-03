@@ -65,7 +65,8 @@ rm -rf ../../mobilepics.7z
 "../tools/7za.exe" a ../../mobilepics.7z pics -xr!.git* -mx=9
 
 cls
-echo Compiling core
+echo Arranging Code
+
 cd YGOMobile
 git pull origin master
 cd ../..
@@ -76,8 +77,18 @@ rm -rf mobile/src
 cp -rf temp/YGOMobile/mobile/src mobile
 cp -rf tools/ic_icon.png mobile/src/main/res/drawable
 
+cls
+echo Pushing to GitHub
+
+git add . -A
+git commit -m Build
+git push origin master
+
+cls
+echo Compiling core
 cd libcore
 "../ndk/ndk-build.cmd" -j4 > ../Compile.log
 
+cls
 echo Make complete
 pause
