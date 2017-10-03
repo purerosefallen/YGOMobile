@@ -5,7 +5,12 @@ echo Building data
 cp -rf tools/ic_icon.png mobile/src/main/res/drawable
 cp -rf tools/Application.mk libcore/jni
 
-cd temp/ygopro-222DIY
+cd temp/koishi_ocgupd/ygopro-7210srv
+git checkout master
+git pull origin master
+
+cd ../../ygopro-222DIY
+
 git checkout master
 git pull origin master
 cp -rf ocgcore ../../Classes
@@ -28,11 +33,6 @@ mkdir script
 cp -rf ygopro-222DIY/expansions/script/*.lua script
 cp -rf ygopro-scripts/*.lua script
 cp -rf ygopro-222DIY/expansions/pics/* pics
-
-cd koishi_ocgupd/ygopro-7210srv
-git checkout master
-git pull origin master
-cd ../..
 
 cp -rf koishi_ocgupd/ygopro-7210srv/expansions/script/*.lua script
 cp -rf koishi_ocgupd/data/pics/* pics
