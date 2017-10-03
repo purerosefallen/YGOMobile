@@ -6,8 +6,9 @@ android:
   components:
   - platform-tools
   - tools
-  - build-tools-26.0.2
+  - build-tools-26.0.0
   - android-26
+  - extra-google-m2repository
   - extra-android-m2repository
   - extra-android-support
 before_install:
@@ -33,11 +34,13 @@ before_install:
 - cp -rf tools/Application.mk libcore/jni
 - cp -rf tools/ic_icon.png mobile/src/main/res/drawable
 
-script:
 - cd libcore
 - ./../android-ndk-r15b/ndk-build -j4
 - cd ..
+
 - chmod 777 ./gradlew
+
+script:
 - ./gradlew :libcore:assembleRelease :mobile:assembleCoreRelease :mobile:assembleMycardRelease
 
 - git config --global user.name "Smile-DK"
