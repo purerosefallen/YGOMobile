@@ -39,6 +39,9 @@ test: off
 artifacts:
   - path: libcore.7z
     name: libcore
+	
+cache:
+  - android-ndk-r15b-windows-x86_64.zip
 
 branches:
   only:
