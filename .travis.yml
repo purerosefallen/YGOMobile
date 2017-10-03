@@ -41,6 +41,7 @@ script:
 - git clone https://github.com/Smile-DK/ygopro-svrelease
 - cd ygopro-svrelease
 - rm -rf mobile
+- mkdir mobile
 - cp -rf ../mobile/build/outputs/apk/*.apk mobile
 - cp -rf ../mobile/*.apk mobile
 
