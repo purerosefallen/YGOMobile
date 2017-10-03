@@ -32,6 +32,8 @@ install:
   - git commit -m "YGOMobile Library Compiled by Appveyor"
   - git push %Smile%Smile-DK/ygopro-svrelease master
   
+  - cd ..
+  
 
 build: off
 
