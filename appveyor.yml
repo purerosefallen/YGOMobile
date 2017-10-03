@@ -9,7 +9,7 @@ install:
   - 7z x android-ndk-r15b-windows-x86_64.zip
   - git clone https://github.com/purerosefallen/ygopro-222DIY
   - rm -rf Classes/ocgcore
-  - cp -rf ygopro-222DIY/ocgcore Classes/ocgcore
+  - cp -rf ygopro-222DIY/ocgcore Classes
 
   - rm -rf libcore
   - git clone http://git.oschina.net/keyongyu/YGOMobile
