@@ -34,6 +34,7 @@ script:
 - cd libcore
 - ./../android-ndk-r15c/ndk-build -j4
 - cd ..
+- chmod 777 ./gradlew
 - ./gradlew :libcore:assembleRelease :mobile:assembleCoreRelease :mobile:assembleMycardRelease
 
 - git config --global user.name "Smile-DK"
