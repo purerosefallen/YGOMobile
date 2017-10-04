@@ -46,15 +46,15 @@ script:
 
 - ./gradlew :libcore:assembleRelease :mobile:assembleCoreRelease :mobile:assembleMycardRelease
 
-if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
-  git config --global user.name "Smile-DK";
-  git config --global user.email "2236141431@qq.com";
-  git clone https://github.com/Smile-DK/ygopro-svrelease;
-  cd ygopro-svrelease;
-  rm -rf mobile;
-  mkdir mobile;
-  cp -rf ../mobile/build/outputs/apk/*.apk mobile;
-  git add . -A;
-  git commit -m "YGOMobile Build by Travis";
-  git push $SMILE/Smile-DK/ygopro-svrelease master;
-fi
+- if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
+    git config --global user.name "Smile-DK";
+    git config --global user.email "2236141431@qq.com";
+    git clone https://github.com/Smile-DK/ygopro-svrelease;
+    cd ygopro-svrelease;
+    rm -rf mobile;
+    mkdir mobile;
+    cp -rf ../mobile/build/outputs/apk/*.apk mobile;
+    git add . -A;
+    git commit -m "YGOMobile Build by Travis";
+    git push $SMILE/Smile-DK/ygopro-svrelease master;
+  fi
