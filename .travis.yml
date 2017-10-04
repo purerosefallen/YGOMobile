@@ -31,7 +31,8 @@ before_install:
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/thcsvr/archive/master.zip
 - unzip -q thcsvr-master.zip
 - cp -rf thcsvr-master/ocgcore Classes
-- mv -f thcsvr-master/expansions/thc.cdb mobile/assets/cards.cdb
+- rm -rf mobile/assets/data/cards.cdb
+- mv -f thcsvr-master/expansions/thc.cdb mobile/assets/data/cards.cdb
 - cp -rf thcsvr-master/expansions/script/*.lua script
 - rm -rf thcsvr-master/expansions/script/*.lua
 - mv -f thcsvr-master/expansions mobile/assets/data
