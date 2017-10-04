@@ -34,13 +34,11 @@ before_install:
 - cp -rf ygopro-777DIY-master/expansions mobile/assets/data
 - cp -rf ygopro-777DIY-master/lflist.conf mobile/assets/data/conf
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/master.zip
-- 7zr x ygopro-7210srv-master.zip
-- cp -rf ygopro-7210srv-master/expansions/script .
-- rm -rf ygopro-7210srv-master/expansions/script
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/cards.cdb
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
 - cp -rf ygopro-7210srv-master/expansions mobile/assets/data
-- cp -rf ygopro-7210srv-master/strings.conf mobile/assets/data/conf
-- cp -rf ygopro-7210srv-master/cards.cdb mobile/assets/data
+- cp -rf strings.conf mobile/assets/data/conf
+- cp -rf cards.cdb mobile/assets/data
 
 - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx=0
 
