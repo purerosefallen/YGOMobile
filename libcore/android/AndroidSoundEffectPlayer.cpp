@@ -32,8 +32,9 @@ void AndroidSoundEffectPlayer::setSEEnabled(bool enabled) {
 
 //modded
 void AndroidSoundEffectPlayer::doCustomEffect(char* sound_name) {
+	char sname = sound_name;
 	if (m_isEnabled) {
-		m_pAudioTracker->playBGM(irr::io::path(sound_name),
+		m_pAudioTracker->playBGM(irr::io::path(sname),
 				AP_TYPE_ASSET);
 	}
 }
