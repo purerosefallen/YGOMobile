@@ -40,7 +40,8 @@ public class DeckGroupView extends FrameLayout implements View.OnClickListener {
     private final SparseArray<CardView> mExtraViews = new SparseArray<>();
     private final SparseArray<CardView> mSideViews = new SparseArray<>();
     private int mOrgLimit = 10;
-    private int mMainLimit = 15, mExtraLimit = 15, mSideLimit = 15;
+	//modded
+    private int mMainLimit = 15, mExtraLimit = 20, mSideLimit = 15;
     private OnCardClickListener mOnCardClickListener;
     private CardView mLastView;
     private boolean mAutoSort;
