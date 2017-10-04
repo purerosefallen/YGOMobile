@@ -929,6 +929,15 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 			mainGame->WaitFrameSignal(30);
 			break;
 		}
+		//modded
+		//bgm developping
+		case 12: {
+			char SoundName;
+			myswprintf(textBuffer, L"sound/custom/%ls.ogg", dataManager.GetDesc(data));
+			BufferIO::EncodeUTF8(textBuffer, SoundName);
+			mainGame->soundEffectPlayer->doCustomEffect(SoundName);
+			break;
+		}
 		}
 		break;
 	}
