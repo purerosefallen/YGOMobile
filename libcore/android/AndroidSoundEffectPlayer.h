@@ -22,9 +22,6 @@ public:
 	AndroidSoundEffectPlayer(ANDROID_APP app);
 	virtual ~AndroidSoundEffectPlayer();
 
-	//modded
-	virtual void doCustomEffect(char sound_name);
-	
 	virtual void doPlayerEnterEffect();
 
 	virtual void doShuffleCardEffect();
