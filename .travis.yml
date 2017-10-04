@@ -30,14 +30,10 @@ before_install:
 - unzip -q ygopro-scripts-master.zip
 - mv ygopro-scripts-master script
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-zh-CN.zip
-- unzip -q -d pics ygopro-images-zh-CN.zip
-
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/MonokuroInzanaito/ygopro-777DIY/archive/master.zip
 - unzip -q ygopro-777DIY-master.zip
 - cp -rf ygopro-777DIY-master/expansions/script .
 - rm -rf ygopro-777DIY-master/expansions/script
-- cp -rf ygopro-777DIY-master/expansions/pics .
 - rm -rf ygopro-777DIY-master/expansions/pics
 - cp -rf ygopro-777DIY-master/expansions mobile/assets/data
 - cp -rf ygopro-777DIY-master/lflist.conf mobile/assets/data/conf
@@ -47,10 +43,7 @@ before_install:
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
 - cp -rf strings.conf mobile/assets/data/conf
 
-- rm -rf pics/*.db
-- rm -rf pics/thumbnail
 - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx=0
-- 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx=0
 
 - cp -rf tools/Application.mk libcore/jni
 - cp -rf tools/ic_icon.png mobile/src/main/res/drawable
