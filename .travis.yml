@@ -19,16 +19,19 @@ before_install:
 - echo -e "y" > accepting
 - sdkmanager --update < accepting
 
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip
+- unzip -q android-ndk-r15b-linux-x86_64.zip
+
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-core/archive/master.zip
-- 7zr x ygopro-core-master.zip
+- unzip -q ygopro-core-master.zip
 - cp -rf ygopro-core-master/* Classes/ocgcore
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Smile-DK/ygopro-scripts/archive/master.zip
-- 7zr x ygopro-scripts-master.zip
+- unzip -q ygopro-scripts-master.zip
 - mv ygopro-scripts-master script
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/MonokuroInzanaito/ygopro-777DIY/archive/master.zip
-- 7zr x ygopro-777DIY-master.zip
+- unzip -q ygopro-777DIY-master.zip
 - cp -rf ygopro-777DIY-master/expansions/script .
 - rm -rf ygopro-777DIY-master/expansions/script
 - cp -rf ygopro-777DIY-master/expansions mobile/assets/data
