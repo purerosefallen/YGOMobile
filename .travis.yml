@@ -1,5 +1,8 @@
 language: android 
 sudo: false
+addons:
+  apt:
+      - p7zip
 jdk:
 - oraclejdk8
 android:
