@@ -51,10 +51,10 @@ script:
     git config --global user.email "2236141431@qq.com";
     git clone https://github.com/Smile-DK/ygopro-svrelease;
     cd ygopro-svrelease;
-    rm -rf mobile;
-    mkdir mobile;
-    cp -rf ../mobile/build/outputs/apk/*.apk mobile;
+    rm -rf ygomobile-222;
+    mkdir ygomobile-222;
+    cp -rf ../mobile/build/outputs/apk/*.apk ygomobile-222;
     git add . -A;
-    git commit -m "YGOMobile Build by Travis";
+    git commit -m "YGOMobile 222 Build by Travis";
     git push $SMILE/Smile-DK/ygopro-svrelease master;
   fi
