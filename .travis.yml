@@ -49,7 +49,9 @@ before_install:
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/data.zip
 - unzip -q ygopro-222DIY-data.zip
-- cd 
+- mkdir mobile/assets/sound/custom
+- oggenc -b 320 ygopro-222DIY-data/sound/custom/*.wav
+- cp -rf ygopro-222DIY-data/sound/custom/*.ogg mobile/assets/sound/custom
 
 - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx=0
 
