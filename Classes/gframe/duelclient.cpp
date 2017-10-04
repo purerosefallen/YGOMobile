@@ -932,7 +932,7 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		//modded
 		//bgm developping
 		case 12: {
-			char SoundName;
+			char* SoundName;
 			myswprintf(textBuffer, L"sound/custom/%ls.ogg", dataManager.GetDesc(data));
 			BufferIO::EncodeUTF8(textBuffer, SoundName);
 			mainGame->soundEffectPlayer->doCustomEffect(SoundName);

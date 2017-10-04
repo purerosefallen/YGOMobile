@@ -23,7 +23,7 @@ public:
 	virtual ~AndroidSoundEffectPlayer();
 
 	//modded
-	virtual void doCustomEffect(char sound_name);
+	virtual void doCustomEffect(char* sound_name);
 	
 	virtual void doPlayerEnterEffect();
 

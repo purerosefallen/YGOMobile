@@ -17,7 +17,7 @@ public:
 	virtual ~IYGOSoundEffectPlayer(){}
 	
 	//modded
-	virtual void doCustomEffect(char sound_name) = 0;
+	virtual void doCustomEffect(char* sound_name) = 0;
 
 	virtual void doPlayerEnterEffect() = 0;
 
