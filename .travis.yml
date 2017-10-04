@@ -26,9 +26,6 @@ before_install:
 - unzip -q ygopro-scripts-master.zip
 - mv ygopro-scripts-master script
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-zh-CN.zip
-- unzip -q -d pics ygopro-images-zh-CN.zip
-
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/master.zip
 - unzip -q ygopro-222DIY-master.zip
 - cp -rf ygopro-222DIY-master/expansions/script .
@@ -36,10 +33,6 @@ before_install:
 - cp -rf ygopro-222DIY-master/expansions mobile/assets/data
 - cp -rf ygopro-222DIY-master/ocgcore Classes
 - cp -rf ygopro-222DIY-master/lflist.conf mobile/assets/data/conf
-
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/data.zip
-- unzip -q ygopro-222DIY-data.zip
-- cp -rf ygopro-222DIY-data/expansions/pics .
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/master.zip
 - unzip -q ygopro-7210srv-master.zip
@@ -53,10 +46,7 @@ before_install:
 - unzip -q ygopro-7210srv-prepics.zip
 - cp -rf ygopro-7210srv-prepics/expansions/pics .
 
-- rm -rf pics/*.db
-- rm -rf pics/thumbnail
 - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx=0
-- 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx=0
 
 - cp -rf tools/Application.mk libcore/jni
 - cp -rf tools/ic_icon.png mobile/src/main/res/drawable
