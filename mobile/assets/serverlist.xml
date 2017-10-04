@@ -3,16 +3,16 @@
     <version>2</version>
     <server>
         <player-name>Komeiji Koishi</player-name>
-        <name>YGOPRO 222DIY</name>
-        <ip>koishi.ygopro.win</ip>
-        <port>222</port>
+        <name>YGOPRO 777DIY</name>
+        <ip>45.145.166.174</ip>
+        <port>777</port>
         <keep>true</keep>
     </server>
 	<server>
         <player-name>Komeiji Koishi</player-name>
-        <name>YGOPRO 7210srv</name>
-        <ip>koishi.ygopro.win</ip>
-        <port>7210</port>
+        <name>YGOPRO 777DIY Backup</name>
+        <ip>karen.ygopro.cn</ip>
+        <port>777</port>
         <keep>true</keep>
     </server>
 </servers>
