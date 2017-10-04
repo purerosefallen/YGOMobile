@@ -30,6 +30,14 @@ void AndroidSoundEffectPlayer::setSEEnabled(bool enabled) {
 	m_isEnabled = enabled;
 }
 
+//modded
+void AndroidSoundEffectPlayer::doCustomEffect(char sound_name) {
+	if (m_isEnabled) {
+		m_pAudioTracker->playBGM(irr::io::path(sound_name),
+				AP_TYPE_ASSET);
+	}
+}
+
 void AndroidSoundEffectPlayer::doPlayerEnterEffect() {
 	if (m_isEnabled) {
 		m_pAudioTracker->playBGM(irr::io::path("sound/playerenter.ogg"),
