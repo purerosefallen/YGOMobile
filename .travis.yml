@@ -3,6 +3,7 @@ sudo: false
 addons:
   apt:
     packages:
+	  - vorbis-tools
       - p7zip
 jdk:
 - oraclejdk8
@@ -45,6 +46,10 @@ before_install:
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/prepics.zip
 - unzip -q ygopro-7210srv-prepics.zip
 - cp -rf ygopro-7210srv-prepics/expansions/pics .
+
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/data.zip
+- unzip -q ygopro-222DIY-data.zip
+- cd 
 
 - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx=0
 
