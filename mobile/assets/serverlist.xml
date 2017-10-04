@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <servers>
     <version>2</version>
+
     <server>
         <player-name>Komeiji Koishi</player-name>
-        <name>YGOPRO 222DIY</name>
-        <ip>koishi.ygopro.win</ip>
-        <port>222</port>
+        <name>YGOPRO THC</name>
+        <ip>s1.ygo233.com</ip>
+        <port>666</port>
         <keep>true</keep>
     </server>
-	<server>
+    <server>
         <player-name>Komeiji Koishi</player-name>
-        <name>YGOPRO 7210srv</name>
+        <name>YGOPRO THC Backup</name>
         <ip>koishi.ygopro.win</ip>
-        <port>7210</port>
+        <port>666</port>
         <keep>true</keep>
     </server>
 </servers>
