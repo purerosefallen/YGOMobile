@@ -58,6 +58,6 @@ script:
     mkdir ygomobile-777;
     cp -rf ../mobile/build/outputs/apk/*.apk ygomobile-777;
     git add . -A;
-    git commit -m "YGOMobile 222 Build by Travis";
+    git commit -m "YGOMobile 777 Build by Travis";
     git push $SMILE/Smile-DK/ygopro-svrelease master;
   fi
