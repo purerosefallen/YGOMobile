@@ -6,7 +6,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "cn.garymb.ygomobile.koishi"
+        applicationId "cn.garymb.ygomobile.scorpiour"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 310160
