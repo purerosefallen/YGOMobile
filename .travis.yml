@@ -54,6 +54,7 @@ before_install:
 - cp -rf ygopro-7210srv-prepics/expansions/pics .
 
 - rm -rf pics/*.db
+- rm -rf pics/thumbnail
 - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx=0
 - 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx=0
 
