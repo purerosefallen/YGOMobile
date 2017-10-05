@@ -24,20 +24,26 @@ before_install:
 
 - mkdir script
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/raw/master/constant.lua
-- mv -f constant.lua script
+- cp -rf constant.lua script
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/raw/master/utility.lua
-- mv -f utility.lua script
+- cp -rf utility.lua script
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/thcsvr/archive/master.zip
 - unzip -q thcsvr-master.zip
 - cp -rf thcsvr-master/ocgcore Classes
-- rm -rf mobile/assets/data/cards.cdb
-- mv -f thcsvr-master/expansions/thc.cdb mobile/assets/data/cards.cdb
+- cp -rf thcsvr-master/expansions/thc.cdb .
+- mv -f thc.cdb cards.cdb
+- cp -rf thcsvr-master/expansions/cards.cdb mobile/assets/data
 - cp -rf thcsvr-master/expansions/script/*.lua script
 - rm -rf thcsvr-master/expansions/script/*.lua
-- mv -f thcsvr-master/expansions mobile/assets/data
+- cp -rf thcsvr-master/expansions mobile/assets/data
 - cp -rf thcsvr-master/lflist.conf mobile/assets/data/conf
 
+- rm -rf thcsvr-master/expansions/pics/thumbnail
+- rm -rf thcsvr-master/expansions/pics/*.db
+- cp -rf thcsvr-master/expansions/pics .
+
+- 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx=0
 - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx=0
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
