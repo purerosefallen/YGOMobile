@@ -33,7 +33,7 @@ before_install:
 - cp -rf thcsvr-master/ocgcore Classes
 - cp -rf thcsvr-master/expansions/thc.cdb .
 - mv -f thc.cdb cards.cdb
-- cp -rf thcsvr-master/expansions/cards.cdb mobile/assets/data
+- cp -rf cards.cdb mobile/assets/data
 - cp -rf thcsvr-master/expansions/script/*.lua script
 - rm -rf thcsvr-master/expansions/script/*.lua
 - cp -rf thcsvr-master/expansions mobile/assets/data
