@@ -1,4 +1,5 @@
 # YGOMobile
+https://travis-ci.org/purerosefallen/ygopro-222DIY-mobile.svg?branch=master
 Android编译环境
 ---------------------
     下载Android Studio和Android sdk
