@@ -55,17 +55,18 @@ script:
 - ./../android-ndk-r15b/ndk-build -j4
 - cd ..
 
-- ./gradlew :libcore:assembleRelease :mobile:assembleCoreRelease :mobile:assembleMycardRelease
+- ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
 
-- if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
-    git config --global user.name "Smile-DK";
-    git config --global user.email "2236141431@qq.com";
-    git clone https://github.com/Smile-DK/ygopro-svrelease;
-    cd ygopro-svrelease;
-    rm -rf ygomobile-777;
-    mkdir ygomobile-777;
-    cp -rf ../mobile/build/outputs/apk/*.apk ygomobile-777;
-    git add . -A;
-    git commit -m "YGOMobile 777 Build by Travis";
-    git push $SMILE/Smile-DK/ygopro-svrelease master;
-  fi
+before_deploy:
+  - mkdir op
+  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk op/ygomobile-$TRAVIS_BRANCH-arm.apk
+  - mv -f mobile/build/outputs/apk/mobile-mycard-x86-release.apk op/ygomobile-$TRAVIS_BRANCH-x86.apk
+
+deploy:
+  provider: releases
+  api-key: $NANAHIRA
+  file_glob: true
+  file: op/*.apk
+  skip_cleanup: true
+  on:
+    tags: true
