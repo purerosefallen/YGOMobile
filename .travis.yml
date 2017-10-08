@@ -57,8 +57,8 @@ before_install:
 - ls *.jpg | xargs -I {} -P 4 convert -quality $QUALITY {} {}
 - cd ..
 
-- 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx=0
-- 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx=0
+- 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx0
+- 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx0
 
 - cp -rf tools/Application.mk libcore/jni
 - cp -rf tools/*.png mobile/src/main/res/drawable
