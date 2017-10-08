@@ -4,7 +4,7 @@ addons:
   apt:
     packages:
       - p7zip
-      - ImageMagick
+      - imagemagick
 jdk:
 - oraclejdk8
 android:
