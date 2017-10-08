@@ -4,6 +4,7 @@ addons:
   apt:
     packages:
       - p7zip
+      - ImageMagick
 jdk:
 - oraclejdk8
 android:
@@ -16,7 +17,7 @@ android:
   - extra-android-m2repository
   - extra-android-support
 env:
-- CATALINA_OPTS="-Xmx2048m -Xms1024m -Xmn512m -Xssm256m"
+- QUALITY=50
 
 before_install:
 - echo -e "y" > accepting
@@ -46,7 +47,7 @@ before_install:
 - cp -rf ygopro-7210srv-master/cards.cdb mobile/assets/data
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-zh-CN.zip
-- unzip -q -d pics ygopro-images-zh-CN.zip
+- unzip -q -d pic/pics ygopro-images-zh-CN.zip
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/prepics.zip
 - unzip -q ygopro-7210srv-prepics.zip
@@ -56,8 +57,11 @@ before_install:
 - unzip -q ygopro-222DIY-data.zip
 - cp -rf ygopro-222DIY-data/expansions/pics .
 
-- rm -rf pics/thumbnail
-- rm -rf pics/*.db
+- cd pics
+- rm -rf thumbnail
+- rm -rf *.db
+- ls *.jpg | xargs -I {} -P 4 convert -quality $QUALITY {} {}
+- cd ..
 
 - 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx=0
 - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx=0
