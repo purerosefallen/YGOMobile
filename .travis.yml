@@ -15,6 +15,9 @@ android:
   - extra-google-m2repository
   - extra-android-m2repository
   - extra-android-support
+env:
+- CATALINA_OPTS="-Xmx2048m -Xms1024m -Xmn512m -Xssm256m"
+
 before_install:
 - echo -e "y" > accepting
 - sdkmanager --update < accepting
