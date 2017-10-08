@@ -17,7 +17,7 @@ android:
   - extra-android-m2repository
   - extra-android-support
 env:
-- QUALITY=50
+- QUALITY=25
 
 before_install:
 - echo -e "y" > accepting
