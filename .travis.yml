@@ -43,8 +43,8 @@ before_install:
 
 - cp -rf thcsvr-master/expansions mobile/assets/data
 
-- 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx=0
-- 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx=0
+- 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx0
+- 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx0
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
 - mv -f strings.conf mobile/assets/data/conf
