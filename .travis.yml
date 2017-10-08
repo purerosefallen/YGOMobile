@@ -4,6 +4,7 @@ addons:
   apt:
     packages:
       - p7zip
+      - imagemagick
 jdk:
 - oraclejdk8
 android:
@@ -15,6 +16,9 @@ android:
   - extra-google-m2repository
   - extra-android-m2repository
   - extra-android-support
+env:
+- QUALITY=50
+
 before_install:
 - echo -e "y" > accepting
 - sdkmanager --update < accepting
@@ -34,6 +38,7 @@ before_install:
 - unzip -q ygopro-777DIY-master.zip
 - cp -rf ygopro-777DIY-master/expansions/script .
 - rm -rf ygopro-777DIY-master/expansions/script
+- cp -rf ygopro-777DIY-master/expansions/pics .
 - rm -rf ygopro-777DIY-master/expansions/pics
 - cp -rf ygopro-777DIY-master/expansions mobile/assets/data
 - cp -rf ygopro-777DIY-master/lflist.conf mobile/assets/data/conf
@@ -43,6 +48,16 @@ before_install:
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
 - cp -rf strings.conf mobile/assets/data/conf
 
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-zh-CN.zip
+- unzip -q -d pics ygopro-images-zh-CN.zip
+
+- cd pics
+- rm -rf thumbnail
+- rm -rf *.db
+- ls *.jpg | xargs -I {} -P 4 convert -quality $QUALITY {} {}
+- cd ..
+
+- 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx=0
 - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx=0
 
 - cp -rf tools/Application.mk libcore/jni
