@@ -47,7 +47,7 @@ before_install:
 - cp -rf ygopro-7210srv-master/cards.cdb mobile/assets/data
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-zh-CN.zip
-- unzip -q -d pic/pics ygopro-images-zh-CN.zip
+- unzip -q -d pics ygopro-images-zh-CN.zip
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/prepics.zip
 - unzip -q ygopro-7210srv-prepics.zip
