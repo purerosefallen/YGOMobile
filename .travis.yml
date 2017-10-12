@@ -8,6 +8,7 @@ addons:
 jdk:
 - oraclejdk8
 android:
+  update_sdk: true
   components:
   - platform-tools
   - tools
@@ -16,12 +17,17 @@ android:
   - extra-google-m2repository
   - extra-android-m2repository
   - extra-android-support
+licenses:
+  - 'android-sdk-preview-license-52d11cd2'
+  - 'android-sdk-preview-license-.+'
+  - 'android-sdk-license-.+'
+  - 'google-gdk-license-.+'
 env:
 - QUALITY=50
 
 before_install:
-- echo -e "y" > accepting
-- sdkmanager --update < accepting
+# - echo -e "y" > accepting
+#- sdkmanager --update < accepting
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip
 - unzip -q android-ndk-r15b-linux-x86_64.zip
