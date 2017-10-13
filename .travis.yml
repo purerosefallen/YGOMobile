@@ -81,8 +81,7 @@ script:
 
 before_deploy:
   - mkdir op
-  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk op/ygomobile-$TRAVIS_BRANCH-arm.apk
-  - mv -f mobile/build/outputs/apk/mobile-mycard-x86-release.apk op/ygomobile-$TRAVIS_BRANCH-x86.apk
+  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk op/ygomobile-$TRAVIS_BRANCH.apk
 
 deploy:
   provider: releases
@@ -91,4 +90,4 @@ deploy:
   file: op/*.apk
   skip_cleanup: true
   on:
-    tags: true
+    branch: $TRAVIS_BRANCH
