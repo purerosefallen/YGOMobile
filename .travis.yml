@@ -4,9 +4,11 @@ addons:
   apt:
     packages:
       - p7zip
+      - imagemagick
 jdk:
 - oraclejdk8
 android:
+  update_sdk: true
   components:
   - platform-tools
   - tools
@@ -15,6 +17,15 @@ android:
   - extra-google-m2repository
   - extra-android-m2repository
   - extra-android-support
+licenses:
+  - 'android-sdk-preview-license-52d11cd2'
+  - 'android-sdk-preview-license-.+'
+  - 'android-sdk-license-.+'
+  - 'google-gdk-license-.+'
+  - 'extra-android-support-.+'
+env:
+- QUALITY=50
+
 before_install:
 - echo -e "y" > accepting
 - sdkmanager --update < accepting
