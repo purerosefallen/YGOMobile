@@ -24,6 +24,15 @@ licenses:
   - 'google-gdk-license-.+'
   - 'extra-android-support-.+'
 env:
+- QUALITY=5
+- QUALITY=10
+- QUALITY=15
+- QUALITY=20
+- QUALITY=25
+- QUALITY=30
+- QUALITY=35
+- QUALITY=40
+- QUALITY=45
 - QUALITY=50
 
 before_install:
