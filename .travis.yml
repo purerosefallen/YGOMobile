@@ -65,8 +65,8 @@ before_install:
 
 # - 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx0
 # - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx0
-- zip -q -r pics mobile/assets/data/pics.zip
-- zip -q -r script mobile/assets/data/script.zip
+- zip -q -r mobile/assets/data/pics.zip pics
+- zip -q -r mobile/assets/data/script.zip script
 
 - cp -rf tools/Application.mk libcore/jni
 - cp -rf tools/*.png mobile/src/main/res/drawable
