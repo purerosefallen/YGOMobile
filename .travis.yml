@@ -53,7 +53,7 @@ before_install:
 # - 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx0
 # - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx0
 - zip -q -r mobile/assets/data/pics.zip pics
-- zip -q -r mobile/assets/data/script.zip script
+- zip -q -r mobile/assets/data/scripts.zip script
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
 - mv -f strings.conf mobile/assets/data/conf
