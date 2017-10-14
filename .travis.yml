@@ -3,7 +3,7 @@ sudo: false
 addons:
   apt:
     packages:
-      - p7zip
+      # - p7zip
       - imagemagick
 jdk:
 - oraclejdk8
@@ -70,8 +70,10 @@ before_install:
 - ls *.jpg | xargs -I {} -P 4 convert -quality $QUALITY {} {}
 - cd ..
 
-- 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx0
-- 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx0
+# - 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx0
+# - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx0
+- zip -q -r pics mobile/assets/data/pics.zip
+- zip -q -r scripts mobile/assets/data/script.zip
 
 - cp -rf tools/Application.mk libcore/jni
 - cp -rf tools/*.png mobile/src/main/res/drawable
