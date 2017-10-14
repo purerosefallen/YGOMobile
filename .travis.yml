@@ -72,7 +72,7 @@ script:
 
 before_deploy:
   - mkdir op
-  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk op/ygomobile-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.apk
+  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk op/ygomobile-$TRAVIS_BRANCH.apk
 
 deploy:
   provider: releases
