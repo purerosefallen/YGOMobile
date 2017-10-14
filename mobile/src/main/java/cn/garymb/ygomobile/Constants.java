@@ -10,7 +10,7 @@ public interface Constants {
     String PREF_LAST_YDK = "pref_last_ydk";
     String PREF_DEF_LAST_YDK = "new";
     String PREF_GAME_PATH = "pref_key_game_res_path";
-    String PREF_DEF_GAME_DIR = "ygocore-222";
+    String PREF_DEF_GAME_DIR = "ygocore-ygocc";
 
     String PREF_GAME_VERSION = "game_version";
 
@@ -114,7 +114,7 @@ public interface Constants {
     int DECK_SIDE_MAX = 15;
     int DECK_EXTRA_COUNT = (DECK_SIDE_MAX / DECK_WIDTH_COUNT * DECK_WIDTH_COUNT < DECK_SIDE_MAX) ? DECK_WIDTH_COUNT * 2 : DECK_WIDTH_COUNT;
     int DECK_SIDE_COUNT = DECK_EXTRA_COUNT;
-    String ALIPAY_URL = "https://qr.alipay.com/FKX06538E7ARJS06E2F886";
+    String ALIPAY_URL = "123";
     String DOWNLOAD_HOME = "http://pan.baidu.com/s/1o7RMcMA";
     String URL_HELP = "http://www.jianshu.com/p/a43f5d951a25";
     String WIKI_SEARCH_URL = "http://www.ourocg.cn/S.aspx?key=";
@@ -135,7 +135,7 @@ public interface Constants {
     /***
      * adb shell am start -n cn.garymb.ygomobile/cn.garymb.ygomobile.ui.home.MainActivity -a ygomobile.intent.action.DECK --es android.intent.extra.TEXT 青眼白龙.ydk
      * <p>
-     * adb shell am start -n cn.garymb.ygomobile/cn.garymb.ygomobile.ui.home.MainActivity -a ygomobile.intent.action.DECK --es android.intent.extra.TEXT /sdcard/ygocore-222/deck/青眼白龙.ydk
+     * adb shell am start -n cn.garymb.ygomobile/cn.garymb.ygomobile.ui.home.MainActivity -a ygomobile.intent.action.DECK --es android.intent.extra.TEXT /sdcard/ygocore-ygocc/deck/青眼白龙.ydk
      */
     String ACTION_OPEN_DECK = "ygomobile.intent.action.DECK";
     /***
