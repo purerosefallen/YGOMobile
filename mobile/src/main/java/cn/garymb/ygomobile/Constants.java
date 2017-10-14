@@ -10,7 +10,7 @@ public interface Constants {
     String PREF_LAST_YDK = "pref_last_ydk";
     String PREF_DEF_LAST_YDK = "new";
     String PREF_GAME_PATH = "pref_key_game_res_path";
-    String PREF_DEF_GAME_DIR = "ygocore";
+    String PREF_DEF_GAME_DIR = "thc";
 
     String PREF_GAME_VERSION = "game_version";
 
@@ -135,7 +135,7 @@ public interface Constants {
     /***
      * adb shell am start -n cn.garymb.ygomobile/cn.garymb.ygomobile.ui.home.MainActivity -a ygomobile.intent.action.DECK --es android.intent.extra.TEXT 青眼白龙.ydk
      * <p>
-     * adb shell am start -n cn.garymb.ygomobile/cn.garymb.ygomobile.ui.home.MainActivity -a ygomobile.intent.action.DECK --es android.intent.extra.TEXT /sdcard/ygocore/deck/青眼白龙.ydk
+     * adb shell am start -n cn.garymb.ygomobile/cn.garymb.ygomobile.ui.home.MainActivity -a ygomobile.intent.action.DECK --es android.intent.extra.TEXT /sdcard/thc/deck/青眼白龙.ydk
      */
     String ACTION_OPEN_DECK = "ygomobile.intent.action.DECK";
     /***
