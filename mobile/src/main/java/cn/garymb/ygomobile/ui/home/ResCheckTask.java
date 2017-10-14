@@ -148,13 +148,13 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
             }
             setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.cards_cdb)));
             copyCdbFile(needsUpdate);
-            if (isNewVersion) {
+            //if (isNewVersion) {
                 if (IOUtils.hasAssets(mContext, getDatapath(Constants.CORE_PICS_ZIP))) {
                     setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.images)));
                     IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.CORE_PICS_ZIP),
                             resPath, needsUpdate);
                 }
-            }
+            //}
             if (needsUpdate) {
                 setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.ex_pack)));
                 IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.CORE_EXPANSIONS),
