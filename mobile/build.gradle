@@ -13,7 +13,7 @@ android {
         versionName "TEST VERSION"
         vectorDrawables.useSupportLibrary = true
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a"
         }
     }
     compileOptions {
