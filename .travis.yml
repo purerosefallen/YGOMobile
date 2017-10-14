@@ -80,4 +80,4 @@ deploy:
   file: op/*.apk
   skip_cleanup: true
   on:
-    branch: $TRAVIS_BRANCH
+    branch: thc
