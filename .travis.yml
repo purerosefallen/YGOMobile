@@ -3,7 +3,7 @@ sudo: false
 addons:
   apt:
     packages:
-      - p7zip-full
+      # - p7zip-full
       - imagemagick
 jdk:
 - oraclejdk8
@@ -24,7 +24,7 @@ licenses:
   - 'google-gdk-license-.+'
   - 'extra-android-support-.+'
 env:
-- QUALITY=50 YGOCC_DATA=https://dl.dropboxusercontent.com/content_link/yM7G8Il2nzrmuQZUnbeBtprmXr74GACYYzzyy8U7HlS76murD0OKxiEyc1FDMcvX/file?dl=1
+- QUALITY=50
 
 before_install:
 - echo y | sdkmanager --update
@@ -48,13 +48,11 @@ before_install:
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-database/raw/master/locales/en-US/cards.cdb
 - mv -f cards.cdb mobile/assets/data
 
-- mkdir mobile/assets/data/expansions
-
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name $YGOCC_DATA
-- 7z x Cards-QCd.7z -oygocc_data
-- cp -rf ygocc_data/*.cdb mobile/assets/data/expansions
-- cp -rf ygocc_data/pics .
-- cp -rf ygocc_data/script .
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Chadook/YGOCC/archive/master.zip
+- unzip -q YGOCC-master.zip
+- cp -rf YGOCC-master/expansions mobile/assets/data
+- cp -rf YGOCC-master/pics .
+- cp -rf YGOCC-master/Script/*.lua script
 
 - cd pics
 - rm -rf thumbnail
