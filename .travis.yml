@@ -24,8 +24,7 @@ licenses:
   - 'google-gdk-license-.+'
   - 'extra-android-support-.+'
 env:
-- QUALITY=50
-- YGOCC_DATA=https://dl.dropboxusercontent.com/content_link/yM7G8Il2nzrmuQZUnbeBtprmXr74GACYYzzyy8U7HlS76murD0OKxiEyc1FDMcvX/file?dl=1
+- QUALITY=50 YGOCC_DATA=https://dl.dropboxusercontent.com/content_link/yM7G8Il2nzrmuQZUnbeBtprmXr74GACYYzzyy8U7HlS76murD0OKxiEyc1FDMcvX/file?dl=1
 
 before_install:
 - echo y | sdkmanager --update
