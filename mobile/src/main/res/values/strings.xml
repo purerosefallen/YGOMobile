@@ -68,7 +68,7 @@
     <string name="settings_game_diy_card_db">Use your own card database</string>
     <string name="settings_game_immersive_mode">Immersive Mode</string>
     <string name="settings_game_opengl">OpenGL</string>
-    <string name="settings_author" translatable="false">菜菜、暗星</string>
+    <string name="settings_author" translatable="false">fallenstardust, caicai, Koishi</string>
     <string name="restart_app">"Please restart app！"</string>
     <string-array name="opengl_version">
         <item>OpenGL ES 1.X</item>
@@ -193,7 +193,7 @@
     <string name="ex_pack">Extend cards</string>
     <string name="deck_manager_v2">Deck Manager V2</string>
     <string name="reset_game_ver_fail">reset game version fail</string>
-    <string name="deck_name">卡组</string>
+    <string name="deck_name">Deck</string>
     <string name="save_quit">Save and quit</string>
     <string name="tip_reset_game_res">Reset game resources completed</string>
 </resources>

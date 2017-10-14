@@ -3,7 +3,7 @@ sudo: false
 addons:
   apt:
     packages:
-      # - p7zip
+      - p7zip-full
       - imagemagick
 jdk:
 - oraclejdk8
@@ -25,6 +25,7 @@ licenses:
   - 'extra-android-support-.+'
 env:
 - QUALITY=50
+- YGOCC_DATA=https://dl.dropboxusercontent.com/content_link/yM7G8Il2nzrmuQZUnbeBtprmXr74GACYYzzyy8U7HlS76murD0OKxiEyc1FDMcvX/file?dl=1
 
 before_install:
 - echo y | sdkmanager --update
@@ -32,36 +33,29 @@ before_install:
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip
 - unzip -q android-ndk-r15b-linux-x86_64.zip
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Smile-DK/ygopro-scripts/archive/master.zip
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
 - unzip -q ygopro-scripts-master.zip
-- mv ygopro-scripts-master script
+- mv -f ygopro-scripts-master script
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/master.zip
-- unzip -q ygopro-222DIY-master.zip
-- cp -rf ygopro-222DIY-master/expansions/script .
-- rm -rf ygopro-222DIY-master/expansions/script
-- cp -rf ygopro-222DIY-master/expansions mobile/assets/data
-- cp -rf ygopro-222DIY-master/ocgcore Classes
-- cp -rf ygopro-222DIY-master/lflist.conf mobile/assets/data/conf
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-en-US.zip
+- unzip -q -d pics ygopro-images-en-US.zip
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/master.zip
-- unzip -q ygopro-7210srv-master.zip
-- cp -rf ygopro-7210srv-master/expansions/script .
-- rm -rf ygopro-7210srv-master/expansions/script
-- cp -rf ygopro-7210srv-master/expansions mobile/assets/data
-- cp -rf ygopro-7210srv-master/strings.conf mobile/assets/data/conf
-- cp -rf ygopro-7210srv-master/cards.cdb mobile/assets/data
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/lflist.conf
+- mv -f lflist.conf mobile/assets/data/conf
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-zh-CN.zip
-- unzip -q -d pics ygopro-images-zh-CN.zip
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-database/raw/master/locales/en-US/strings.conf
+- mv -f strings.conf mobile/assets/data/conf
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/prepics.zip
-- unzip -q ygopro-7210srv-prepics.zip
-- cp -rf ygopro-7210srv-prepics/expansions/pics .
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-database/raw/master/locales/en-US/cards.cdb
+- mv -f cards.cdb mobile/assets/data
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/data.zip
-- unzip -q ygopro-222DIY-data.zip
-- cp -rf ygopro-222DIY-data/expansions/pics .
+- mkdir mobile/assets/data/expansions
+
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name YGOCC_DATA
+- 7z x Cards-QCd.7z -oygocc_data
+- cp -rf ygocc_data/*.cdb mobile/assets/data/expansions
+- cp -rf ygocc_data/pics .
+- cp -rf ygocc_data/script .
 
 - cd pics
 - rm -rf thumbnail
@@ -73,6 +67,8 @@ before_install:
 # - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx0
 - zip -q -r mobile/assets/data/pics.zip pics
 - zip -q -r mobile/assets/data/scripts.zip script
+
+- cp -rf mobile/src/main/res/values/strings.xml mobile/src/main/res/values-zh
 
 - cp -rf tools/Application.mk libcore/jni
 - cp -rf tools/*.png mobile/src/main/res/drawable
@@ -97,4 +93,4 @@ deploy:
   file: op/*.apk
   skip_cleanup: true
   on:
-    branch: master
+    branch: ygocc
