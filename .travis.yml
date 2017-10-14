@@ -50,7 +50,7 @@ before_install:
 
 - mkdir mobile/assets/data/expansions
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name YGOCC_DATA
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name $YGOCC_DATA
 - 7z x Cards-QCd.7z -oygocc_data
 - cp -rf ygocc_data/*.cdb mobile/assets/data/expansions
 - cp -rf ygocc_data/pics .
