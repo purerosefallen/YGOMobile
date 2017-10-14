@@ -3,7 +3,7 @@
 
 #pragma once
 
-#define DEF_PRO_VERSION 0x133F
+#define DEF_PRO_VERSION 0x1340
 
 #ifndef __GAME_CONFIG
 #define _IRR_STATIC_LIB_
