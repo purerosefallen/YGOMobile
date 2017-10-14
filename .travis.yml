@@ -69,8 +69,6 @@ before_install:
 - zip -q -r mobile/assets/data/pics.zip pics
 - zip -q -r mobile/assets/data/scripts.zip script
 
-- cp -rf mobile/src/main/res/values/strings.xml mobile/src/main/res/values-zh
-
 - cp -rf tools/Application.mk libcore/jni
 - cp -rf tools/*.png mobile/src/main/res/drawable
 
