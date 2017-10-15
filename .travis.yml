@@ -76,7 +76,7 @@ before_install:
 
 script:
 - cd libcore
-- ./../android-ndk-r15b/ndk-build -j4
+- ./../android-ndk-r15b/ndk-build -j8
 - cd ..
 
 - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
