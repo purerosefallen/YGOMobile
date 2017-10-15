@@ -52,16 +52,24 @@ before_install:
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-database/raw/master/locales/en-US/cards.cdb
 - mv -f cards.cdb mobile/assets/data
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Chadook/YGOCC/archive/master.zip
-- unzip -q YGOCC-master.zip
-- cp -rf YGOCC-master/expansions mobile/assets/data
-- cp -rf YGOCC-master/pics .
-- cp -rf YGOCC-master/Script/*.lua script
+- mkdir mobile/assets/data/expansions
+
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/YGOCC/Moon/archive/master.zip
+- unzip -q Moon-master.zip
+- cp -rf Moon-master/*.cdb mobile/assets/data/expansions
+- cp -rf Moon-master/pics .
+- cp -rf Moon-master/script .
+
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/YGOCC/Terra/archive/master.zip
+- unzip -q Terra-master.zip
+- cp -rf Terra-master/*.cdb mobile/assets/data/expansions
+- cp -rf Terra-master/pics .
+- cp -rf Terra-master/script .
 
 - cd pics
 - rm -rf thumbnail
 - rm -rf *.db
-- ls *.jpg | xargs -I {} -P 4 convert -quality $QUALITY {} {}
+- ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {}
 - cd ..
 
 # - 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx0
