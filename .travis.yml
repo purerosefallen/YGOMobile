@@ -3,7 +3,6 @@ sudo: false
 addons:
   apt:
     packages:
-    # - p7zip
       - imagemagick
 jdk:
 - oraclejdk8
@@ -50,8 +49,6 @@ before_install:
 
 - cp -rf thcsvr-master/expansions mobile/assets/data
 
-# - 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx0
-# - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx0
 - zip -q -r mobile/assets/data/pics.zip pics
 - zip -q -r mobile/assets/data/scripts.zip script
 
@@ -71,7 +68,7 @@ script:
 - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
 
 before_deploy:
-  - mkdir op
+  - cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
   - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk op/ygomobile-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.apk
 
 deploy:
