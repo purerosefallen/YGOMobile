@@ -65,10 +65,7 @@ before_install:
 - chmod 777 ./gradlew
 
 script:
-- cd libcore
-- ./../android-ndk-r15b/ndk-build -j8
-- cd ..
-
+- cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
 - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
 
 before_deploy:
