@@ -1,0 +1,64 @@
+machine:
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+    QUALITY: 100
+
+dependencies:
+  pre:
+    - sudo -E apt-get -yq update
+    - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install imagemagick
+    - echo y | android update sdk --no-ui --all --filter "platform-tools"
+    - echo y | android update sdk --no-ui --all --filter "tools"
+    - echo y | android update sdk --no-ui --all --filter "build-tools-26.0.2"
+    - echo y | android update sdk --no-ui --all --filter "android-26"
+    - echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"
+    - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
+    - echo y | android update sdk --no-ui --all --filter "extra-android-support"
+    - echo y | $ANDROID_HOME/tools/bin/sdkmanager --update
+    - chmod 777 ./gradlew
+
+test:
+  pre:
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip
+    - unzip -q android-ndk-r15b-linux-x86_64.zip
+
+    - mkdir script
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/raw/master/constant.lua
+    - mv -f constant.lua script
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/raw/master/utility.lua
+    - mv -f utility.lua script
+
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/thcsvr/archive/master.zip
+    - unzip -q thcsvr-master.zip
+    - cp -rf thcsvr-master/ocgcore Classes
+    - mv -f thcsvr-master/expansions/thc.cdb cards.cdb
+    - cp -rf cards.cdb mobile/assets/data
+    - cp -rf thcsvr-master/expansions/script/*.lua script
+    - rm -rf thcsvr-master/expansions/script/*.lua
+    - cp -rf thcsvr-master/lflist.conf mobile/assets/data/conf
+
+    - rm -rf thcsvr-master/expansions/pics/thumbnail
+    - rm -rf thcsvr-master/expansions/pics/*.db
+    - mv -f thcsvr-master/expansions/pics .
+
+    - cp -rf thcsvr-master/expansions mobile/assets/data
+
+    - rm -rf pics/thumbnail
+    - rm -rf pics/*.db
+    - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
+
+    - zip -q -r mobile/assets/data/pics.zip pics
+    - zip -q -r mobile/assets/data/scripts.zip script
+
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
+    - mv -f strings.conf mobile/assets/data/conf
+
+    - cp -rf tools/Application.mk libcore/jni
+    - cp -rf tools/*.png mobile/src/main/res/drawable
+
+  override:
+    - cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
+    - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
+
+  post:
+    - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk $CIRCLE_ARTIFACTS/ygomobile-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM.apk
