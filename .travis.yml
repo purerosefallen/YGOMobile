@@ -3,7 +3,6 @@ sudo: false
 addons:
   apt:
     packages:
-      # - p7zip-full
       - imagemagick
 jdk:
 - oraclejdk8
