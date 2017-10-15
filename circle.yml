@@ -1,0 +1,74 @@
+machine:
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+    QUALITY: 50
+
+dependencies:
+  pre:
+    - sudo -E apt-get -yq update
+    - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install imagemagick
+    - echo y | android update sdk --no-ui --all --filter "platform-tools"
+    - echo y | android update sdk --no-ui --all --filter "tools"
+    - echo y | android update sdk --no-ui --all --filter "build-tools-26.0.2"
+    - echo y | android update sdk --no-ui --all --filter "android-26"
+    - echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"
+    - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
+    - echo y | android update sdk --no-ui --all --filter "extra-android-support"
+    - echo y | $ANDROID_HOME/tools/bin/sdkmanager --update
+    - chmod 777 ./gradlew
+
+test:
+  pre:
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip
+    - unzip -q android-ndk-r15b-linux-x86_64.zip
+
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/local.zip
+    - unzip -q ygopro-222DIY-local.zip
+    - cp -rf ygopro-222DIY-local/ocgcore Classes
+
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
+    - unzip -q ygopro-scripts-master.zip
+    - mv -f ygopro-scripts-master script
+
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-en-US.zip
+    - unzip -q -d pics ygopro-images-en-US.zip
+
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/lflist.conf
+    - mv -f lflist.conf mobile/assets/data/conf
+
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-database/raw/master/locales/en-US/strings.conf
+    - mv -f strings.conf mobile/assets/data/conf
+
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-database/raw/master/locales/en-US/cards.cdb
+    - mv -f cards.cdb mobile/assets/data
+
+    - mkdir mobile/assets/data/expansions
+
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/YGOCC/Moon/archive/master.zip
+    - unzip -q Moon-master.zip
+    - cp -rf Moon-master/expansions/*.cdb mobile/assets/data/expansions
+    - cp -rf Moon-master/expansions/pics .
+    - cp -rf Moon-master/expansions/script .
+
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/YGOCC/Terra/archive/master.zip
+    - unzip -q Terra-master.zip
+    - cp -rf Terra-master/expansions/*.cdb mobile/assets/data/expansions
+    - cp -rf Terra-master/expansions/pics .
+    - cp -rf Terra-master/expansions/script .
+
+    - rm -rf pics/thumbnail
+    - rm -rf pics/*.db
+    - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
+
+    - zip -q -r mobile/assets/data/pics.zip pics
+    - zip -q -r mobile/assets/data/scripts.zip script
+
+    - cp -rf tools/Application.mk libcore/jni
+    - cp -rf tools/*.png mobile/src/main/res/drawable
+
+  override:
+    - cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
+    - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
+
+  post:
+    - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk $CIRCLE_ARTIFACTS/ygomobile-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM.apk
