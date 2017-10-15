@@ -66,7 +66,6 @@ test:
 
   override:
     - cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
-
     - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
 
   post:
