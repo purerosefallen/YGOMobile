@@ -72,7 +72,6 @@ script:
 - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
 
 before_deploy:
-  - cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
   - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk op/ygomobile-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.apk
 
 deploy:
