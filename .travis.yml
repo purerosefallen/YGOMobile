@@ -3,7 +3,7 @@ sudo: false
 addons:
   apt:
     packages:
-      # - p7zip
+      - p7zip-full
       - imagemagick
 jdk:
 - oraclejdk8
@@ -30,34 +30,34 @@ before_install:
 - echo y | sdkmanager --update
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip
-- unzip -q android-ndk-r15b-linux-x86_64.zip
+- 7za x android-ndk-r15b-linux-x86_64.zip
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/local.zip
-- unzip -q ygopro-222DIY-local.zip
+- 7za x ygopro-222DIY-local.zip
 - cp -rf ygopro-222DIY-local/ocgcore Classes
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Smile-DK/ygopro-scripts/archive/master.zip
-- unzip -q ygopro-scripts-master.zip
+- 7za x ygopro-scripts-master.zip
 - mv ygopro-scripts-master script
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-zh-CN.zip
-- unzip -q -d pics ygopro-images-zh-CN.zip
+- 7za x -opics ygopro-images-zh-CN.zip
 
 - mkdir mobile/assets/data/expansions
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/master.zip
-- unzip -q ygopro-7210srv-master.zip
+- 7za x ygopro-7210srv-master.zip
 - cp -rf ygopro-7210srv-master/expansions/script .
 - cp -rf ygopro-7210srv-master/expansions/*.cdb mobile/assets/data/expansions
 - cp -rf ygopro-7210srv-master/strings.conf mobile/assets/data/conf
 - cp -rf ygopro-7210srv-master/cards.cdb mobile/assets/data
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/prepics.zip
-- unzip -q ygopro-7210srv-prepics.zip
+- 7za x ygopro-7210srv-prepics.zip
 - cp -rf ygopro-7210srv-prepics/expansions/pics .
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/data.zip
-- unzip -q ygopro-222DIY-data.zip
+- 7za x ygopro-222DIY-data.zip
 - cp -rf ygopro-222DIY-data/expansions/pics .
 - cp -rf ygopro-222DIY-data/expansions/script .
 - cp -rf ygopro-222DIY-data/expansions/*.cdb mobile/assets/data/expansions
@@ -70,10 +70,8 @@ before_install:
 - ls *.jpg | xargs -I {} -P 4 convert -quality $QUALITY {} {}
 - cd ..
 
-# - 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx0
-# - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx0
-- zip -q -r mobile/assets/data/pics.zip pics
-- zip -q -r mobile/assets/data/scripts.zip script
+- 7za a mobile/assets/data/pics.zip pics -xr!.git* -mx0
+- 7za a mobile/assets/data/scripts.zip script -xr!.git* -mx0
 
 - cp -rf tools/Application.mk libcore/jni
 - cp -rf tools/*.png mobile/src/main/res/drawable
