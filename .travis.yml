@@ -64,14 +64,10 @@ before_install:
 - cp -rf ygopro-222DIY-data/expansions/strings.conf mobile/assets/data/expansions
 - cp -rf ygopro-222DIY-data/lflist.conf mobile/assets/data/conf
 
-- cd pics
-- rm -rf thumbnail
-- rm -rf *.db
-- ls *.jpg | xargs -I {} -P 4 convert -quality $QUALITY {} {}
-- cd ..
+- rm -rf pics/thumbnail
+- rm -rf pics/*.db
+- cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
 
-# - 7zr a mobile/assets/data/pics.zip pics -xr!.git* -mx0
-# - 7zr a mobile/assets/data/scripts.zip script -xr!.git* -mx0
 - zip -q -r mobile/assets/data/pics.zip pics
 - zip -q -r mobile/assets/data/scripts.zip script
 
@@ -81,10 +77,7 @@ before_install:
 - chmod 777 ./gradlew
 
 script:
-- cd libcore
-- ./../android-ndk-r15b/ndk-build -j8
-- cd ..
-
+- cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
 - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
 
 before_deploy:
