@@ -56,15 +56,15 @@ before_install:
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/YGOCC/Moon/archive/master.zip
 - unzip -q Moon-master.zip
-- cp -rf Moon-master/*.cdb mobile/assets/data/expansions
-- cp -rf Moon-master/pics .
-- cp -rf Moon-master/script .
+- cp -rf Moon-master/expansions/*.cdb mobile/assets/data/expansions
+- cp -rf Moon-master/expansions/pics .
+- cp -rf Moon-master/expansions/script .
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/YGOCC/Terra/archive/master.zip
 - unzip -q Terra-master.zip
-- cp -rf Terra-master/*.cdb mobile/assets/data/expansions
-- cp -rf Terra-master/pics .
-- cp -rf Terra-master/script .
+- cp -rf Terra-master/expansions/*.cdb mobile/assets/data/expansions
+- cp -rf Terra-master/expansions/pics .
+- cp -rf Terra-master/expansions/script .
 
 - cd pics
 - rm -rf thumbnail
