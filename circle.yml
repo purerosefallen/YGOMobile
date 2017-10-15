@@ -15,6 +15,7 @@ dependencies:
     - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
     - echo y | android update sdk --no-ui --all --filter "extra-android-support"
     - echo y | $ANDROID_HOME/tools/bin/sdkmanager --update
+    - chmod 777 ./gradlew
 
 test:
   pre:
@@ -65,12 +66,12 @@ test:
     - cp -rf tools/Application.mk libcore/jni
     - cp -rf tools/*.png mobile/src/main/res/drawable
 
-    - chmod 777 ./gradlew
   override:
     - cd libcore
     - ../android-ndk-r15b/ndk-build -j8
     - cd ..
 
     - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
+
   post:
     - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk $CIRCLE_ARTIFACTS/ygomobile-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM.apk
