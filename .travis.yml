@@ -35,7 +35,7 @@ before_install:
 - unzip -q ygopro-core-master.zip
 - cp -rf ygopro-core-master/* Classes/ocgcore
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Smile-DK/ygopro-scripts/archive/master.zip
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
 - unzip -q ygopro-scripts-master.zip
 - mv ygopro-scripts-master script
 
