@@ -35,8 +35,8 @@ test:
 
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images-field/archive/master.zip
-    - unzip -q ygopro-images-field.zip
-    - cp -rf ygopro-images-field/field pics
+    - unzip -q ygopro-images-field-master.zip
+    - cp -rf ygopro-images-field-master/field pics
 
     - mkdir mobile/assets/data/expansions
 
