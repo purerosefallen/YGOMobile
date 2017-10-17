@@ -39,8 +39,8 @@ before_install:
 - unzip -q ygopro-scripts-master.zip
 - mv ygopro-scripts-master script
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-zh-CN.zip
-- unzip -q -d pics ygopro-images-zh-CN.zip
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
+- unzip -q -d pics ygopro222-images-master.zip
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/MonokuroInzanaito/ygopro-777DIY/archive/master.zip
 - unzip -q ygopro-777DIY-master.zip
