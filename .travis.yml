@@ -42,6 +42,10 @@ before_install:
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
 - unzip -q -d pics ygopro222-images-master.zip
 
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images-field/archive/master.zip
+- unzip -q ygopro-images-field.zip
+- cp -rf ygopro-images-field/field pics
+
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/MonokuroInzanaito/ygopro-777DIY/archive/master.zip
 - unzip -q ygopro-777DIY-master.zip
 - cp -rf ygopro-777DIY-master/expansions/script .
