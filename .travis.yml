@@ -23,7 +23,7 @@ licenses:
   - 'google-gdk-license-.+'
   - 'extra-android-support-.+'
 env:
-- QUALITY=60
+- QUALITY=50
 
 before_install:
 - echo y | sdkmanager --update
