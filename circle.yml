@@ -1,7 +1,7 @@
 machine:
   environment:
     ANDROID_HOME: /usr/local/android-sdk-linux
-    QUALITY: 50
+    QUALITY: 60
 
 dependencies:
   pre:
@@ -28,10 +28,11 @@ test:
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
     - unzip -q ygopro-scripts-master.zip
-    - mv ygopro-scripts-master script
+    - mv -f ygopro-scripts-master script
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
-    - unzip -q -d pics ygopro222-images-master.zip
+    - unzip -q ygopro222-images-master.zip
+    - mv -f ygopro222-images-master pics
 
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images-field/archive/master.zip
