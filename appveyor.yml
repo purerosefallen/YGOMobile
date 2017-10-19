@@ -19,14 +19,24 @@ install:
   - mkdir %ANDROID_HOME%\licenses
   - ps: 'Add-Content -Value "`n8933bad161af4178b1185d1a37fbf41ea5269c55" -Path $env:ANDROID_HOME\licenses\android-sdk-license -Encoding ASCII'
 
-  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "platform-tools"
-  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "tools"
-  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "build-tools-26.0.2"
-  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "android-26"
-  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "extra-google-m2repository"
-  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "extra-android-m2repository"
-  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "extra-android-support"
-  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager --update
+  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "platform-tools"
+  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "tools"
+  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "build-tools-26.0.2"
+  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "android-26"
+  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-google-m2repository"
+  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-m2repository"
+  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-support"
+
+  - echo y >> accept
+  - echo y >> accept
+  - echo y >> accept
+  - echo y >> accept
+  - echo y >> accept
+  - echo y >> accept
+  - echo y >> accept
+  - echo y >> accept
+
+  - %ANDROID_HOME%\tools\bin\sdkmanager --update < accept
 
   - ./gradlew dependencies
 
