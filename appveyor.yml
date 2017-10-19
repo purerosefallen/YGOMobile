@@ -15,6 +15,7 @@ install:
   - refreshenv 
 
   - mkdir %ANDROID_HOME%
+  - mkdir %ANDROID_HOME%\licenses
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/tools_r25.2.3-windows.zip
 
   - ps: 'Add-Content -Value "`n8933bad161af4178b1185d1a37fbf41ea5269c55" -Path $env:ANDROID_HOME\licenses\android-sdk-license -Encoding ASCII'
@@ -51,7 +52,7 @@ install:
   - 7z x ygopro-images-field-master.zip
   - cp -rf ygopro-images-field-master/field pics
 
-  - cd mobile/assets/data && mkdir expansions && cd ..
+  - mkdir mobile\assets\data\expansions
 
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
   - mv -f strings.conf mobile/assets/data/conf
