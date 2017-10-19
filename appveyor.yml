@@ -23,9 +23,8 @@ install:
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-google-m2repository"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-m2repository"
   - echo y | %ANDROID_HOME%\tools\bin\sdkmanager --update
-  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager --licenses
 
-  # - ps: 'Add-Content -Value "`n8933bad161af4178b1185d1a37fbf41ea5269c55" -Path $env:ANDROID_HOME\licenses\android-sdk-license -Encoding ASCII'
+  - echo |set /p="8933bad161af4178b1185d1a37fbf41ea5269c55" > "%ANDROID_HOME%\licenses\android-sdk-license"
   - ./gradlew dependencies
 
   - choco install imagemagick.tool 
