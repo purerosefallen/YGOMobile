@@ -25,7 +25,7 @@ install:
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-google-m2repository"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-m2repository"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-support"
-  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager --update
+  # - echo y | %ANDROID_HOME%\tools\bin\sdkmanager --update
 
   - ./gradlew dependencies
 
