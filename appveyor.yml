@@ -14,8 +14,9 @@ init:
   - refreshenv 
 
   - mkdir %ANDROID_HOME%
-  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/sdk-tools-windows-3859397.zip
-  - 7z x -o%ANDROID_HOME% sdk-tools-windows-3859397.zip
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/tools_r25.2.3-windows.zip
+
+  - 7z x -o%ANDROID_HOME% tools_r25.2.3-windows.zip
   - echo y | %ANDROID_HOME%\tools\bin\sdkmanager update sdk --no-ui --all --filter "platform-tools"
   - echo y | %ANDROID_HOME%\tools\bin\sdkmanager update sdk --no-ui --all --filter "tools"
   - echo y | %ANDROID_HOME%\tools\bin\sdkmanager update sdk --no-ui --all --filter "build-tools-26.0.2"
