@@ -9,7 +9,7 @@ cache:
   - C:\ProgramData\chocolatey\bin 
   - C:\ProgramData\chocolatey\lib 
 
-init:
+install:
   - choco install imagemagick.tool 
   - refreshenv 
 
@@ -26,7 +26,6 @@ init:
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-support"
   - echo y | %ANDROID_HOME%\tools\bin\sdkmanager --update
 
-install:
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-windows-x86_64.zip
   - 7z x android-ndk-r15b-windows-x86_64.zip
 
