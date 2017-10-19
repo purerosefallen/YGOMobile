@@ -25,16 +25,15 @@ install:
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "android-26"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-google-m2repository"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-m2repository"
-  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-support"
-  - echo y >> accept
-  - echo y >> accept
-  - echo y >> accept
-  - echo y >> accept
-  - echo y >> accept
-  - echo y >> accept
-  - echo y >> accept
-  - echo y >> accept
-  - %ANDROID_HOME%\tools\bin\sdkmanager --update < accept
+  - echo y >> accept.t
+  - echo y >> accept.t
+  - echo y >> accept.t
+  - echo y >> accept.t
+  - echo y >> accept.t
+  - echo y >> accept.t
+  - echo y >> accept.t
+  - echo y >> accept.t
+  - %ANDROID_HOME%\tools\bin\sdkmanager --update < accept.t
 
   - ./gradlew dependencies
 
