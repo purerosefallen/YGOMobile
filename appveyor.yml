@@ -36,7 +36,7 @@ install:
   - echo y >> accept
   - echo y >> accept
 
-  - %ANDROID_HOME%\tools\bin\sdkmanager --update < accept
+  - %ANDROID_HOME%\tools\bin\sdkmanager.bat update < accept
 
   - ./gradlew dependencies
 
