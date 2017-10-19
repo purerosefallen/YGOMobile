@@ -15,7 +15,6 @@ install:
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/tools_r25.2.5-windows.zip
   - 7z x -o%ANDROID_HOME% tools_r25.2.5-windows.zip
   - mkdir %ANDROID_HOME%\licenses
-  - ps: 'Add-Content -Value "`n8933bad161af4178b1185d1a37fbf41ea5269c55" -Path $env:ANDROID_HOME\licenses\android-sdk-license -Encoding ASCII'
 
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "platform-tools"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "tools"
@@ -33,6 +32,7 @@ install:
   - echo y >> accept.t
   - C:\android-sdk\tools\bin\sdkmanager --update < accept.t
 
+  - ps: 'Add-Content -Value "`n8933bad161af4178b1185d1a37fbf41ea5269c55" -Path $env:ANDROID_HOME\licenses\android-sdk-license -Encoding ASCII'
   - ./gradlew dependencies
 
   - choco install imagemagick.tool 
