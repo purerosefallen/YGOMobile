@@ -1,0 +1,85 @@
+version: '{build}'
+
+enviornment:
+  ANDROID_HOME: C:\android-sdk 
+  JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+  QUALITY: 50
+
+cache: 
+  - C:\ProgramData\chocolatey\bin 
+  - C:\ProgramData\chocolatey\lib 
+
+init:
+  - choco install imagemagick.tool 
+  - refreshenv 
+
+  - mkdir $ANDROID_HOME
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/sdk-tools-windows-3859397.zip
+  - 7z x -o$ANDROID_HOME sdk-tools-windows-3859397.zip
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager update sdk --no-ui --all --filter "platform-tools"
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager update sdk --no-ui --all --filter "tools"
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager update sdk --no-ui --all --filter "build-tools-26.0.2"
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager update sdk --no-ui --all --filter "android-26"
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager update sdk --no-ui --all --filter "extra-google-m2repository"
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager update sdk --no-ui --all --filter "extra-android-m2repository"
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager update sdk --no-ui --all --filter "extra-android-support"
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager --update
+
+install:
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-windows-x86_64.zip
+  - 7z x android-ndk-r15b-windows-x86_64.zip
+
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/local.zip
+  - 7z x ygopro-222DIY-local.zip
+  - cp -rf ygopro-222DIY-local/ocgcore Classes
+
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
+  - 7z x ygopro-scripts-master.zip
+  - mv -f ygopro-scripts-master script
+
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
+  - 7z x ygopro222-images-master.zip
+  - mv -f ygopro222-images-master pics
+
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images-field/archive/master.zip
+  - 7z x ygopro-images-field-master.zip
+  - cp -rf ygopro-images-field-master/field pics
+
+  - mkdir mobile/assets/data/expansions
+
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
+  - mv -f strings.conf mobile/assets/data/conf
+
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/cards.cdb
+  - mv -f cards.cdb mobile/assets/data
+
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/data.zip
+  - 7z x ygopro-222DIY-data.zip
+  - cp -rf ygopro-222DIY-data/expansions/pics .
+  - cp -rf ygopro-222DIY-data/expansions/script .
+  - cp -rf ygopro-222DIY-data/expansions/*.cdb mobile/assets/data/expansions
+  - cp -rf ygopro-222DIY-data/expansions/strings.conf mobile/assets/data/expansions
+  - cp -rf ygopro-222DIY-data/lflist.conf mobile/assets/data/conf
+
+  - rm -rf pics/thumbnail
+  - rm -rf pics/*.db
+  - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
+
+  - 7z a -mx0 mobile/assets/data/pics.zip pics
+  - 7z a -mx0 mobile/assets/data/scripts.zip script
+
+  - cp -rf tools/Application.mk libcore/jni
+  - cp -rf tools/*.png mobile/src/main/res/drawable
+
+build_script:
+  - cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
+  - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
+
+after_build:
+  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk ygomobile-$APPVEYOR_REPO_BRANCH-$APPVEYOR_BUILD_NUMBER.apk
+
+test: off
+
+artifacts:
+  - path: ygomobile-$APPVEYOR_REPO_BRANCH-$APPVEYOR_BUILD_NUMBER.apk
+  name: ygomobile
