@@ -82,4 +82,4 @@ test: off
 
 artifacts:
   - path: ygomobile-$APPVEYOR_REPO_BRANCH-$APPVEYOR_BUILD_NUMBER.apk
-  name: ygomobile
+    name: ygomobile
