@@ -28,7 +28,7 @@ install:
   - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "android-26"
   - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "extra-google-m2repository"
   - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "extra-android-m2repository"
-  - echo y |%ANDROID_HOME%\tools\bin\sdkmanager "extra-android-support"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "extra-android-support"
   - echo y | %ANDROID_HOME%\tools\bin\sdkmanager --update
 
   - ./gradlew dependencies
