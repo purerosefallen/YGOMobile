@@ -11,8 +11,6 @@ cache:
   - C:\android-sdk
 
 install:
-  - choco install imagemagick.tool 
-  - refreshenv
   - mkdir %ANDROID_HOME%
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/tools_r25.2.5-windows.zip
   - 7z x -o%ANDROID_HOME% tools_r25.2.5-windows.zip
@@ -36,6 +34,9 @@ install:
   - C:\android-sdk\tools\bin\sdkmanager --update < accept.t
 
   - ./gradlew dependencies
+
+  - choco install imagemagick.tool 
+  - refreshenv
 
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-windows-x86_64.zip
   - 7z x android-ndk-r15b-windows-x86_64.zip
