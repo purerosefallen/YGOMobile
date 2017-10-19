@@ -13,17 +13,17 @@ init:
   - choco install imagemagick.tool 
   - refreshenv 
 
-  - mkdir $ANDROID_HOME
+  - mkdir %ANDROID_HOME%
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/sdk-tools-windows-3859397.zip
-  - 7z x -o$ANDROID_HOME sdk-tools-windows-3859397.zip
-  - echo y | ”$ANDROID_HOME/tools/bin/sdkmanager” update sdk --no-ui --all --filter "platform-tools"
-  - echo y | ”$ANDROID_HOME/tools/bin/sdkmanager” update sdk --no-ui --all --filter "tools"
-  - echo y | ”$ANDROID_HOME/tools/bin/sdkmanager” update sdk --no-ui --all --filter "build-tools-26.0.2"
-  - echo y | “$ANDROID_HOME/tools/bin/sdkmanager” update sdk --no-ui --all --filter "android-26"
-  - echo y | ”$ANDROID_HOME/tools/bin/sdkmanager” update sdk --no-ui --all --filter "extra-google-m2repository"
-  - echo y | ”$ANDROID_HOME/tools/bin/sdkmanager” update sdk --no-ui --all --filter "extra-android-m2repository"
-  - echo y | ”$ANDROID_HOME/tools/bin/sdkmanager” update sdk --no-ui --all --filter "extra-android-support"
-  - echo y | ”$ANDROID_HOME/tools/bin/sdkmanager” --update
+  - 7z x -o%ANDROID_HOME% sdk-tools-windows-3859397.zip
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager update sdk --no-ui --all --filter "platform-tools"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager update sdk --no-ui --all --filter "tools"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager update sdk --no-ui --all --filter "build-tools-26.0.2"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager update sdk --no-ui --all --filter "android-26"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager update sdk --no-ui --all --filter "extra-google-m2repository"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager update sdk --no-ui --all --filter "extra-android-m2repository"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager update sdk --no-ui --all --filter "extra-android-support"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager --update
 
 install:
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-windows-x86_64.zip
@@ -63,7 +63,7 @@ install:
 
   - rm -rf pics/thumbnail
   - rm -rf pics/*.db
-  - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
+  - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality %QUALITY% {} {} && cd ..
 
   - 7z a -mx0 mobile/assets/data/pics.zip pics
   - 7z a -mx0 mobile/assets/data/scripts.zip script
@@ -76,7 +76,7 @@ build_script:
   - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
 
 after_build:
-  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk ygomobile-$APPVEYOR_REPO_BRANCH-$APPVEYOR_BUILD_NUMBER.apk
+  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk ygomobile-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_NUMBER%.apk
 
 test: off
 
