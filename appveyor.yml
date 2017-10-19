@@ -7,7 +7,8 @@ environment:
 
 cache: 
   - C:\ProgramData\chocolatey\bin 
-  - C:\ProgramData\chocolatey\lib 
+  - C:\ProgramData\chocolatey\lib
+  - C:\android-sdk
 
 install:
   - choco install imagemagick.tool 
