@@ -16,12 +16,9 @@ install:
 
   - mkdir %ANDROID_HOME%
   - mkdir %ANDROID_HOME%\licenses
-  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/tools_r25.2.3-windows.zip
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/tools_r26.0.2-windows.zip
+  - 7z x -o%ANDROID_HOME% tools_r26.0.2-windows.zip
 
-  - ps: 'Add-Content -Value "`n8933bad161af4178b1185d1a37fbf41ea5269c55" -Path $env:ANDROID_HOME\licenses\android-sdk-license -Encoding ASCII'
-  - ps: 'Add-Content -Value "`n84831b9409646a918e30573bab4c9c91346d8abd`n504667f4c0de7af1a06de9f4b1727b84351f2910" -Path $env:ANDROID_HOME\licenses\android-sdk-preview-license -Encoding ASCII'
-
-  - 7z x -o%ANDROID_HOME% tools_r25.2.3-windows.zip
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "platform-tools"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "tools"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "build-tools-26.0.2"
@@ -30,6 +27,10 @@ install:
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-m2repository"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-support"
   - echo y | %ANDROID_HOME%\tools\bin\sdkmanager --update
+
+
+  - ps: 'Add-Content -Value "`n8933bad161af4178b1185d1a37fbf41ea5269c55" -Path $env:ANDROID_HOME\licenses\android-sdk-license -Encoding ASCII'
+  - ps: 'Add-Content -Value "`n84831b9409646a918e30573bab4c9c91346d8abd`n504667f4c0de7af1a06de9f4b1727b84351f2910" -Path $env:ANDROID_HOME\licenses\android-sdk-preview-license -Encoding ASCII'
 
   - ./gradlew dependencies
 
