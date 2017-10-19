@@ -17,18 +17,18 @@ install:
   - mkdir %ANDROID_HOME%
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/sdk-tools-windows-3859397.zip
   - 7z x -o%ANDROID_HOME% sdk-tools-windows-3859397.zip
-  - mkdir %ANDROID_HOME%\licenses
+  # - mkdir %ANDROID_HOME%\licenses
 
-  - ps: 'Add-Content -Value "`n8933bad161af4178b1185d1a37fbf41ea5269c55" -Path $env:ANDROID_HOME\licenses\android-sdk-license -Encoding ASCII'
-  - ps: 'Add-Content -Value "`n84831b9409646a918e30573bab4c9c91346d8abd`n504667f4c0de7af1a06de9f4b1727b84351f2910" -Path $env:ANDROID_HOME\licenses\android-sdk-preview-license -Encoding ASCII'
+  # - ps: 'Add-Content -Value "`n8933bad161af4178b1185d1a37fbf41ea5269c55" -Path $env:ANDROID_HOME\licenses\android-sdk-license -Encoding ASCII'
+  # - ps: 'Add-Content -Value "`n84831b9409646a918e30573bab4c9c91346d8abd`n504667f4c0de7af1a06de9f4b1727b84351f2910" -Path $env:ANDROID_HOME\licenses\android-sdk-preview-license -Encoding ASCII'
 
-  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "platform-tools"
-  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "tools"
-  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "build-tools-26.0.2"
-  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "android-26"
-  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-google-m2repository"
-  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-m2repository"
-  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-support"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "platform-tools"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "tools"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "build-tools-26.0.2"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "android-26"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "extra-google-m2repository"
+  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager "extra-android-m2repository"
+  - echo y |%ANDROID_HOME%\tools\bin\sdkmanager "extra-android-support"
   - echo y | %ANDROID_HOME%\tools\bin\sdkmanager --update
 
   - ./gradlew dependencies
