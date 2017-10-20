@@ -15,12 +15,6 @@ dependencies:
     - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
     - echo y | $ANDROID_HOME/tools/bin/sdkmanager --update
     - chmod 777 ./gradlew
-  cache_directories:
-    - $ANDROID_HOME
-    - $HOME/.gradle
-    - $HOME/.android
-test:
-  pre:
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip
     - unzip -q android-ndk-r15b-linux-x86_64.zip
 
@@ -62,11 +56,14 @@ test:
     - cp -rf tools/Application.mk libcore/jni
     - cp -rf tools/*.png mobile/src/main/res/drawable
 
-  override:
     - cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
     - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
+
     - find $HOME/.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
     - find $HOME/.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
 
-  post:
     - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk $CIRCLE_ARTIFACTS/ygomobile-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM.apk
+  cache_directories:
+    - $ANDROID_HOME
+    - $HOME/.gradle
+    - $HOME/.android
