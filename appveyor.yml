@@ -6,14 +6,13 @@ environment:
   QUALITY: 50
 
 cache: 
-  - C:\ProgramData\chocolatey\bin 
-  - C:\ProgramData\chocolatey\lib
   - C:\android-sdk
 
 install:
   - mkdir %ANDROID_HOME%
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/tools_r25.2.5-windows.zip
-  - 7z x -o%ANDROID_HOME% tools_r25.2.5-windows.zip
+  - 7z x -o%ANDROID_HOME% tools_r25.2.5-windows.zip  
+  - cp -rf tools/licenses %ANDROID_HOME%
 
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "platform-tools"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "tools"
@@ -21,16 +20,14 @@ install:
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "android-26"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-google-m2repository"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-m2repository"
-  - echo y | %ANDROID_HOME%\tools\bin\sdkmanager --update
 
-  - cp -rf tools/licenses %ANDROID_HOME%
   - ./gradlew dependencies
-
-  - choco install imagemagick.tool 
-  - refreshenv
-
+  
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-windows-x86_64.zip
   - 7z x android-ndk-r15b-windows-x86_64.zip
+
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-8-portable-Q16-x64.zip
+  - 7z x -oImageMagick ImageMagick-7.0.7-8-portable-Q16-x64.zip
 
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/local.zip
   - 7z x ygopro-222DIY-local.zip
@@ -62,7 +59,7 @@ install:
 
   - rm -rf pics/thumbnail
   - rm -rf pics/*.db
-  - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality %QUALITY% {} {} && cd ..
+  - cd pics && ls *.jpg | xargs -I {} -P 4 ImageMagick/convert.exe -size 177x254! -quality %QUALITY% {} {} && cd ..
 
   - 7z a -mx0 mobile/assets/data/pics.zip pics
   - 7z a -mx0 mobile/assets/data/scripts.zip script
