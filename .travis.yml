@@ -22,6 +22,15 @@ licenses:
   - 'android-sdk-license-.+'
   - 'google-gdk-license-.+'
   - 'extra-android-support-.+'
+cache:
+  directories:
+    - $HOME/.gradle
+    - $HOME/.android
+    - $ANDROID_HOME
+before_cache:
+  - find $HOME/.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
+  - find $HOME/.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
+
 env:
 - QUALITY=100
 
