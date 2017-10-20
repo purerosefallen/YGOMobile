@@ -55,11 +55,11 @@ dependencies:
     - cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
     - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
 
-    - find $HOME/.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
-    - find $HOME/.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
+    - find ~/.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
+    - find ~/.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
 
     - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk $CIRCLE_ARTIFACTS/ygomobile-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM.apk
   cache_directories:
-    - $ANDROID_HOME
-    - $HOME/.gradle
-    - $HOME/.android
+    - /usr/local/android-sdk-linux
+    - ~/.gradle
+    - ~/.android
