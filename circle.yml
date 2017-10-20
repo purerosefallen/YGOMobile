@@ -56,11 +56,15 @@ dependencies:
     - cp -rf tools/*.png mobile/src/main/res/drawable
 
     - cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
+
+test:
+  override:
     - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
 
     - find ~/.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
     - find ~/.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
 
+  post:
     - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk $CIRCLE_ARTIFACTS/ygomobile-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM.apk
   cache_directories:
     - /usr/local/android-sdk-linux
