@@ -38,7 +38,7 @@ test:
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/cards.cdb
     - mv -f cards.cdb mobile/assets/data
-	
+
     - mkdir mobile/assets/data/expansions
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/data.zip
