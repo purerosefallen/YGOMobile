@@ -4,6 +4,10 @@ machine:
     QUALITY: 50
 
 dependencies:
+  cache_directories:
+    - /usr/local/android-sdk-linux
+    - ~/.gradle
+    - ~/.android
   override:
     - sudo -E apt-get -yq update
     - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install imagemagick
@@ -66,7 +70,3 @@ test:
 
   post:
     - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk $CIRCLE_ARTIFACTS/ygomobile-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM.apk
-  cache_directories:
-    - /usr/local/android-sdk-linux
-    - ~/.gradle
-    - ~/.android
