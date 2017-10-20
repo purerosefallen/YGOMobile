@@ -9,7 +9,6 @@ cache:
   - C:\android-sdk
   - C:\ProgramData\chocolatey\bin
   - C:\ProgramData\chocolatey\lib
-  - 
 
 install:
   - mkdir %ANDROID_HOME%
