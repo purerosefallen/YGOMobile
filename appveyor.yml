@@ -68,7 +68,7 @@ install:
   - cp -rf tools/*.png mobile/src/main/res/drawable
 
 build_script:
-  - cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
+  - cd libcore && .\..\android-ndk-r15b\ndk-build -j8 && cd ..
   - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
 
 after_build:
@@ -77,5 +77,5 @@ after_build:
 test: off
 
 artifacts:
-  - path: ygomobile-$APPVEYOR_REPO_BRANCH-$APPVEYOR_BUILD_NUMBER.apk
+  - path: ygomobile-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_NUMBER%.apk
     name: ygomobile
