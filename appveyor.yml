@@ -74,7 +74,7 @@ build_script:
 after_build:
   - find %HOMEPATH%\.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
   - find %HOMEPATH%\.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
-  - mv -f find mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk ygomobile-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_NUMBER%.apk
+  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk ygomobile-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_NUMBER%.apk
 
 test: off
 
