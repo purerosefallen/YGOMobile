@@ -13,7 +13,7 @@ android {
         versionName "3.1.2-THC"
         vectorDrawables.useSupportLibrary = true
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a"
         }
     }
     compileOptions {
@@ -58,7 +58,7 @@ android {
         abi {
             enable true
             reset()
-            include 'x86', 'armeabi-v7a'
+            include 'armeabi-v7a'
             universalApk false
         }
     }
