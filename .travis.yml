@@ -96,6 +96,6 @@ deploy:
   on:
     branch: $TRAVIS_BRANCH
 
-branch:
+branches:
   only:
   - master
