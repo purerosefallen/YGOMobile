@@ -86,13 +86,16 @@ script:
 
 before_deploy:
   - mkdir op
-  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk op/ygomobile-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.apk
+  - find mobile/build/outputs/apk -name *.apk -print | xargs -I {} -P 4 mv -f {} op/ygomobile-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.apk
 
 deploy:
   provider: releases
   api-key: $NANAHIRA
-  file_glob: true
-  file: op/*.apk
+  file: op/ygomobile-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.apk
   skip_cleanup: true
   on:
-    branch: master
+    branch: $TRAVIS_BRANCH
+
+branch:
+  only:
+  - master
