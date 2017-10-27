@@ -1651,9 +1651,18 @@ void Game::ShowCardInfo(int code) {
 			wcscat(formatBuffer, scaleBuffer);
 		}
 		stDataInfo->setText(formatBuffer);
-		stSetName->setRelativePosition(rect<s32>(15 * xScale, 83 * yScale, 296 * xScale, 106 * yScale));
-		stText->setRelativePosition(rect<s32>(15 * xScale, (83 + offset) * yScale, 287 * xScale, 324 * yScale));
-		scrCardText->setRelativePosition(rect<s32>(267 * xScale, (83 + offset) * yScale, 287 * xScale, 324 * yScale));
+		//modded
+		if ((cd.type & TYPE_LINK) && (cd.level == 8)) {
+			stDataInfo->setRelativePosition(rect<s32>(15 * xScale, 60 * yScale, 296 * xScale, 98 * yScale));
+			stSetName->setRelativePosition(rect<s32>(15 * xScale, 98 * yScale, 296 * xScale, 121 * yScale));
+			stText->setRelativePosition(rect<s32>(15 * xScale, (98 + offset) * yScale, 287 * xScale, 324 * yScale));
+			scrCardText->setRelativePosition(rect<s32>(267 * xScale, (98 + offset) * yScale, 287 * xScale, 324 * yScale));
+		} else {
+			stDataInfo->setRelativePosition(rect<s32>(15 * xScale, 60 * yScale, 296 * xScale, 83 * yScale));		
+			stSetName->setRelativePosition(rect<s32>(15 * xScale, 83 * yScale, 296 * xScale, 106 * yScale));
+			stText->setRelativePosition(rect<s32>(15 * xScale, (83 + offset) * yScale, 287 * xScale, 324 * yScale));
+			scrCardText->setRelativePosition(rect<s32>(267 * xScale, (83 + offset) * yScale, 287 * xScale, 324 * yScale));
+		}
 	} else {
 		myswprintf(formatBuffer, L"[%ls]", dataManager.FormatType(cd.type));
 		stInfo->setText(formatBuffer);

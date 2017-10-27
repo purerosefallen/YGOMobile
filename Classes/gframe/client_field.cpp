@@ -406,26 +406,30 @@ void ClientField::ShowSelectCard(bool buttonok, bool chain) {
 					selectable_cards[i]->sequence + 1);
 			mainGame->stCardPos[i]->setText(formatBuffer);
 			// color
-			if(conti_selecting)
-				mainGame->stCardPos[i]->setBackgroundColor(0xff56649f);
-			else if(selectable_cards[i]->location == LOCATION_OVERLAY) {
-				if(selectable_cards[i]->owner != selectable_cards[i]->overlayTarget->controler)
-					mainGame->stCardPos[i]->setOverrideColor(0xff0000ff);
-				if(selectable_cards[i]->overlayTarget->controler)
-					mainGame->stCardPos[i]->setBackgroundColor(0xff5a5a5a);
-				else mainGame->stCardPos[i]->setBackgroundColor(0xff56649f);
-			} else if(selectable_cards[i]->location == LOCATION_DECK || selectable_cards[i]->location == LOCATION_EXTRA || selectable_cards[i]->location == LOCATION_REMOVED) {
-				if(selectable_cards[i]->position & POS_FACEDOWN)
-					mainGame->stCardPos[i]->setOverrideColor(0xff0000ff);
-				if(selectable_cards[i]->controler)
-					mainGame->stCardPos[i]->setBackgroundColor(0xff5a5a5a);
-				else
+			if (selectable_cards[i]->is_selected)
+				mainGame->stCardPos[i]->setBackgroundColor(0x6011113d);
+			else {
+				if(conti_selecting)
 					mainGame->stCardPos[i]->setBackgroundColor(0xff56649f);
-			} else {
-				if(selectable_cards[i]->controler)
-					mainGame->stCardPos[i]->setBackgroundColor(0xff5a5a5a);
-				else
-					mainGame->stCardPos[i]->setBackgroundColor(0xff56649f);
+				else if(selectable_cards[i]->location == LOCATION_OVERLAY) {
+					if(selectable_cards[i]->owner != selectable_cards[i]->overlayTarget->controler)
+						mainGame->stCardPos[i]->setOverrideColor(0xff0000ff);
+					if(selectable_cards[i]->overlayTarget->controler)
+						mainGame->stCardPos[i]->setBackgroundColor(0xff5a5a5a);
+					else mainGame->stCardPos[i]->setBackgroundColor(0xff56649f);
+				} else if(selectable_cards[i]->location == LOCATION_DECK || selectable_cards[i]->location == LOCATION_EXTRA || selectable_cards[i]->location == LOCATION_REMOVED) {
+					if(selectable_cards[i]->position & POS_FACEDOWN)
+						mainGame->stCardPos[i]->setOverrideColor(0xff0000ff);
+					if(selectable_cards[i]->controler)
+						mainGame->stCardPos[i]->setBackgroundColor(0xff5a5a5a);
+					else
+						mainGame->stCardPos[i]->setBackgroundColor(0xff56649f);
+				} else {
+					if(selectable_cards[i]->controler)
+						mainGame->stCardPos[i]->setBackgroundColor(0xff5a5a5a);
+					else
+						mainGame->stCardPos[i]->setBackgroundColor(0xff56649f);
+				}
 			}
 		} else {
 			if(sort_list[i]) {
@@ -935,24 +939,44 @@ void ClientField::GetCardLocation(ClientCard* pcard, irr::core::vector3df* t, ir
 		break;
 	}
 	case LOCATION_OVERLAY: {
-		if (pcard->overlayTarget->location != 0x4) {
+		if (!(pcard->overlayTarget->location & LOCATION_ONFIELD)) {
 			return;
 		}
 		int oseq = pcard->overlayTarget->sequence;
-		if (pcard->overlayTarget->controler == 0) {
-			t->X = (matManager.vFieldMzone[0][oseq][0].Pos.X + matManager.vFieldMzone[0][oseq][1].Pos.X) / 2 - 0.12f + 0.06f * sequence;
-			t->Y = (matManager.vFieldMzone[0][oseq][0].Pos.Y + matManager.vFieldMzone[0][oseq][2].Pos.Y) / 2 + 0.05f;
-			t->Z = 0.005f + pcard->sequence * 0.0001f;
-			r->X = 0.0f;
-			r->Y = 0.0f;
-			r->Z = 0.0f;
+		if (pcard->overlayTarget->location == LOCATION_MZONE) {
+			if (pcard->overlayTarget->controler == 0) {
+				t->X = (matManager.vFieldMzone[0][oseq][0].Pos.X + matManager.vFieldMzone[0][oseq][1].Pos.X) / 2 - 0.12f + 0.06f * sequence;
+				t->Y = (matManager.vFieldMzone[0][oseq][0].Pos.Y + matManager.vFieldMzone[0][oseq][2].Pos.Y) / 2 + 0.05f;
+				t->Z = 0.005f + pcard->sequence * 0.0001f;
+				r->X = 0.0f;
+				r->Y = 0.0f;
+				r->Z = 0.0f;
+			}
+			else {
+				t->X = (matManager.vFieldMzone[1][oseq][0].Pos.X + matManager.vFieldMzone[1][oseq][1].Pos.X) / 2 + 0.12f - 0.06f * sequence;
+				t->Y = (matManager.vFieldMzone[1][oseq][0].Pos.Y + matManager.vFieldMzone[1][oseq][2].Pos.Y) / 2 - 0.05f;
+				t->Z = 0.005f + pcard->sequence * 0.0001f;
+				r->X = 0.0f;
+				r->Y = 0.0f;
+				r->Z = 3.1415926f;
+			}
 		} else {
-			t->X = (matManager.vFieldMzone[1][oseq][0].Pos.X + matManager.vFieldMzone[1][oseq][1].Pos.X) / 2 + 0.12f - 0.06f * sequence;
-			t->Y = (matManager.vFieldMzone[1][oseq][0].Pos.Y + matManager.vFieldMzone[1][oseq][2].Pos.Y) / 2 - 0.05f;
-			t->Z = 0.005f + pcard->sequence * 0.0001f;
-			r->X = 0.0f;
-			r->Y = 0.0f;
-			r->Z = 3.1415926f;
+			if (pcard->overlayTarget->controler == 0) {
+				t->X = (matManager.vFieldSzone[0][oseq][rule][0].Pos.X + matManager.vFieldSzone[0][oseq][rule][1].Pos.X) / 2 - 0.12f + 0.06f * sequence;
+				t->Y = (matManager.vFieldSzone[0][oseq][rule][0].Pos.Y + matManager.vFieldSzone[0][oseq][rule][2].Pos.Y) / 2 + 0.05f;
+				t->Z = 0.005f + pcard->sequence * 0.0001f;
+				r->X = 0.0f;
+				r->Y = 0.0f;
+				r->Z = 0.0f;
+			}
+			else {
+				t->X = (matManager.vFieldSzone[1][oseq][rule][0].Pos.X + matManager.vFieldSzone[1][oseq][rule][1].Pos.X) / 2 + 0.12f - 0.06f * sequence;
+				t->Y = (matManager.vFieldSzone[1][oseq][rule][0].Pos.Y + matManager.vFieldSzone[1][oseq][rule][2].Pos.Y) / 2 - 0.05f;
+				t->Z = 0.005f + pcard->sequence * 0.0001f;
+				r->X = 0.0f;
+				r->Y = 0.0f;
+				r->Z = 3.1415926f;
+			}
 		}
 		break;
 	}
