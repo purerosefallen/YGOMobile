@@ -33,6 +33,7 @@ before_cache:
 env:
 - QUALITY=100
 
+
 before_install:
 - cp -rf tools/licenses $ANDROID_HOME
 
@@ -60,6 +61,7 @@ before_install:
 
 - cp -rf thcsvr-master/expansions mobile/assets/data
 
+
 - rm -rf pics/thumbnail
 - rm -rf pics/*.db
 - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
@@ -69,6 +71,7 @@ before_install:
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
 - mv -f strings.conf mobile/assets/data/conf
+
 
 - cp -rf tools/Application.mk libcore/jni
 - cp -rf tools/*.png mobile/src/main/res/drawable
@@ -91,3 +94,4 @@ deploy:
   skip_cleanup: true
   on:
     branch: thc
+
