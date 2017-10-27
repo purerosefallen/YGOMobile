@@ -59,9 +59,9 @@ install:
 
   - rm -rf pics/thumbnail
   - rm -rf pics/*.db
-  - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size=177x254! -quality=%QUALITY% {} {} && cd ..
+  # - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size=177x254! -quality=%QUALITY% {} {} && cd ..
 
-  - 7z a -mx0 mobile/assets/data/pics.zip pics
+  # - 7z a -mx0 mobile/assets/data/pics.zip pics
   - 7z a -mx0 mobile/assets/data/scripts.zip script
 
   - cp -rf tools/Application.mk libcore/jni
@@ -74,7 +74,7 @@ build_script:
 after_build:
   - find %HOMEPATH%\.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
   - find %HOMEPATH%\.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
-  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk ygomobile-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_NUMBER%.apk
+  - find mobile/build/outputs/apk -name *.apk -print | xargs -I {} -P 4 mv -f {} ygomobile-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_NUMBER%.apk
 
 test: off
 
