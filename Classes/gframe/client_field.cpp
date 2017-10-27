@@ -430,7 +430,7 @@ void ClientField::ShowSelectCard(bool buttonok, bool chain) {
 					else
 						mainGame->stCardPos[i]->setBackgroundColor(0xff56649f);
 				}
-			}
+
 		} else {
 			if(sort_list[i]) {
 				wchar_t formatBuffer[2048];
