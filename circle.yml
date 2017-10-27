@@ -67,10 +67,10 @@ dependencies:
 
 test:
   override:
-    - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
+    - ./gradlew :mobile:assembleMycardRelease
 
     - find ~/.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
     - find ~/.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
 
   post:
-    - find mobile/build/outputs/apk -name *.apk -print | xargs -I {} -P 4 mv -f {} $CIRCLE_ARTIFACTS/ygomobile-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM.apk
+    - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk $CIRCLE_ARTIFACTS/ygomobile-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM.apk

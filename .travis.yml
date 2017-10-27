@@ -82,11 +82,11 @@ before_install:
 
 script:
 - cd libcore && ./../android-ndk-r15b/ndk-build -j8 && cd ..
-- ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
+- ./gradlew :mobile:assembleMycardRelease
 
 before_deploy:
   - mkdir op
-  - find mobile/build/outputs/apk -name *.apk -print | xargs -I {} -P 4 mv -f {} op/ygomobile-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.apk
+  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk op/ygomobile-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.apk
 
 deploy:
   provider: releases
