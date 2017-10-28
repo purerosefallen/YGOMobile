@@ -55,7 +55,7 @@ dependencies:
 
     - rm -rf pics/thumbnail
     - rm -rf pics/*.db
-    - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
+    - cd pics && ls *.jpg | xargs -I {} -P 4 magick -size 177x254! -quality $QUALITY {} {} && cd ..
 
     - zip -q -r mobile/assets/data/pics.zip pics
     - zip -q -r mobile/assets/data/scripts.zip script
