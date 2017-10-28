@@ -60,7 +60,7 @@ install:
 
   - rm -rf pics/thumbnail
   - rm -rf pics/*.db
-  - cd pics && ls *.jpg | xargs -I {} -P 4 magick -resize 177x254! -quality %QUALITY% {} {} && cd ..
+  - cd pics && ls *.jpg | xargs -I {} -P 4 magick -size 177x254! -quality %QUALITY% {} {} && cd ..
 
   - 7z a -mx0 mobile/assets/data/pics.zip pics
   - 7z a -mx0 mobile/assets/data/scripts.zip script
