@@ -14,7 +14,6 @@ install:
   - mkdir %ANDROID_HOME%
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/tools_r25.2.5-windows.zip
   - 7z x -o%ANDROID_HOME% tools_r25.2.5-windows.zip  
-  - cp -rf tools/licenses %ANDROID_HOME%
 
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "platform-tools"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "tools"
@@ -22,6 +21,8 @@ install:
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "android-26"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-google-m2repository"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-m2repository"
+  
+  - cp -rf tools/licenses %ANDROID_HOME%
 
   - choco install imagemagick.tool
   - refreshenv
@@ -59,9 +60,9 @@ install:
 
   - rm -rf pics/thumbnail
   - rm -rf pics/*.db
-  # - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size=177x254! -quality=%QUALITY% {} {} && cd ..
+  - cd pics && ls *.jpg | xargs -I {} -P 4 magick -resize 177x254! -quality %QUALITY% {} {} && cd ..
 
-  # - 7z a -mx0 mobile/assets/data/pics.zip pics
+  - 7z a -mx0 mobile/assets/data/pics.zip pics
   - 7z a -mx0 mobile/assets/data/scripts.zip script
 
   - cp -rf tools/Application.mk libcore/jni
