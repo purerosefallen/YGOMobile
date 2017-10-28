@@ -92,8 +92,4 @@ deploy:
   file: op/ygomobile-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.apk
   skip_cleanup: true
   on:
-    branch: $TRAVIS_BRANCH
-
-branches:
-  only:
-  - ygocc
+    tags: true
