@@ -4,23 +4,16 @@ addons:
   apt:
     packages:
       - imagemagick
-jdk:
-- oraclejdk8
 android:
   update_sdk: true
   components:
   - platform-tools
   - tools
-  - build-tools-26.0.2
+  - build-tools-26.0.0
   - android-26
   - extra-google-m2repository
   - extra-android-m2repository
-licenses:
-  - 'android-sdk-preview-license-52d11cd2'
-  - 'android-sdk-preview-license-.+'
-  - 'android-sdk-license-.+'
-  - 'google-gdk-license-.+'
-  - 'extra-android-support-.+'
+
 cache:
   directories:
     - $HOME/.gradle

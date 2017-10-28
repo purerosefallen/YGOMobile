@@ -18,7 +18,7 @@ install:
 
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "platform-tools"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "tools"
-  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "build-tools-26.0.2"
+  - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "build-tools-26.0.0"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "android-26"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-google-m2repository"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "extra-android-m2repository"
