@@ -8,8 +8,8 @@ environment:
 cache: 
   - C:\ProgramData\chocolatey\bin
   - C:\ProgramData\chocolatey\lib
-  - C:\appveyor\.gradle
-  - C:\appveyor\.android
+  - C:\Users\appveyor\.gradle
+  - C:\Users\appveyor\.android
 
 install:
   - mkdir %ANDROID_HOME%
