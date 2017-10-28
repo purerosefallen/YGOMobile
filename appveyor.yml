@@ -9,6 +9,8 @@ cache:
   - C:\android-sdk
   - C:\ProgramData\chocolatey\bin
   - C:\ProgramData\chocolatey\lib
+  - %HOMEPATH%\.gradle
+  - %HOMEPATH%\.android
 
 install:
   - mkdir %ANDROID_HOME%
