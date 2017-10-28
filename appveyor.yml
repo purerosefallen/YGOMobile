@@ -39,25 +39,31 @@ install:
   - 7z x ygopro-scripts-master.zip
   - mv -f ygopro-scripts-master script
 
-  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
-  - 7z x ygopro222-images-master.zip
-  - mv -f ygopro222-images-master pics
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-en-US.zip
+  - 7z x -opics ygopro-images-en-US.zip
 
-  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/lflist.conf
+  - mv -f lflist.conf mobile/assets/data/conf
+
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-database/raw/master/locales/en-US/strings.conf
   - mv -f strings.conf mobile/assets/data/conf
 
-  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/cards.cdb
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-database/raw/master/locales/en-US/cards.cdb
   - mv -f cards.cdb mobile/assets/data
   
   - mkdir mobile\assets\data\expansions
 
-  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/data.zip
-  - 7z x ygopro-222DIY-data.zip
-  - cp -rf ygopro-222DIY-data/expansions/pics .
-  - cp -rf ygopro-222DIY-data/expansions/script .
-  - cp -rf ygopro-222DIY-data/expansions/*.cdb mobile/assets/data/expansions
-  - cp -rf ygopro-222DIY-data/expansions/strings.conf mobile/assets/data/expansions
-  - cp -rf ygopro-222DIY-data/lflist.conf mobile/assets/data/conf
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/YGOCC/Moon/archive/master.zip
+  - 7z x Moon-master.zip
+  - cp -rf Moon-master/expansions/*.cdb mobile/assets/data/expansions
+  - cp -rf Moon-master/expansions/pics .
+  - cp -rf Moon-master/expansions/script .
+
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/YGOCC/Terra/archive/master.zip
+  - 7z x Terra-master.zip
+  - cp -rf Terra-master/expansions/*.cdb mobile/assets/data/expansions
+  - cp -rf Terra-master/expansions/pics .
+  - cp -rf Terra-master/expansions/script .
 
   - rm -rf pics/thumbnail
   - rm -rf pics/*.db
