@@ -6,11 +6,10 @@ environment:
   QUALITY: 50
 
 cache: 
-  - C:\android-sdk
   - C:\ProgramData\chocolatey\bin
   - C:\ProgramData\chocolatey\lib
-  - %HOMEPATH%\.gradle
-  - %HOMEPATH%\.android
+  - C:\appveyor\.gradle
+  - C:\appveyor\.android
 
 install:
   - mkdir %ANDROID_HOME%
