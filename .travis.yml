@@ -36,9 +36,13 @@ before_install:
 - unzip -q ygopro-222DIY-local.zip
 - cp -rf ygopro-222DIY-local/ocgcore Classes
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
-- unzip -q ygopro-scripts-master.zip
-- mv -f ygopro-scripts-master script
+    - mkdir script
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-pre-script/archive/master.zip
+    - 7z x ygopro-pre-script-master.zip
+    - cp -rf ygopro-pre-script-master/scripts/**/*.lua script
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
+    - 7z x ygopro-scripts-master.zip
+    - cp -rf ygopro-scripts-master/*.lua script
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-images/releases/download/latest/ygopro-images-en-US.zip
 - unzip -q -d pics ygopro-images-en-US.zip
