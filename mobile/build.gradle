@@ -6,11 +6,19 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
+<<<<<<< HEAD
         applicationId "cn.garymb.ygomobile.ygocc"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 310163
         versionName "3.1.2-YGOCC"
+=======
+        applicationId "cn.garymb.ygomobile.koishi"
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 310201
+        versionName "3.1.2-222"
+>>>>>>> master
         vectorDrawables.useSupportLibrary = true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -85,7 +93,10 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     //
     compile 'com.android.support:support-annotations:' + rootProject.ext.supportVersion
+<<<<<<< HEAD
     //
+=======
+>>>>>>> FETCH_HEAD
     compile 'com.android.support:recyclerview-v7:' + rootProject.ext.supportVersion
     //
     compile 'com.android.support:design:' + rootProject.ext.supportVersion
