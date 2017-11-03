@@ -160,6 +160,11 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
                 IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.CORE_EXPANSIONS),
                         mSettings.getExpansionsPath().getAbsolutePath(), true, needsUpdate);
             }
+            if (needsUpdate) {
+                setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.ex_pack)));
+                IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.CORE_EXPANSIONS),
+                        mSettings.getExpansionsPath().getAbsolutePath(), true, needsUpdate);
+            }
         } catch (Exception e) {
             if (Constants.DEBUG)
                 Log.e(TAG, "check", e);
