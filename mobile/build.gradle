@@ -9,7 +9,7 @@ android {
         applicationId "cn.garymb.ygomobile.scorpiour"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 310200
+        versionCode 310201
         versionName "3.1.2-777"
         vectorDrawables.useSupportLibrary = true
         ndk {
@@ -85,7 +85,6 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     //
     compile 'com.android.support:support-annotations:' + rootProject.ext.supportVersion
-    //
     compile 'com.android.support:recyclerview-v7:' + rootProject.ext.supportVersion
     //
     compile 'com.android.support:design:' + rootProject.ext.supportVersion
