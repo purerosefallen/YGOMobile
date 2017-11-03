@@ -149,8 +149,8 @@ public interface Constants {
      */
     String ACTION_OPEN_GAME = "ygomobile.intent.action.GAME";
     String ACTION_RELOAD = "ygomobile.intent.action.RELOAD";
-    String IMAGE_URL = "https://github.com/Ygoproco/Live-images/raw/master/pics/%s.jpg";
-    String IMAGE_FIELD_URL = "https://github.com/Ygoproco/Live-images/raw/master/pics/field/%s.png";
+    String IMAGE_URL = "https://github.com/HuangYuNan/ygopro222-images/raw/master/%s.png";
+    String IMAGE_FIELD_URL = "https://github.com/moecube/ygopro-images-field/raw/master/field/%s.png";
     String IMAGE_URL_EX = ".jpg";
     String IMAGE_FIELD_URL_EX = ".png";
     /**
