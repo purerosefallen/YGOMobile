@@ -93,10 +93,6 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     //
     compile 'com.android.support:support-annotations:' + rootProject.ext.supportVersion
-<<<<<<< HEAD
-    //
-=======
->>>>>>> FETCH_HEAD
     compile 'com.android.support:recyclerview-v7:' + rootProject.ext.supportVersion
     //
     compile 'com.android.support:design:' + rootProject.ext.supportVersion
