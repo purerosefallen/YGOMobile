@@ -36,9 +36,13 @@ before_install:
 - 7z x ygopro-core-master.zip
 - cp -rf ygopro-core-master/* Classes/ocgcore
 
+- mkdir script
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-pre-script/archive/master.zip
+- 7z x ygopro-pre-script-master.zip
+- cp -rf ygopro-pre-script-master/scripts/**/*.lua script
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
-- unzip -q ygopro-scripts-master.zip
-- mv -f ygopro-scripts-master script
+- 7z x ygopro-scripts-master.zip
+- cp -rf ygopro-scripts-master/*.lua script
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
 - unzip -q ygopro222-images-master.zip
