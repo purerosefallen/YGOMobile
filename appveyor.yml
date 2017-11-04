@@ -10,8 +10,12 @@ cache:
   - C:\ProgramData\chocolatey\lib
   - C:\Users\appveyor\.gradle
   - C:\Users\appveyor\.android
-  - android-ndk-r15b
-
+  - .gradle
+  - .idea
+  - mobile\build
+  - libcore\build
+  - libcore\libs
+  - libcore\obj
 install:
   - mkdir %ANDROID_HOME%
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/tools_r25.2.5-windows.zip
@@ -85,6 +89,7 @@ build_script:
   - ./gradlew :libcore:assembleRelease :mobile:assembleMycardRelease
 
 after_build:
+  - find . -name *.lock -print | xargs -I {} -P 4 rm -rf {}
   - find %HOMEPATH%\.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
   - find %HOMEPATH%\.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
   - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk ygomobile-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_BUILD_NUMBER%.apk

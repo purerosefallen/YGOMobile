@@ -9,6 +9,12 @@ dependencies:
     - ~/.gradle
     - ~/.android
     - android-ndk-r15b
+    - .gradle
+    - .idea
+    - mobile/build
+    - libcore/build
+    - libcore/libs
+    - libcore/obj
   override:
     - sudo -E apt-get -yq update
     - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install imagemagick
@@ -80,6 +86,7 @@ test:
   override:
     - ./gradlew :mobile:assembleMycardRelease
 
+    - find . -name *.lock -print | xargs -I {} -P 4 rm -rf {}
     - find ~/.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
     - find ~/.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
 
