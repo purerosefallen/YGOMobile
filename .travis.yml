@@ -41,7 +41,7 @@ before_install:
 - unzip -q android-ndk-r15b-linux-x86_64.zip
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-core/archive/master.zip
-- 7z x ygopro-core-master.zip
+- unzip -q ygopro-core-master.zip
 - cp -rf ygopro-core-master/* Classes/ocgcore
 
 - mkdir script
