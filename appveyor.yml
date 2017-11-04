@@ -10,6 +10,7 @@ cache:
   - C:\ProgramData\chocolatey\lib
   - C:\Users\appveyor\.gradle
   - C:\Users\appveyor\.android
+  - android-ndk-r15b
 
 install:
   - mkdir %ANDROID_HOME%
