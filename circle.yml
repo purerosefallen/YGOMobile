@@ -34,9 +34,9 @@ dependencies:
         unzip -q android-ndk-r15b-linux-x86_64.zip;
       fi
 
-    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/local.zip
-    - unzip -q ygopro-222DIY-local.zip
-    - cp -rf ygopro-222DIY-local/ocgcore Classes
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-core/archive/master.zip
+    - unzip -q ygopro-core-master.zip
+    - cp -rf ygopro-core-master/* Classes/ocgcore
 
     - mkdir script
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-pre-script/archive/master.zip
