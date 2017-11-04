@@ -37,8 +37,10 @@ env:
 before_install:
 - cp -rf tools/licenses $ANDROID_HOME
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip
-- unzip -q android-ndk-r15b-linux-x86_64.zip
+- if [ ! -d "android-ndk-r15b"]; then  
+    curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip;
+    unzip -q android-ndk-r15b-linux-x86_64.zip;
+  fi
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/local.zip
 - unzip -q ygopro-222DIY-local.zip
