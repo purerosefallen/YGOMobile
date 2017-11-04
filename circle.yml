@@ -9,6 +9,7 @@ dependencies:
     - /usr/local/android-sdk-linux
     - ~/.gradle
     - ~/.android
+    - android-ndk-r15b
   override:
     - sudo -E apt-get -yq update
     - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install imagemagick
