@@ -59,6 +59,10 @@ dependencies:
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/lflist.conf
     - mv -f lflist.conf mobile/assets/data/conf
 
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-starter-pack/archive/master.zip
+    - unzip -q ygopro-starter-pack-master.zip
+    - cp -rf ygopro-starter-pack-master/* mobile/assets/data
+
     - rm -rf pics/thumbnail
     - rm -rf pics/*.db
     - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
