@@ -20,7 +20,14 @@ cache:
     - $HOME/.android
     - $ANDROID_HOME
     - android-ndk-r15b
+    - .gradle
+    - .idea
+    - mobile/build
+    - libcore/build
+    - libcore/libs
+    - libcore/obj
 before_cache:
+  - find . -name *.lock -print | xargs -I {} -P 4 rm -rf {}
   - find $HOME/.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
   - find $HOME/.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
 
