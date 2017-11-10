@@ -9,8 +9,8 @@ android {
         applicationId "cn.garymb.ygomobile.koishiocg"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 310201
-        versionName "3.1.2-Koishi"
+        versionCode 310202
+        versionName "Koishi"
         vectorDrawables.useSupportLibrary = true
         ndk {
             abiFilters "armeabi-v7a", "x86"
