@@ -47,7 +47,7 @@ install:
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Smile-DK/ygopro-scripts/archive/master.zip
   - 7z x ygopro-scripts-master.zip > /null
   - cp -rf ygopro-scripts-master/*.lua script
-  - rm -rf ygopro-scripts-master.zip
+  - rm -rf ygopro-scripts-master.zip ygopro-scripts-master
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
   - 7z x ygopro-scripts-master.zip > /null
   - cp -rf ygopro-scripts-master/*.lua script
@@ -72,8 +72,7 @@ install:
   - cp -rf ygopro-777DIY-master/expansions/strings.conf mobile/assets/data/expansions
   - cp -rf ygopro-777DIY-master/lflist.conf mobile/assets/data/conf
 
-  - rm -rf pics/thumbnail
-  - rm -rf pics/*.db
+  - rm -rf pics/thumbnail pics/*.db
   - cd pics && ls *.jpg | xargs -I {} -P 4 magick -size 177x254! -quality %QUALITY% {} {} && cd ..
 
   - 7z a -mx0 mobile/assets/data/pics.zip pics > /null
