@@ -31,27 +31,27 @@ dependencies:
 
     - if [[ ! -f "android-ndk-r15b/ndk-build" ]]; then  
         curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip;
-        7z x android-ndk-r15b-linux-x86_64.zip > null;
+        7z x android-ndk-r15b-linux-x86_64.zip > /dev/null;
       fi
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/local.zip
-    - 7z x ygopro-222DIY-local.zip > null
+    - 7z x ygopro-222DIY-local.zip > /dev/null
     - cp -rf ygopro-222DIY-local/ocgcore Classes
 
     - mkdir script
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-pre-script/archive/master.zip
-    - 7z x ygopro-pre-script-master.zip > null
+    - 7z x ygopro-pre-script-master.zip > /dev/null
     - cp -rf ygopro-pre-script-master/scripts/**/*.lua script
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/Smile-DK/archive/master.zip
-    - 7z x ygopro-scripts-master.zip > null
+    - 7z x ygopro-scripts-master.zip > /dev/null
     - cp -rf ygopro-scripts-master/*.lua script
     - rm -rf ygopro-scripts-master.zip
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
-    - 7z x ygopro-scripts-master.zip > null
+    - 7z x ygopro-scripts-master.zip > /dev/null
     - cp -rf ygopro-scripts-master/*.lua script
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
-    - 7z x ygopro222-images-master.zip > null
+    - 7z x ygopro222-images-master.zip > /dev/null
     - mv -f ygopro222-images-master pics
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
@@ -63,7 +63,7 @@ dependencies:
     - mkdir mobile/assets/data/expansions
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/data.zip
-    - 7z x ygopro-222DIY-data.zip > null
+    - 7z x ygopro-222DIY-data.zip > /dev/null
     - cp -rf ygopro-222DIY-data/expansions/pics .
     - cp -rf ygopro-222DIY-data/expansions/script .
     - cp -rf ygopro-222DIY-data/expansions/*.cdb mobile/assets/data/expansions
@@ -74,8 +74,8 @@ dependencies:
     - rm -rf pics/*.db
     - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
 
-    - 7z a -mx0 mobile/assets/data/pics.zip pics > null
-    - 7z a -mx0 mobile/assets/data/scripts.zip script > null
+    - 7z a -mx0 mobile/assets/data/pics.zip pics > /dev/null
+    - 7z a -mx0 mobile/assets/data/scripts.zip script > /dev/null
 
     - cp -rf tools/Application.mk libcore/jni
     - cp -rf tools/*.png mobile/src/main/res/drawable
