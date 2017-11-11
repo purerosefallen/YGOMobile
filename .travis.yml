@@ -68,8 +68,7 @@ before_install:
 
 - cp -rf thcsvr-master/expansions mobile/assets/data
 
-- rm -rf pics/thumbnail
-- rm -rf pics/*.db
+- rm -rf pics/thumbnail pics/*.db
 - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
 
 - 7z a -mx0 mobile/assets/data/pics.zip pics > /dev/null
