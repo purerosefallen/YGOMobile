@@ -3,7 +3,7 @@ version: '{build}'
 environment:
   ANDROID_HOME: C:\android-sdk 
   JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-  QUALITY: 50
+  QUALITY: 100
 
 cache: 
   - C:\ProgramData\chocolatey\bin

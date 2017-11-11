@@ -33,7 +33,7 @@ before_cache:
   - find $HOME/.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
 
 env:
-- QUALITY=50
+- QUALITY=100
 
 before_install:
 - cp -rf tools/licenses $ANDROID_HOME
