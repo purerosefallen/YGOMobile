@@ -1,7 +1,7 @@
 machine:
   environment:
     ANDROID_HOME: /usr/local/android-sdk-linux
-    QUALITY: 100
+    QUALITY: 50
 
 dependencies:
   cache_directories:
