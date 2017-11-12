@@ -1,4 +1,5 @@
 version: '{build}'
+skip_tags: true
 
 environment:
   ANDROID_HOME: C:\android-sdk 
