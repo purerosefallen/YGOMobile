@@ -98,6 +98,3 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-
-after_deploy:
-  - curl -F 'file=ygomobile-$TRAVIS_TAG.apk' -F '_api_key=$NANAHIRA_F' -F 'updateDescription=YGOMobile-$TRAVIS_BRANCH' https://www.pgyer.com/apiv2/app/upload
