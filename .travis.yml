@@ -97,12 +97,15 @@ script:
 
 before_deploy:
   - mkdir op
-  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk op/ygomobile-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.apk
+  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk ygomobile-$TRAVIS_TAG.apk
 
 deploy:
   provider: releases
   api-key: $NANAHIRA
-  file: op/ygomobile-$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER.apk
+  file: ygomobile-$TRAVIS_TAG.apk
   skip_cleanup: true
   on:
     tags: true
+
+after_deploy:
+  - curl -F 'file=ygomobile-$TRAVIS_TAG.apk' -F '_api_key=$NANAHIRA_F' -F 'updateDescription=YGOMobile-$TRAVIS_BRANCH' https://www.pgyer.com/apiv2/app/upload
