@@ -2881,6 +2881,8 @@ int32 scriptlib::duel_select_xyz_material(lua_State *L) {
 		mg = *(group**) lua_touserdata(L, 7);
 	}
 	duel* pduel = scard->pduel;
+	if(!pduel->game_field->check_xyz_material(scard, findex, lv, minc, maxc, mg))
+		return 0;
 	pduel->game_field->get_xyz_material(scard, findex, lv, maxc, mg);
 	scard->pduel->game_field->add_process(PROCESSOR_SELECT_XMATERIAL, 0, 0, (group*)scard, playerid + (lv << 16), minc + (maxc << 16));
 	return lua_yield(L, 0);
@@ -3282,9 +3284,16 @@ int32 scriptlib::duel_is_player_affected_by_effect(lua_State *L) {
 		return 1;
 	}
 	int32 code = lua_tointeger(L, 2);
-	effect* peffect = pduel->game_field->is_player_affected_by_effect(playerid, code);
-	interpreter::effect2value(L, peffect);
-	return 1;
+	effect_set eset;
+	pduel->game_field->filter_player_effect(playerid, code, &eset);
+	int32 size = eset.size();
+	if(!size) {
+		lua_pushnil(L);
+		return 1;
+	}
+	for(int32 i = 0; i < size; ++i)
+		interpreter::effect2value(L, eset[i]);
+	return size;
 }
 int32 scriptlib::duel_is_player_can_draw(lua_State * L) {
 	check_param_count(L, 1);
@@ -3799,7 +3808,6 @@ int32 scriptlib::duel_majestic_copy(lua_State *L) {
 	check_param(L, PARAM_TYPE_CARD, 2);
 	card* pcard = *(card**) lua_touserdata(L, 1);
 	card* ccard = *(card**) lua_touserdata(L, 2);
-	duel* pduel = pcard->pduel;
 	for(auto eit = ccard->single_effect.begin(); eit != ccard->field_effect.end(); ++eit) {
 		if(eit == ccard->single_effect.end()) {
 			eit = ccard->field_effect.begin();
