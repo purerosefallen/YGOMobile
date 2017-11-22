@@ -44,14 +44,14 @@ install:
   - mkdir script
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-pre-script/archive/master.zip
   - 7z x ygopro-pre-script-master.zip > /null
-  - cp -rf ygopro-pre-script-master/scripts/**/*.lua script
+  - cp -rf ygopro-pre-script-master/scripts/**/* script
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Smile-DK/ygopro-scripts/archive/master.zip
   - 7z x ygopro-scripts-master.zip > /null
-  - cp -rf ygopro-scripts-master/*.lua script
+  - cp -rf ygopro-scripts-master/* script
   - rm -rf ygopro-scripts-master.zip ygopro-scripts-master
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
   - 7z x ygopro-scripts-master.zip > /null
-  - cp -rf ygopro-scripts-master/*.lua script
+  - cp -rf ygopro-scripts-master/* script
 
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
   - 7z x ygopro222-images-master.zip > /null
