@@ -6,11 +6,19 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
+<<<<<<< HEAD
         applicationId "cn.garymb.ygomobile.scorpiour"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 310202
         versionName "777"
+=======
+        applicationId "cn.garymb.ygomobile.koishi"
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 310204
+        versionName "222"
+>>>>>>> master
         vectorDrawables.useSupportLibrary = true
         ndk {
             abiFilters "armeabi-v7a", "x86"
