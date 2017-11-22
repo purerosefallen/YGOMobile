@@ -287,6 +287,7 @@ bool Game::Initialize() {
 	cbRule->addItem(dataManager.GetSysString(1241));
 	cbRule->addItem(dataManager.GetSysString(1242));
 	cbRule->addItem(dataManager.GetSysString(1243));
+	cbRule->setSelected(gameConf.defaultOT - 1);
 	env->addStaticText(dataManager.GetSysString(1227), rect<s32>(20 * xScale, 90 * yScale, 220 * xScale, 110 * yScale), false, false, wCreateHost);
 #ifdef _IRR_ANDROID_PLATFORM_
 	cbMatchMode = CAndroidGUIComboBox::addAndroidComboBox(env, rect<s32>(140 * xScale, 85 * yScale, 300 * xScale, 110 * yScale), wCreateHost);
@@ -803,6 +804,12 @@ bool Game::Initialize() {
 	btnClearDeck = env->addButton(rect<s32>(240 * xScale, 95 * yScale, 290 * xScale, 116 * yScale), wDeckEdit, BUTTON_CLEAR_DECK, dataManager.GetSysString(1304));
 	btnSideOK = env->addButton(rect<s32>(510 * xScale, 40 * yScale, 820 * xScale, 80 * yScale), 0, BUTTON_SIDE_OK, dataManager.GetSysString(1334));
 	btnSideOK->setVisible(false);
+	btnSideShuffle = env->addButton(rect<s32>(310 * xScale, 100 * yScale, 370 * xScale, 130 * yScale), 0, BUTTON_SHUFFLE_DECK, dataManager.GetSysString(1307));
+	btnSideShuffle->setVisible(false);
+	btnSideSort = env->addButton(rect<s32>(375 * xScale, 100 * yScale, 435 * xScale, 130 * yScale), 0, BUTTON_SORT_DECK, dataManager.GetSysString(1305));
+	btnSideSort->setVisible(false);
+	btnSideReload = env->addButton(rect<s32>(440 * xScale, 100 * yScale, 500 * xScale, 130 * yScale), 0, BUTTON_SIDE_RELOAD, dataManager.GetSysString(1309));
+	btnSideReload->setVisible(false);
 	//
 	scrFilter = env->addScrollBar(false, recti(999 * xScale, 161 * yScale, 1019 * xScale, 629 * yScale), 0, SCROLL_FILTER);
 	scrFilter->setLargeStep(10);
