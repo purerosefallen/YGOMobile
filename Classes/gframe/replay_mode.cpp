@@ -77,7 +77,9 @@ int ReplayMode::ReplayThread(void* param) {
 		mainGame->dInfo.isTag = false;
 	}
 	if(rh.flag & REPLAY_SINGLE_MODE) {
-		set_script_reader((script_reader)SingleMode::ScriptReader);
+#ifdef _IRR_ANDROID_PLATFORM_
+	set_script_reader(irr::android::android_script_reader);
+#endif
 		set_card_reader((card_reader)DataManager::CardReader);
 		set_message_handler((message_handler)MessageHandler);
 		mainGame->dInfo.isSingleMode = true;
