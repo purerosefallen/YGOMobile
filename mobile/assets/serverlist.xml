@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <servers>
     <version>2</version>
-<<<<<<< HEAD
     <server>
         <player-name>Komeiji Koishi</player-name>
         <name>YGOPRO 222DIY</name>
         <ip>koishi.ygopro.win</ip>
         <port>222</port>
-=======
-
-    <server>
-        <player-name>Knight of Hanoi</player-name>
-        <name>娱乐决斗与宇宙首发群452384460</name>
-        <ip>s1.ygo233.com</ip>
-        <port>233</port>
->>>>>>> dccf33b8df431c392fcf012f6cfa7f26bdf7d71f
         <keep>true</keep>
     </server>
 	<server>
