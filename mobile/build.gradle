@@ -9,7 +9,7 @@ android {
         applicationId "cn.garymb.ygomobile.tsubaki"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 310204
+        versionCode 310205
         versionName "THC"
         vectorDrawables.useSupportLibrary = true
         ndk {
