@@ -35,7 +35,7 @@ public interface Constants {
     boolean PREF_DEF_SENSOR_REFRESH = true;
 
     String PREF_LAST_ROOM_LIST = "pref_key_lastroom_list";
-    int LAST_ROOM_MAX = 20;
+    int LAST_ROOM_MAX = 10;
     /***
      * 卡组编辑，长按删除对话框
      */
@@ -65,7 +65,7 @@ public interface Constants {
     String CORE_SCRIPTS_ZIP = "scripts.zip";
     String CORE_PICS_ZIP = "pics.zip";
     String CORE_SKIN_COVER = "cover.jpg";
-    String CORE_SKIN_BG = "bg_menu.jpg";
+    String CORE_SKIN_BG = "bg.jpg";
     String UNKNOWN_IMAGE = "unknown.jpg";
     String YDK_FILE_EX = ".ydk";
     int[] CORE_SKIN_BG_SIZE = new int[]{1280, 720};
