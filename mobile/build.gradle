@@ -9,7 +9,7 @@ android {
         applicationId "cn.garymb.ygomobile.ygocc"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 310205
+        versionCode 310206
         versionName "YGOCC"
         vectorDrawables.useSupportLibrary = true
         ndk {
