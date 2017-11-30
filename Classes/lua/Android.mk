@@ -33,8 +33,10 @@ LOCAL_SRC_FILES := lapi.c \
                    ltable.c \
                    ltablib.c \
                    ltm.c \
-                   lutf8lib.c \
+                   lua.c \
+                   luac.c \
                    lundump.c \
+                   lutf8lib.c \
                    lvm.c \
                    lzio.c
                    
