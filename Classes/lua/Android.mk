@@ -38,6 +38,6 @@ LOCAL_SRC_FILES := lapi.c \
                    lvm.c \
                    lzio.c
                    
-LOCAL_CFLAGS    := -DLUA_USE_POSIX -O2 -Wall -DLUA_COMPAT_ALL -D"getlocaledecpoint()='.'" -Wno-psabi
+LOCAL_CFLAGS    := -DLUA_USE_POSIX -O2 -Wall -DLUA_COMPAT_5_2 -D"getlocaledecpoint()='.'" -Wno-psabi
 include $(BUILD_STATIC_LIBRARY)
 
