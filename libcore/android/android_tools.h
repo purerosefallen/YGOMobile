@@ -4,7 +4,6 @@
 #ifndef __IRR_ANDROID_TOOLS_H__
 #define __IRR_ANDROID_TOOLS_H__
 
-#define LUA_COMPAT_5_2
 #include <irrlicht.h>
 #include <android_native_app_glue.h>
 #include <signal.h>
