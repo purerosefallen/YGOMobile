@@ -4,7 +4,6 @@
 #pragma once
 
 #define DEF_PRO_VERSION 0x1341
-#define LUA_COMPAT_5_2
 
 #ifndef __GAME_CONFIG
 #define _IRR_STATIC_LIB_
