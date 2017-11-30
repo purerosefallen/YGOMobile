@@ -8,7 +8,7 @@
 namespace irr {
 namespace android {
 
-static unsigned char script_buffer[0x10000];
+static unsigned char script_buffer[0x20000];
 
 inline static void ReadString(irr::io::path &path, char*& p) {
 	int length = BufferIO::ReadInt32(p);
