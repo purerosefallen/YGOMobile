@@ -38,6 +38,10 @@ env:
 before_install:
 - cp -rf tools/licenses $ANDROID_HOME
 
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://www.lua.org/ftp/lua-5.3.4.tar.gz
+- tar xf lua-5.3.4.tar.gz
+- cp -rf lua-5.3.4/src/* Classes/lua
+
 - if [[ ! -f "android-ndk-r15b/ndk-build" ]]; then
     curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip;
     7z x android-ndk-r15b-linux-x86_64.zip > /dev/null;
