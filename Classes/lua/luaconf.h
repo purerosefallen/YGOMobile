@@ -11,7 +11,7 @@
 #include <limits.h>
 #include <stddef.h>
 //modded
-#include <locale>
+#include <locale.h>
 
 
 /*
