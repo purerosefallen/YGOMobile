@@ -34,15 +34,11 @@ dependencies:
         7z x android-ndk-r15b-linux-x86_64.zip > /dev/null;
       fi
 
-    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-core/archive/master.zip
-    - 7z x ygopro-core-master.zip > /dev/null
-    - ls ygopro-core-master | xargs -I {} sed -i 's/lua_tointeger/lua_tonumberint/g' ygopro-core-master/{}
-    - echo -e '#ifndef MODDED_TONUMBER' >> ygopro-core-master/common.h
-    - echo -e '#define MODDED_TONUMBER' >> ygopro-core-master/common.h
-    - echo -e '#define lua_tonumberint(L,i) (lua_Integer)(((lua_tonumberx(L, (i), NULL) > 0) ? 0.5 : -0.5) + lua_tonumberx(L, (i), NULL))' >> ygopro-core-master/common.h
-    - echo -e '#endif' >> ygopro-core-master/common.h
-    - sed -i 's/5\.2/5\.3/g' ygopro-core-master/premake4.lua
-    - cp -rf ygopro-core-master/* Classes/ocgcore
+    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/master.zip
+    - 7z x ygopro-7210srv-master.zip > /dev/null
+    - cp -rf ygopro-7210srv-master/ocgcore Classes
+    - mv -f ygopro-7210srv-master/cards.cdb mobile/assets/data
+    - mv -f ygopro-7210srv-master/strings.conf mobile/assets/data/conf
 
     - mkdir script
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-pre-script/archive/master.zip
@@ -59,11 +55,6 @@ dependencies:
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
     - 7z x ygopro222-images-master.zip > /dev/null
     - mv -f ygopro222-images-master pics
-
-    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/cards.cdb
-    - cp -rf cards.cdb mobile/assets/data
-    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
-    - cp -rf strings.conf mobile/assets/data/conf
     
     - mkdir mobile/assets/data/expansions
 
