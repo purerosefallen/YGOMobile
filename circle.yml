@@ -36,7 +36,7 @@ dependencies:
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-core/archive/master.zip
     - 7z x ygopro-core-master.zip > /dev/null
-    - find ygopro-core-master | xargs -I {} sed -i 's/lua_tointeger/lua_tonumberint/g' {}
+    - ls ygopro-core-master | xargs -I {} sed -i 's/lua_tointeger/lua_tonumberint/g' ygopro-core-master/{}
     - echo -e '#ifndef MODDED_TONUMBER' >> ygopro-core-master/common.h
     - echo -e '#define MODDED_TONUMBER' >> ygopro-core-master/common.h
     - echo -e '#define lua_tonumberint(L,i) (lua_Integer)(((lua_tonumberx(L, (i), NULL) > 0) ? 0.5 : -0.5) + lua_tonumberx(L, (i), NULL))' >> ygopro-core-master/common.h
