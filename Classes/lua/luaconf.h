@@ -10,8 +10,6 @@
 
 #include <limits.h>
 #include <stddef.h>
-//modded
-#include <locale.h>
 
 
 /*
@@ -672,7 +670,7 @@
 ** macro must include header 'locale.h'.)
 */
 #if !defined(lua_getlocaledecpoint)
-#define lua_getlocaledecpoint()		(localeconv()->decimal_point[0])
+#define lua_getlocaledecpoint()        ('.')
 #endif
 
 /* }================================================================== */
