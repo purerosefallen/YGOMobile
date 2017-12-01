@@ -915,7 +915,7 @@ unsigned char* android_script_reader(const char* script_name, int* slen) {
 			return 0;
 		fseek(fp, 0, SEEK_END);
 		uint32 len = ftell(fp);
-		if (len > 0x10000) {
+		if (len > sizeof(script_buffer)) {
 			fclose(fp);
 			LOGW("read %s failed: too large file", script_name);
 			return 0;
@@ -932,7 +932,7 @@ unsigned char* android_script_reader(const char* script_name, int* slen) {
 			fp = fopen(script_name, "rb");
 			fseek(fp, 0, SEEK_END);
 			uint32 len = ftell(fp);
-			if (len > 0x10000) {
+			if (len > sizeof(script_buffer)) {
 				fclose(fp);
 				LOGW("read %s failed: too large file", script_name);
 				return 0;
@@ -948,7 +948,7 @@ unsigned char* android_script_reader(const char* script_name, int* slen) {
 				LOGW("read %s failed: file not exist", script_name);
 				return 0;
 			}
-			if (file->getSize() > 0x10000) {
+			if (file->getSize() > 0x20000) {
 				LOGW("read %s failed: too large file", script_name);
 				return 0;
 			}
