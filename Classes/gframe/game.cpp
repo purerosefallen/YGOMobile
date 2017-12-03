@@ -1529,6 +1529,7 @@ void Game::LoadConfig() {
 	gameConf.separate_clear_button = android::getIntSetting(appMain, "separate_clear_button", 1);
 	gameConf.auto_search_limit = android::getIntSetting(appMain, "auto_search_limit", 1);
 	gameConf.chkIgnoreDeckChanges = android::getIntSetting(appMain, "chkIgnoreDeckChanges", 0);
+	gameConf.defaultOT = android::getIntSetting(appMain, "defaultOT", 1);
 }
 
 void Game::SaveConfig() {
@@ -1547,6 +1548,7 @@ void Game::SaveConfig() {
 		gameConf.chkSTAutoPos = cur;
 		 android::saveIntSetting(appMain, "chkSTAutoPos", gameConf.chkSTAutoPos);
 	}
+	
 	
 	cur = chkRandomPos->isChecked()?1:0;
 	if(cur != gameConf.chkRandomPos){
@@ -1589,6 +1591,9 @@ void Game::SaveConfig() {
 		gameConf.auto_search_limit = cur;
 		 android::saveIntSetting(appMain, "auto_search_limit", gameConf.auto_search_limit);
 	}
+
+//gameConf.defaultOT = defaultOT->isChecked()?1:0;
+//    android::saveIntSetting(appMain, "defaultOT", gameConf.defaultOT);
 //gameConf.control_mode = control_mode->isChecked()?1:0;
 //	  android::saveIntSetting(appMain, "control_mode", gameConf.control_mode);
 //gameConf.draw_field_spell = draw_field_spell->isChecked()?1:0;
@@ -1745,7 +1750,7 @@ void Game::AddDebugMsg(char* msg)
 }
 void Game::ClearTextures() {
 	matManager.mCard.setTexture(0, 0);
-	mainGame->imgCard->setImage(0);
+	mainGame->imgCard->setImage(imageManager.tCover[0]);
 	mainGame->btnPSAU->setImage();
 	mainGame->btnPSDU->setImage();
 	for(int i=0; i<=4; ++i) {
