@@ -96,7 +96,6 @@ int SingleMode::SinglePlayThread(void* param) {
 	mainGame->dInfo.isSingleMode = true;
 	mainGame->device->setEventReceiver(&mainGame->dField);
 	mainGame->gMutex.Unlock();
-	start_duel(pduel, 0);
 #ifdef _IRR_ANDROID_PLATFORM_
 		android::toggleOverlayView(mainGame->appMain, true);
 #endif

@@ -3,13 +3,14 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "cn.garymb.ygomobile.scorpiour"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 310206
+        versionCode 310209
         versionName "777"
         vectorDrawables.useSupportLibrary = true
         ndk {
