@@ -1090,19 +1090,19 @@ void Game::DrawThumb(code_pointer cp, position2di pos, std::unordered_map<int, i
 	if(mainGame->cbLimit->getSelected() >= 4 && (cp->second.ot & mainGame->gameConf.defaultOT)) {
 		switch(cp->second.ot) {
 		case 1:
-			driver->draw2DImage(imageManager.tOT, recti(pos.X + 7 * mainGame->xScale, pos.Y + 50 * mainGame->yScale, pos.X + 37 * mainGame->xScale, pos.Y + 65 * mainGame->yScale), recti(0, 128, 128, 192), 0, 0, true);
+			driver->draw2DImage(imageManager.tOT, recti(pos.X + 0 * mainGame->xScale, pos.Y + 45 * mainGame->yScale, pos.X + 40 * mainGame->xScale, pos.Y + 65 * mainGame->yScale), recti(0, 128, 128, 192), 0, 0, true);
 			break;
 		case 2:
-			driver->draw2DImage(imageManager.tOT, recti(pos.X + 7 * mainGame->xScale, pos.Y + 50 * mainGame->yScale, pos.X + 37 * mainGame->xScale, pos.Y + 65 * mainGame->yScale), recti(0, 192, 128, 256), 0, 0, true);
+			driver->draw2DImage(imageManager.tOT, recti(pos.X + 0 * mainGame->xScale, pos.Y + 45 * mainGame->yScale, pos.X + 40 * mainGame->xScale, pos.Y + 65 * mainGame->yScale), recti(0, 192, 128, 256), 0, 0, true);
 			break;
 		}
 	} else if(mainGame->cbLimit->getSelected() >= 4 || !(cp->second.ot & mainGame->gameConf.defaultOT)) {
 		switch(cp->second.ot) {
 		case 1:
-			driver->draw2DImage(imageManager.tOT, recti(pos.X + 7 * mainGame->xScale, pos.Y + 50 * mainGame->yScale, pos.X + 37 * mainGame->xScale, pos.Y + 65 * mainGame->yScale), recti(0, 0, 128, 64), 0, 0, true);
+			driver->draw2DImage(imageManager.tOT, recti(pos.X + 0 * mainGame->xScale, pos.Y + 45 * mainGame->yScale, pos.X + 40 * mainGame->xScale, pos.Y + 65 * mainGame->yScale), recti(0, 0, 128, 64), 0, 0, true);
 			break;
 		case 2:
-			driver->draw2DImage(imageManager.tOT, recti(pos.X + 7 * mainGame->xScale, pos.Y + 50 * mainGame->yScale, pos.X + 37 * mainGame->xScale, pos.Y + 65 * mainGame->yScale), recti(0, 64, 128, 128), 0, 0, true);
+			driver->draw2DImage(imageManager.tOT, recti(pos.X + 0 * mainGame->xScale, pos.Y + 45 * mainGame->yScale, pos.X + 40 * mainGame->xScale, pos.Y + 65 * mainGame->yScale), recti(0, 64, 128, 128), 0, 0, true);
 			break;
 		}
 	}
