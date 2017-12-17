@@ -1093,7 +1093,7 @@ bool Game::Initialize() {
 	ebChatInput = env->addEditBox(L"", rect<s32>(3, 2, 710, 22), true, wChat, EDITBOX_CHAT);
 #endif
 	//
-	btnLeaveGame = env->addButton(rect<s32>(205 * xScale, 5 * yScale, 305 * xScale, 80 * yScale), 0, BUTTON_LEAVE_GAME, L"");
+	btnLeaveGame = env->addButton(rect<s32>(205 * xScale, 1 * yScale, 305 * xScale, 80 * yScale), 0, BUTTON_LEAVE_GAME, L"");
 	btnLeaveGame->setVisible(false);
 	//tip
 	stTip = env->addStaticText(L"", rect<s32>(0 * xScale, 0 * yScale, 150 * xScale, 150 * yScale), false, true, 0, -1, true);
@@ -1107,7 +1107,7 @@ bool Game::Initialize() {
 	env->setFocus(wMainMenu);
 	for (u32 i = 0; i < EGDC_COUNT; ++i) {
 		SColor col = env->getSkin()->getColor((EGUI_DEFAULT_COLOR)i);
-		col.setAlpha(224);
+		col.setAlpha(200);
 		env->getSkin()->setColor((EGUI_DEFAULT_COLOR)i, col);
 	}
 #ifdef _IRR_ANDROID_PLATFORM_
