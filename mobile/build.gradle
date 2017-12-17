@@ -9,7 +9,9 @@ android {
         applicationId "cn.garymb.ygomobile.koishi"
         minSdkVersion 16
         targetSdkVersion 22
+
         versionCode 310403
+
         versionName "222"
         vectorDrawables.useSupportLibrary = true
         ndk {
