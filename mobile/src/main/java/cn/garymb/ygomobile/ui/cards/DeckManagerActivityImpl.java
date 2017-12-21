@@ -312,9 +312,9 @@ class DeckManagerActivityImpl extends BaseCardsAcitivity implements RecyclerView
         if (isShowDrawer()) {
             return;
         }
-        if (!Constants.DECK_SINGLE_PRESS_DRAG) {
-            showDeckCard(view, pos);
-        }
+
+        showDeckCard(view, pos);
+
     }
 
     @Override
