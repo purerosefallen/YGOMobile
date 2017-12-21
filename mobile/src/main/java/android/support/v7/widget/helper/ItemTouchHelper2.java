@@ -74,6 +74,9 @@ import java.util.List;
 @SuppressWarnings("RestrictedApi")
 public class ItemTouchHelper2 extends RecyclerView.ItemDecoration
         implements RecyclerView.OnChildAttachStateChangeListener {
+
+    public static boolean isCardClick=false;
+
     public interface OnDragListner {
         void onDragStart();
 
@@ -1348,7 +1351,7 @@ public class ItemTouchHelper2 extends RecyclerView.ItemDecoration
          * @param y      The <code>top</code> offset of the View that is being dragged. This value
          *               includes the movement caused by the user.
          */
-        public void prepareForDrop(View view, View target, int x, int y);
+        void prepareForDrop(View view, View target, int x, int y);
     }
 
     /**
@@ -2408,9 +2411,7 @@ public class ItemTouchHelper2 extends RecyclerView.ItemDecoration
 
         @Override
         public void onShowPress(MotionEvent e) {
-            if (enableClickDrag) {
-                startDrag(e);
-            }
+            startDrag(e);
         }
 
         @Override
