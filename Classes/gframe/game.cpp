@@ -206,7 +206,7 @@ bool Game::Initialize() {
 	wMainMenu = env->addWindow(rect<s32>(370 * xScale, 150 * yScale, 650 * xScale, 465 * yScale), false, strbuf);
 	wMainMenu->getCloseButton()->setVisible(false);
 	btnLanMode = env->addButton(rect<s32>(15 * xScale, 30 * yScale, 265 * xScale, 80 * yScale), wMainMenu, BUTTON_LAN_MODE, dataManager.GetSysString(1200));
-	btnServerMode = env->addButton(rect<s32>(15 * xScale, 85 * yScale, 265 * xScale, 135 * yScale), wMainMenu, BUTTON_SINGLE_MODE, dataManager.GetSysString(1201));
+	btnSingleMode = env->addButton(rect<s32>(15 * xScale, 85 * yScale, 265 * xScale, 135 * yScale), wMainMenu, BUTTON_SINGLE_MODE, dataManager.GetSysString(1201));
 	btnReplayMode = env->addButton(rect<s32>(15 * xScale, 140 * yScale, 265 * xScale, 190 * yScale), wMainMenu, BUTTON_REPLAY_MODE, dataManager.GetSysString(1202));
 	btnDeckEdit = env->addButton(rect<s32>(15 * xScale, 195 * yScale, 265 * xScale, 245 * yScale), wMainMenu, BUTTON_DECK_EDIT, dataManager.GetSysString(1204));
 	btnModeExit = env->addButton(rect<s32>(15 * xScale, 250 * yScale, 265 * xScale, 300 * yScale), wMainMenu, BUTTON_MODE_EXIT, dataManager.GetSysString(1210));
@@ -236,7 +236,7 @@ bool Game::Initialize() {
 	wMainMenu = env->addWindow(rect<s32>(370 * xScale, 200 * yScale, 650 * xScale, 415 * yScale), false, strbuf);
 	wMainMenu->getCloseButton()->setVisible(false);
 	btnLanMode = env->addButton(rect<s32>(10 * xScale, 30 * yScale, 270 * xScale, 60 * yScale), wMainMenu, BUTTON_LAN_MODE, dataManager.GetSysString(1200));
-	btnServerMode = env->addButton(rect<s32>(10 * xScale, 65 * yScale, 270 * xScale, 95 * yScale), wMainMenu, BUTTON_SINGLE_MODE, dataManager.GetSysString(1201));
+	btnSingleMode = env->addButton(rect<s32>(10 * xScale, 65 * yScale, 270 * xScale, 95 * yScale), wMainMenu, BUTTON_SINGLE_MODE, dataManager.GetSysString(1201));
 	btnReplayMode = env->addButton(rect<s32>(10 * xScale, 100 * yScale, 270 * xScale, 130 * yScale), wMainMenu, BUTTON_REPLAY_MODE, dataManager.GetSysString(1202));
 //	btnTestMode = env->addButton(rect<s32>(10, 135, 270, 165), wMainMenu, BUTTON_TEST_MODE, dataManager.GetSysString(1203));
 	btnDeckEdit = env->addButton(rect<s32>(10 * xScale, 135 * yScale, 270 * xScale, 165 * yScale), wMainMenu, BUTTON_DECK_EDIT, dataManager.GetSysString(1204));
@@ -968,12 +968,29 @@ bool Game::Initialize() {
 	wSinglePlay = env->addWindow(rect<s32>(220 * xScale, 100 * yScale, 800 * xScale, 520 * yScale), false, dataManager.GetSysString(1201));
 	wSinglePlay->getCloseButton()->setVisible(false);
 	wSinglePlay->setVisible(false);
-	lstSinglePlayList = CAndroidGUIListBox::addAndroidGUIListBox(env, rect<s32>(10 * xScale, 30 * yScale, 350 * xScale, 400 * yScale), wSinglePlay, LISTBOX_SINGLEPLAY_LIST, true, 40 * xScale);
-	lstSinglePlayList->setItemHeight(18 * yScale);
-	btnLoadSinglePlay = env->addButton(rect<s32>(460 * xScale, 320 * yScale, 570 * xScale, 360 * yScale), wSinglePlay, BUTTON_LOAD_SINGLEPLAY, dataManager.GetSysString(1211));
-	btnSinglePlayCancel = env->addButton(rect<s32>(460 * xScale, 370 * yScale, 570 * xScale, 410 * yScale), wSinglePlay, BUTTON_CANCEL_SINGLEPLAY, dataManager.GetSysString(1210));
-	env->addStaticText(dataManager.GetSysString(1352), rect<s32>(360 * xScale, 30 * yScale, 570 * xScale, 50 * yScale), false, true, wSinglePlay);
-	stSinglePlayInfo = env->addStaticText(L"", rect<s32>(360 * xScale, 60 * yScale, 570 * xScale, 295 * yScale), false, true, wSinglePlay);
+	//TEST BOT MODE
+	irr::gui::IGUITabControl* wSingle = env->addTabControl(rect<s32>(0 * xScale, 20 * yScale, 579 * xScale, 419 * yScale), wSinglePlay, true);
+	if(gameConf.enable_bot_mode) {
+		irr::gui::IGUITab* tabBot = wSingle->addTab(dataManager.GetSysString(1380));
+		lstBotList = env->addListBox(rect<s32>(10 * xScale, 10 * yScale, 350 * xScale, 350 * yScale), tabBot, LISTBOX_BOT_LIST, true);
+		lstBotList->setItemHeight(25 * yScale);
+		btnStartBot = env->addButton(rect<s32>(459 * xScale, 301 * yScale, 569 * xScale, 326 * yScale), tabBot, BUTTON_BOT_START, dataManager.GetSysString(1211));
+		btnBotCancel = env->addButton(rect<s32>(459 * xScale, 331 * yScale, 569 * xScale, 356 * yScale), tabBot, BUTTON_CANCEL_SINGLEPLAY, dataManager.GetSysString(1210));
+		env->addStaticText(dataManager.GetSysString(1382), rect<s32>(360 * xScale, 10 * yScale, 550 * xScale, 30 * yScale), false, true, tabBot);
+		stBotInfo = env->addStaticText(L"", rect<s32>(360 * xScale, 40 * yScale, 560 * xScale, 160 * yScale), false, true, tabBot);
+		chkBotOldRule = env->addCheckBox(false, rect<s32>(360 * xScale, 170 * yScale, 560 * xScale, 190 * yScale), tabBot, CHECKBOX_BOT_OLD_RULE, dataManager.GetSysString(1383));
+		chkBotHand = env->addCheckBox(false, rect<s32>(360 * xScale, 200 * yScale, 560 * xScale, 220 * yScale), tabBot, -1, dataManager.GetSysString(1384));
+		chkBotNoCheckDeck = env->addCheckBox(false, rect<s32>(360 * xScale, 230 * yScale, 560 * xScale, 250 * yScale), tabBot, -1, dataManager.GetSysString(1229));
+		chkBotNoShuffleDeck = env->addCheckBox(false, rect<s32>(360 * xScale, 260 * yScale, 560 * xScale, 280 * yScale), tabBot, -1, dataManager.GetSysString(1230));
+	}
+	
+	irr::gui::IGUITab* tabSingle = wSingle->addTab(dataManager.GetSysString(1381));
+	lstSinglePlayList = CAndroidGUIListBox::addAndroidGUIListBox(env, rect<s32>(10 * xScale, 10 * yScale, 350 * xScale, 350 * yScale), tabSingle, LISTBOX_SINGLEPLAY_LIST, true, 40 * xScale);
+	lstSinglePlayList->setItemHeight(25 * yScale);
+	btnLoadSinglePlay = env->addButton(rect<s32>(459 * xScale, 301 * yScale, 569 * xScale, 326 * yScale), tabSingle, BUTTON_LOAD_SINGLEPLAY, dataManager.GetSysString(1211));
+	btnSinglePlayCancel = env->addButton(rect<s32>(459 * xScale, 331 * yScale, 569 * xScale, 356 * yScale), tabSingle, BUTTON_CANCEL_SINGLEPLAY, dataManager.GetSysString(1210));
+	env->addStaticText(dataManager.GetSysString(1352), rect<s32>(360 * xScale, 10 * yScale, 550 * xScale, 30 * yScale), false, true, tabSingle);
+	stSinglePlayInfo = env->addStaticText(L"", rect<s32>(360 * xScale, 40 * yScale, 550 * xScale, 280 * yScale), false, true, tabSingle);
 	//replay save
 	wReplaySave = env->addWindow(rect<s32>(490 * xScale, 180 * yScale, 840 * xScale, 340 * yScale), false, dataManager.GetSysString(1340));
 	wReplaySave->getCloseButton()->setVisible(false);
@@ -1035,12 +1052,29 @@ bool Game::Initialize() {
 	wSinglePlay = env->addWindow(rect<s32>(220, 100, 800, 520), false, dataManager.GetSysString(1201));
 	wSinglePlay->getCloseButton()->setVisible(false);
 	wSinglePlay->setVisible(false);
-	lstSinglePlayList = env->addListBox(rect<s32>(10, 30, 350, 400), wSinglePlay, LISTBOX_SINGLEPLAY_LIST, true);
+	irr::gui::IGUITabControl* wSingle = env->addTabControl(rect<s32>(0, 20, 579, 419), wSinglePlay, true);
+    //TEST BOT MODE
+	if(gameConf.enable_bot_mode) {
+		irr::gui::IGUITab* tabBot = wSingle->addTab(dataManager.GetSysString(1380));
+		lstBotList = env->addListBox(rect<s32>(10, 10, 350, 350), tabBot, LISTBOX_BOT_LIST, true);
+		lstBotList->setItemHeight(18);
+		btnStartBot = env->addButton(rect<s32>(459, 301, 569, 326), tabBot, BUTTON_BOT_START, dataManager.GetSysString(1211));
+		btnBotCancel = env->addButton(rect<s32>(459, 331, 569, 356), tabBot, BUTTON_CANCEL_SINGLEPLAY, dataManager.GetSysString(1210));
+		env->addStaticText(dataManager.GetSysString(1382), rect<s32>(360, 10, 550, 30), false, true, tabBot);
+		stBotInfo = env->addStaticText(L"", rect<s32>(360, 40, 560, 160), false, true, tabBot);
+		chkBotOldRule = env->addCheckBox(false, rect<s32>(360, 170, 560, 190), tabBot, CHECKBOX_BOT_OLD_RULE, dataManager.GetSysString(1383));
+		chkBotHand = env->addCheckBox(false, rect<s32>(360, 200, 560, 220), tabBot, -1, dataManager.GetSysString(1384));
+		chkBotNoCheckDeck = env->addCheckBox(false, rect<s32>(360, 230, 560, 250), tabBot, -1, dataManager.GetSysString(1229));
+		chkBotNoShuffleDeck = env->addCheckBox(false, rect<s32>(360, 260, 560, 280), tabBot, -1, dataManager.GetSysString(1230));
+	}
+	
+	irr::gui::IGUITab* tabSingle = wSingle->addTab(dataManager.GetSysString(1381));	
+	lstSinglePlayList = env->addListBox(rect<s32>(10, 10, 350, 350), tabSingle, LISTBOX_SINGLEPLAY_LIST, true);
 	lstSinglePlayList->setItemHeight(18);
-	btnLoadSinglePlay = env->addButton(rect<s32>(460, 355, 570, 380), wSinglePlay, BUTTON_LOAD_SINGLEPLAY, dataManager.GetSysString(1211));
-	btnSinglePlayCancel = env->addButton(rect<s32>(460, 385, 570, 410), wSinglePlay, BUTTON_CANCEL_SINGLEPLAY, dataManager.GetSysString(1210));
-	env->addStaticText(dataManager.GetSysString(1352), rect<s32>(360, 30, 570, 50), false, true, wSinglePlay);
-	stSinglePlayInfo = env->addStaticText(L"", rect<s32>(360, 60, 570, 350), false, true, wSinglePlay);
+	btnLoadSinglePlay = env->addButton(rect<s32>(459, 301, 569, 326), tabSingle, BUTTON_LOAD_SINGLEPLAY, dataManager.GetSysString(1211));
+	btnSinglePlayCancel = env->addButton(rect<s32>(459, 331, 569, 356), tabSingle, BUTTON_CANCEL_SINGLEPLAY, dataManager.GetSysString(1210));
+	env->addStaticText(dataManager.GetSysString(1352), rect<s32>(360, 10, 550, 30), false, true, tabSingle);
+	stSinglePlayInfo = env->addStaticText(L"", rect<s32>(360, 40, 550, 280), false, true, tabSingle);
 	//replay save
 	wReplaySave = env->addWindow(rect<s32>(510, 200, 820, 320), false, dataManager.GetSysString(1340));
 	wReplaySave->getCloseButton()->setVisible(false);
@@ -1491,6 +1525,46 @@ void Game::RefreshSingleplay() {
 	closedir(dir);
 #endif
 }
+void Game::RefreshBot() {
+	if(!gameConf.enable_bot_mode)
+		return;
+	botInfo.clear();
+	FILE* fp = fopen("bot.conf", "r");
+	char linebuf[256];
+	char strbuf[256];
+	if(fp) {
+		while(fgets(linebuf, 256, fp)) {
+			if(linebuf[0] == '#')
+				continue;
+			if(linebuf[0] == '!') {
+				BotInfo newinfo;
+				sscanf(linebuf, "!%240[^\n]", strbuf);
+				BufferIO::DecodeUTF8(strbuf, newinfo.name);
+				fgets(linebuf, 256, fp);
+				sscanf(linebuf, "%240[^\n]", strbuf);
+				BufferIO::DecodeUTF8(strbuf, newinfo.command);
+				fgets(linebuf, 256, fp);
+				sscanf(linebuf, "%240[^\n]", strbuf);
+				BufferIO::DecodeUTF8(strbuf, newinfo.desc);
+				fgets(linebuf, 256, fp);
+				newinfo.support_master_rule_3 = !!strstr(linebuf, "SUPPORT_MASTER_RULE_3");
+				newinfo.support_new_master_rule = !!strstr(linebuf, "SUPPORT_NEW_MASTER_RULE");
+				if((chkBotOldRule->isChecked() && newinfo.support_master_rule_3)
+					|| (!chkBotOldRule->isChecked() && newinfo.support_new_master_rule))
+					botInfo.push_back(newinfo);
+				continue;
+			}
+		}
+		fclose(fp);
+	}
+	lstBotList->clear();
+	stBotInfo->setText(L"");
+	for(unsigned int i = 0; i < botInfo.size(); ++i) {
+		lstBotList->addItem(botInfo[i].name);
+	}
+	if(botInfo.size() == 0)
+		SetStaticText(stBotInfo, 200, guiFont, dataManager.GetSysString(1385));
+}
 void Game::LoadConfig() {
 	wchar_t wstr[256];
 	if(gameConf._init)return;
@@ -1525,6 +1599,8 @@ void Game::LoadConfig() {
 	gameConf.auto_search_limit = android::getIntSetting(appMain, "auto_search_limit", 1);
 	gameConf.chkIgnoreDeckChanges = android::getIntSetting(appMain, "chkIgnoreDeckChanges", 0);
 	gameConf.defaultOT = android::getIntSetting(appMain, "defaultOT", 1);
+	//TEST BOT MODE
+	gameConf.enable_bot_mode = 1;
 }
 
 void Game::SaveConfig() {
@@ -1586,7 +1662,9 @@ void Game::SaveConfig() {
 		gameConf.auto_search_limit = cur;
 		 android::saveIntSetting(appMain, "auto_search_limit", gameConf.auto_search_limit);
 	}
-
+//TEST BOT MODE
+//gameConf.enable_bot_mode = enable_bot_mode->isChecked()?1:0;
+//      android::saveIntSetting(appMain, "enable_bot_mode", gameConf.enable_bot_mode);
 //gameConf.defaultOT = defaultOT->isChecked()?1:0;
 //    android::saveIntSetting(appMain, "defaultOT", gameConf.defaultOT);
 //gameConf.control_mode = control_mode->isChecked()?1:0;
@@ -1595,6 +1673,8 @@ void Game::SaveConfig() {
 //	  android::saveIntSetting(appMain, "draw_field_spell", gameConf.draw_field_spell);
 //gameConf.separate_clear_button = separate_clear_button->isChecked()?1:0;
 //	  android::saveIntSetting(appMain, "separate_clear_button", gameConf.separate_clear_button);
+//gameConf.enable_bot_mode = enable_bot_mode->isChecked()?1:0;
+//	  android::saveIntSetting(appMain, "enable_bot_mode", gameConf.enable_bot_mode);
 }
 
 void Game::ShowCardInfo(int code) {
