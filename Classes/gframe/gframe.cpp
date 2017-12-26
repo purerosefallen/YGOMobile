@@ -5,6 +5,7 @@
 
 int enable_log = 0;
 bool exit_on_return = false;
+bool bot_mode = false;
 
 #ifdef _IRR_ANDROID_PLATFORM_
 void android_main(ANDROID_APP app) {
@@ -53,21 +54,21 @@ int main(int argc, char* argv[]) {
 			irr::SEvent event;
 			event.EventType = irr::EET_GUI_EVENT;
 			event.GUIEvent.EventType = irr::gui::EGET_BUTTON_CLICKED;
-			if(!strcmp(argv[i], "-j")) {
+		} else if(!strcmp(argv[i], "-c")) { // Create host
 				ygo::mainGame->HideElement(ygo::mainGame->wMainMenu);
 				event.GUIEvent.Caller = ygo::mainGame->btnJoinHost;
 				ygo::mainGame->device->postEventFromUser(event);
-			} else if(!strcmp(argv[i], "-d")) {
+		} else if(!strcmp(argv[i], "-j")) { // Join host
 				event.GUIEvent.Caller = ygo::mainGame->btnDeckEdit;
 				ygo::mainGame->device->postEventFromUser(event);
-			} else if(!strcmp(argv[i], "-r")) {
+		} else if(!strcmp(argv[i], "-r")) { // Replay
 				event.GUIEvent.Caller = ygo::mainGame->btnReplayMode;
 				ygo::mainGame->device->postEventFromUser(event);
 				ygo::mainGame->lstReplayList->setSelected(0);
 				event.GUIEvent.Caller = ygo::mainGame->btnLoadReplay;
 				ygo::mainGame->device->postEventFromUser(event);
-			} else if(!strcmp(argv[i], "-s")) {
-				event.GUIEvent.Caller = ygo::mainGame->btnServerMode;
+		} else if(!strcmp(argv[i], "-s")) { // Single
+				event.GUIEvent.Caller = ygo::mainGame->btnSingleMode;
 				ygo::mainGame->device->postEventFromUser(event);
 				ygo::mainGame->lstSinglePlayList->setSelected(0);
 				event.GUIEvent.Caller = ygo::mainGame->btnLoadSinglePlay;
