@@ -110,5 +110,6 @@ using namespace os;
 extern unsigned short PRO_VERSION;
 extern int enable_log;
 extern bool exit_on_return;
+extern bool bot_mode;
 #endif
 #endif
