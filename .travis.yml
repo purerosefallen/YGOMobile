@@ -63,6 +63,9 @@ before_install:
 - 7z x ygopro222-images-master.zip > /dev/null
 - mv -f ygopro222-images-master pics
 
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-starter-pack/archive/master.zip
+- 7z x ygopro-starter-pack-master.zip > /dev/null
+- cp -rf ygopro-starter-pack-master/* mobile/assets/data
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/strings.conf
 - mv -f strings.conf mobile/assets/data/conf
