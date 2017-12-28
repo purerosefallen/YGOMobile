@@ -21,6 +21,7 @@ public class LimitManager {
     private static LimitManager sManager = new LimitManager();
     private final List<LimitList> mLimitLists = new ArrayList<>();
     private String lastMd5;
+    private String lastCustomMd5;	
     private int mCount;
 
     private LimitManager() {
@@ -44,6 +45,19 @@ public class LimitManager {
         }
         return null;
     }
+	
+    public boolean load_custom() {
+        File stringfile = new File(AppsSettings.get().getResourcePath(), CORE_CUSTOM_LIMIT_PATH);
+		if (stringfile == null) {
+			return false;
+		}
+        String md5 = MD5Util.getFileMD5(stringfile.getAbsolutePath());
+        if (TextUtils.equals(md5, lastCustomMd5)) {
+            return true;
+        }
+        lastCustomMd5 = md5;
+        return loadFile(stringfile.getAbsolutePath());
+    }	
 
     public boolean load() {
         File stringfile = new File(AppsSettings.get().getResourcePath(), CORE_LIMIT_PATH);
