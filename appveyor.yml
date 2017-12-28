@@ -59,7 +59,7 @@ install:
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
   - 7z x ygopro222-images-master.zip > /null
   - mv -f ygopro222-images-master pics
-
+  
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-starter-pack/archive/master.zip
   - 7z x ygopro-starter-pack-master.zip > /null
   - cp -rf ygopro-starter-pack-master/* mobile/assets/data
