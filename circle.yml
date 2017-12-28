@@ -74,8 +74,7 @@ dependencies:
     - cp -rf ygopro-222DIY-data/expansions/pics .
     - cp -rf ygopro-222DIY-data/expansions/script .
     - cp -rf ygopro-222DIY-data/expansions/*.cdb mobile/assets/data/expansions
-    - cp -rf ygopro-222DIY-data/expansions/strings.conf mobile/assets/data/expansions
-    - cp -rf ygopro-222DIY-data/lflist.conf mobile/assets/data/conf
+    - cp -rf ygopro-222DIY-data/expansions/*.conf mobile/assets/data/expansions
 
     - rm -rf pics/thumbnail pics/*.db
     - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
