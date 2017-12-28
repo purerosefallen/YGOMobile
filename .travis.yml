@@ -48,6 +48,7 @@ before_install:
 - cp -rf ygopro-7210srv-master/ocgcore Classes
 - mv -f ygopro-7210srv-master/cards.cdb mobile/assets/data
 - mv -f ygopro-7210srv-master/strings.conf mobile/assets/data/conf
+- mv -f ygopro-7210srv-master/lflist.conf mobile/assets/data/conf
 
 - mkdir script
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-pre-script/archive/master.zip
@@ -64,6 +65,10 @@ before_install:
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
 - 7z x ygopro222-images-master.zip > /dev/null
 - mv -f ygopro222-images-master pics
+
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-starter-pack/archive/master.zip
+- 7z x ygopro-starter-pack-master.zip > /dev/null
+- cp -rf ygopro-starter-pack-master/* mobile/assets/data
 
 - mkdir mobile/assets/data/expansions
 

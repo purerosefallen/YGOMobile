@@ -137,7 +137,8 @@ bool Game::Initialize() {
 	is_building = false;
 	memset(&dInfo, 0, sizeof(DuelInfo));
 	memset(chatTiming, 0, sizeof(chatTiming));
-	deckManager.LoadLFList((workingDir + path("/lflist.conf")).c_str());
+	deckManager.LoadLFList((workingDir + path("/expansions/lflist.conf")).c_str(), false);
+	deckManager.LoadLFList((workingDir + path("/lflist.conf")).c_str(), true);
 	driver = device->getVideoDriver();
 #ifdef _IRR_ANDROID_PLATFORM_
 	int quality = options->getCardQualityOp();

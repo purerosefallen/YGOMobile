@@ -8,7 +8,7 @@ namespace ygo {
 
 DeckManager deckManager;
 
-void DeckManager::LoadLFList(const char* path) {
+void DeckManager::LoadLFList(const char* path, bool load_none) {
 	LFList* cur = NULL;
 	FILE* fp = fopen(path, "r");
 	char linebuf[256];
@@ -48,6 +48,8 @@ void DeckManager::LoadLFList(const char* path) {
 		}
 		fclose(fp);
 	}
+	if(!load_none)
+		return;
 	LFList nolimit;
 	myswprintf(nolimit.listName, L"N/A");
 	nolimit.hash = 0;
