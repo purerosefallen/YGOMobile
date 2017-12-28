@@ -64,6 +64,9 @@ before_install:
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/raw/master/lflist.conf
 - mv -f lflist.conf mobile/assets/data/conf
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-starter-pack/archive/master.zip
+- 7z x ygopro-starter-pack-master.zip > /dev/null
+- cp -rf ygopro-starter-pack-master/* mobile/assets/data
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-database/raw/master/locales/en-US/strings.conf
 - mv -f strings.conf mobile/assets/data/conf

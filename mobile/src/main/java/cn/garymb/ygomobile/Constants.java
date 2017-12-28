@@ -52,6 +52,7 @@ public interface Constants {
     String FONT_DIRECTORY = "fonts";
     String CORE_STRING_PATH = "strings.conf";
     String CORE_LIMIT_PATH = "lflist.conf";
+    String CORE_CUSTOM_LIMIT_PATH = "expansions/lflist.conf";
     String CORE_SYSTEM_PATH = "system.conf";
     String CORE_SKIN_PATH = "textures";
     String CORE_SKIN_PENDULUM_PATH = CORE_SKIN_PATH + "/extra";
