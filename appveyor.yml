@@ -60,15 +60,9 @@ install:
   - 7z x ygopro222-images-master.zip > /null
   - mv -f ygopro222-images-master pics
   
-  - mkdir mobile\assets\data\expansions
-
-  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/MonokuroInzanaito/ygopro-777DIY/archive/master.zip
-  - 7z x ygopro-777DIY-master.zip > /null
-  - cp -rf ygopro-777DIY-master/expansions/script .
-  - cp -rf ygopro-777DIY-master/expansions/pics .
-  - cp -rf ygopro-777DIY-master/expansions/*.cdb mobile/assets/data/expansions
-  - cp -rf ygopro-777DIY-master/expansions/strings.conf mobile/assets/data/expansions
-  - cp -rf ygopro-777DIY-master/lflist.conf mobile/assets/data/conf
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-starter-pack/archive/master.zip
+  - 7z x ygopro-starter-pack-master.zip > /null
+  - cp -rf ygopro-starter-pack-master/* mobile/assets/data
 
   - rm -rf pics/thumbnail pics/*.db
   - cd pics && ls *.jpg | xargs -I {} -P 4 magick -size 177x254! -quality %QUALITY% {} {} && cd ..
