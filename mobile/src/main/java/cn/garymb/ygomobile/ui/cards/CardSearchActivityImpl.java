@@ -77,6 +77,7 @@ class CardSearchActivityImpl extends BaseActivity implements CardLoader.CallBack
         DialogPlus dlg = DialogPlus.show(this, null, getString(R.string.loading));
         VUiKit.defer().when(() -> {
             StringManager.get().load();//loadFile(stringfile.getAbsolutePath());
+            LimitManager.get().load_custom();
             LimitManager.get().load();//loadFile(stringfile.getAbsolutePath());
             if (mLimitManager.getCount() > 1) {
                 mCardLoader.setLimitList(mLimitManager.getLimit(1));
