@@ -983,6 +983,11 @@ bool Game::Initialize() {
 		chkBotHand = env->addCheckBox(false, rect<s32>(360 * xScale, 200 * yScale, 560 * xScale, 220 * yScale), tabBot, -1, dataManager.GetSysString(1384));
 		chkBotNoCheckDeck = env->addCheckBox(false, rect<s32>(360 * xScale, 230 * yScale, 560 * xScale, 250 * yScale), tabBot, -1, dataManager.GetSysString(1229));
 		chkBotNoShuffleDeck = env->addCheckBox(false, rect<s32>(360 * xScale, 260 * yScale, 560 * xScale, 280 * yScale), tabBot, -1, dataManager.GetSysString(1230));
+	} else { // avoid null pointer
+		btnStartBot = env->addButton(rect<s32>(0, 0, 0, 0), wSinglePlay);
+		btnBotCancel = env->addButton(rect<s32>(0, 0, 0, 0), wSinglePlay);
+		btnStartBot->setVisible(false);
+		btnBotCancel->setVisible(false);
 	}
 	
 	irr::gui::IGUITab* tabSingle = wSingle->addTab(dataManager.GetSysString(1381));
@@ -1067,6 +1072,11 @@ bool Game::Initialize() {
 		chkBotHand = env->addCheckBox(false, rect<s32>(360, 200, 560, 220), tabBot, -1, dataManager.GetSysString(1384));
 		chkBotNoCheckDeck = env->addCheckBox(false, rect<s32>(360, 230, 560, 250), tabBot, -1, dataManager.GetSysString(1229));
 		chkBotNoShuffleDeck = env->addCheckBox(false, rect<s32>(360, 260, 560, 280), tabBot, -1, dataManager.GetSysString(1230));
+	} else { // avoid null pointer
+		btnStartBot = env->addButton(rect<s32>(0, 0, 0, 0), wSinglePlay);
+		btnBotCancel = env->addButton(rect<s32>(0, 0, 0, 0), wSinglePlay);
+		btnStartBot->setVisible(false);
+		btnBotCancel->setVisible(false);
 	}
 	
 	irr::gui::IGUITab* tabSingle = wSingle->addTab(dataManager.GetSysString(1381));	
