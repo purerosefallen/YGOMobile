@@ -20,7 +20,7 @@ cache:
 install:
   - mkdir %ANDROID_HOME%
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/tools_r25.2.5-windows.zip
-  - 7z x -o%ANDROID_HOME% tools_r25.2.5-windows.zip
+  - 7z x -o%ANDROID_HOME% tools_r25.2.5-windows.zip > /null
 
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "platform-tools"
   - echo y | %ANDROID_HOME%\tools\android update sdk --no-ui --all --filter "tools"
@@ -35,35 +35,40 @@ install:
   - refreshenv
   
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-windows-x86_64.zip
-  - 7z x android-ndk-r15b-windows-x86_64.zip
+  - 7z x android-ndk-r15b-windows-x86_64.zip > /null
 
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-7210srv/archive/master.zip
-  - 7z x ygopro-7210srv-master.zip
+  - 7z x ygopro-7210srv-master.zip > /null
   - cp -rf ygopro-7210srv-master/ocgcore Classes
   - mv -f ygopro-7210srv-master/cards.cdb mobile/assets/data
   - mv -f ygopro-7210srv-master/strings.conf mobile/assets/data/conf
   - mv -f ygopro-7210srv-master/lflist.conf mobile/assets/data/conf
   
+  - mkdir script
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-pre-script/archive/master.zip
+  - 7z x ygopro-pre-script-master.zip > /null
+  - cp -rf ygopro-pre-script-master/scripts/**/* script
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Smile-DK/ygopro-scripts/archive/master.zip
-  - 7z x -y ygopro-scripts-master.zip
-  - rm -rf ygopro-scripts-master.zip
+  - 7z x ygopro-scripts-master.zip > /null
+  - cp -rf ygopro-scripts-master/* script
+  - rm -rf ygopro-scripts-master.zip ygopro-scripts-master
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
-  - 7z x -y ygopro-scripts-master.zip
-  - mv -f ygopro-scripts-master script
+  - 7z x ygopro-scripts-master.zip > /null
+  - cp -rf ygopro-scripts-master/* script
 
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
-  - 7z x ygopro222-images-master.zip
+  - 7z x ygopro222-images-master.zip > /null
   - mv -f ygopro222-images-master pics
   
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-starter-pack/archive/master.zip
-  - 7z x ygopro-starter-pack-master.zip
+  - 7z x ygopro-starter-pack-master.zip > /null
   - cp -rf ygopro-starter-pack-master/* mobile/assets/data
 
   - rm -rf pics/thumbnail pics/*.db
   - cd pics && ls *.jpg | xargs -I {} -P 4 magick -size 177x254! -quality %QUALITY% {} {} && cd ..
 
-  - 7z a -mx0 mobile/assets/data/pics.zip pics
-  - 7z a -mx0 mobile/assets/data/scripts.zip script
+  - 7z a -mx0 mobile/assets/data/pics.zip pics > /null
+  - 7z a -mx0 mobile/assets/data/scripts.zip script > /null
 
   - cp -rf tools/Application.mk libcore/jni
   - cp -rf tools/*.png mobile/src/main/res/drawable
