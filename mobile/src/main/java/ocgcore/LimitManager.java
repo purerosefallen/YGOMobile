@@ -52,25 +52,30 @@ public class LimitManager {
 		if (stringfile == null) {
 			return false;
 		}
+		/*
         String md5 = MD5Util.getFileMD5(stringfile.getAbsolutePath());
         if (TextUtils.equals(md5, lastCustomMd5)) {
             return true;
         }
         lastCustomMd5 = md5;
-        return loadFile(stringfile.getAbsolutePath());
+		*/
+        return loadFile(stringfile.getAbsolutePath(), false);
     }	
 
     public boolean load() {
+		boolean custom_res = load_custom();
         File stringfile = new File(AppsSettings.get().getResourcePath(), CORE_LIMIT_PATH);
+		/*
         String md5 = MD5Util.getFileMD5(stringfile.getAbsolutePath());
         if (TextUtils.equals(md5, lastMd5)) {
             return true;
         }
         lastMd5 = md5;
-        return loadFile(stringfile.getAbsolutePath());
+		*/
+        return loadFile(stringfile.getAbsolutePath(), custom_res);
     }
 
-    public boolean loadFile(String path) {
+    public boolean loadFile(String path, boolean leave) {
         if (path == null || path.length() == 0) {
             return false;
         }
@@ -78,8 +83,10 @@ public class LimitManager {
         if (file.isDirectory() || !file.exists()) {
             return false;
         }
-        mLimitLists.clear();
-        mLimitLists.add(new LimitList(null));
+		if (!leave) {
+			mLimitLists.clear();
+			mLimitLists.add(new LimitList(null));
+		}
         InputStreamReader in = null;
         FileInputStream inputStream = null;
         try {
@@ -118,6 +125,9 @@ public class LimitManager {
                     }
 
                 }
+            }
+            if (tmp != null) {
+                mLimitLists.add(tmp);
             }
         } catch (Exception e) {
             Log.e("kk", "limit", e);
