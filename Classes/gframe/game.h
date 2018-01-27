@@ -54,6 +54,8 @@ struct DuelInfo {
 	bool isTag;
 	bool isSingleMode;
 	bool is_shuffling;
+	//modded - to check swapped
+	bool is_swapped;
 	bool tag_player[2];
 	int lp[2];
 	int duel_rule;
