@@ -1801,6 +1801,7 @@ int32 field::summon(uint16 step, uint8 sumplayer, card* target, effect* proc, ui
 		deffect->description = 64;
 		deffect->reset_flag = RESET_EVENT + 0x1fe0000;
 		target->add_effect(deffect);
+		core.summoning_card = target;
 		return FALSE;
 	}
 	case 10: {
@@ -1821,7 +1822,6 @@ int32 field::summon(uint16 step, uint8 sumplayer, card* target, effect* proc, ui
 				add_process(PROCESSOR_EXECUTE_OPERATION, 0, pextra, 0, sumplayer, 0);
 			}
 		}
-		core.summoning_card = target;
 		return FALSE;
 	}
 	case 11: {
@@ -5590,7 +5590,7 @@ int32 field::select_tribute_cards(int16 step, uint8 playerid, uint8 cancelable, 
 		int32 rmax = 0;
 		core.select_cards.clear();
 		for(auto cit = core.release_cards.begin(); cit != core.release_cards.end(); ++cit) {
-			if((*cit)->current.location == LOCATION_MZONE && ((zone >> (*cit)->current.sequence) & 1))
+			if((*cit)->current.location == LOCATION_MZONE && (*cit)->current.controler == playerid && ((zone >> (*cit)->current.sequence) & 1))
 				core.select_cards.push_back(*cit);
 			else
 				rmax += (*cit)->release_param;
@@ -5789,7 +5789,7 @@ int32 field::select_tribute_cards(int16 step, uint8 playerid, uint8 cancelable, 
 		int32 rmax = 0;
 		core.select_cards.clear();
 		for(auto cit = core.release_cards_ex.begin(); cit != core.release_cards_ex.end(); ++cit) {
-			if((*cit)->current.location == LOCATION_MZONE && ((zone >> (*cit)->current.sequence) & 1))
+			if((*cit)->current.location == LOCATION_MZONE && (*cit)->current.controler == playerid && ((zone >> (*cit)->current.sequence) & 1))
 				core.select_cards.push_back(*cit);
 			else
 				rmax += (*cit)->release_param;

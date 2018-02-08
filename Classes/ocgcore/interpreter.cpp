@@ -315,6 +315,7 @@ static const struct luaL_Reg effectlib[] = {
 	{ "IsActivatable", scriptlib::effect_is_activatable },
 	{ "IsActivated", scriptlib::effect_is_activated },
 	{ "GetActivateLocation", scriptlib::effect_get_activate_location },
+	{ "GetActivateSequence", scriptlib::effect_get_activate_sequence },
 	{ NULL, NULL }
 };
 
@@ -330,6 +331,7 @@ static const struct luaL_Reg grouplib[] = {
 	{ "GetNext", scriptlib::group_get_next },
 	{ "GetFirst", scriptlib::group_get_first },
 	{ "GetCount", scriptlib::group_get_count },
+	{ "__len", scriptlib::group_get_count },
 	{ "ForEach", scriptlib::group_for_each },
 	{ "Filter", scriptlib::group_filter },
 	{ "FilterCount", scriptlib::group_filter_count },
