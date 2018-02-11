@@ -100,7 +100,7 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
     protected Integer doInBackground(Void... params) {
         if (Constants.DEBUG)
             Log.d(TAG, "check start");
-        boolean needsUpdate = isNewVersion;
+        boolean needsUpdate = true;
         //core config
         setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.core_config)));
         //res
