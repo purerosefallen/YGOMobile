@@ -975,8 +975,8 @@ bool Game::Initialize() {
 		irr::gui::IGUITab* tabBot = wSingle->addTab(dataManager.GetSysString(1380));
 		lstBotList = env->addListBox(rect<s32>(10 * xScale, 10 * yScale, 350 * xScale, 350 * yScale), tabBot, LISTBOX_BOT_LIST, true);
 		lstBotList->setItemHeight(25 * yScale);
-		btnStartBot = env->addButton(rect<s32>(459 * xScale, 301 * yScale, 569 * xScale, 326 * yScale), tabBot, BUTTON_BOT_START, dataManager.GetSysString(1211));
-		btnBotCancel = env->addButton(rect<s32>(459 * xScale, 331 * yScale, 569 * xScale, 356 * yScale), tabBot, BUTTON_CANCEL_SINGLEPLAY, dataManager.GetSysString(1210));
+		btnStartBot = env->addButton(rect<s32>(460 * xScale, 320 * yScale, 570 * xScale, 360 * yScale), tabBot, BUTTON_BOT_START, dataManager.GetSysString(1211));
+		btnBotCancel = env->addButton(rect<s32>(460 * xScale, 370 * yScale, 570 * xScale, 410 * yScale), tabBot, BUTTON_CANCEL_SINGLEPLAY, dataManager.GetSysString(1210));
 		env->addStaticText(dataManager.GetSysString(1382), rect<s32>(360 * xScale, 10 * yScale, 550 * xScale, 30 * yScale), false, true, tabBot);
 		stBotInfo = env->addStaticText(L"", rect<s32>(360 * xScale, 40 * yScale, 560 * xScale, 160 * yScale), false, true, tabBot);
 		chkBotOldRule = env->addCheckBox(false, rect<s32>(360 * xScale, 170 * yScale, 560 * xScale, 190 * yScale), tabBot, CHECKBOX_BOT_OLD_RULE, dataManager.GetSysString(1383));
@@ -993,10 +993,10 @@ bool Game::Initialize() {
 	irr::gui::IGUITab* tabSingle = wSingle->addTab(dataManager.GetSysString(1381));
 	lstSinglePlayList = CAndroidGUIListBox::addAndroidGUIListBox(env, rect<s32>(10 * xScale, 10 * yScale, 350 * xScale, 350 * yScale), tabSingle, LISTBOX_SINGLEPLAY_LIST, true, 40 * xScale);
 	lstSinglePlayList->setItemHeight(25 * yScale);
-	btnLoadSinglePlay = env->addButton(rect<s32>(459 * xScale, 301 * yScale, 569 * xScale, 326 * yScale), tabSingle, BUTTON_LOAD_SINGLEPLAY, dataManager.GetSysString(1211));
-	btnSinglePlayCancel = env->addButton(rect<s32>(459 * xScale, 331 * yScale, 569 * xScale, 356 * yScale), tabSingle, BUTTON_CANCEL_SINGLEPLAY, dataManager.GetSysString(1210));
-	env->addStaticText(dataManager.GetSysString(1352), rect<s32>(360 * xScale, 10 * yScale, 550 * xScale, 30 * yScale), false, true, tabSingle);
-	stSinglePlayInfo = env->addStaticText(L"", rect<s32>(360 * xScale, 40 * yScale, 550 * xScale, 280 * yScale), false, true, tabSingle);
+	btnLoadSinglePlay = env->addButton(rect<s32>(460 * xScale, 320 * yScale, 570 * xScale, 360 * yScale), wSinglePlay, BUTTON_LOAD_SINGLEPLAY, dataManager.GetSysString(1211));
+	btnSinglePlayCancel = env->addButton(rect<s32>(460 * xScale, 370 * yScale, 570 * xScale, 410 * yScale), wSinglePlay, BUTTON_CANCEL_SINGLEPLAY, dataManager.GetSysString(1210));
+	env->addStaticText(dataManager.GetSysString(1352), rect<s32>(360 * xScale, 30 * yScale, 570 * xScale, 50 * yScale), false, true, wSinglePlay);
+	stSinglePlayInfo = env->addStaticText(L"", rect<s32>(360 * xScale, 60 * yScale, 570 * xScale, 295 * yScale), false, true, wSinglePlay);
 	//replay save
 	wReplaySave = env->addWindow(rect<s32>(490 * xScale, 180 * yScale, 840 * xScale, 340 * yScale), false, dataManager.GetSysString(1340));
 	wReplaySave->getCloseButton()->setVisible(false);
@@ -1678,9 +1678,7 @@ void Game::SaveConfig() {
 		gameConf.auto_search_limit = cur;
 		 android::saveIntSetting(appMain, "auto_search_limit", gameConf.auto_search_limit);
 	}
-//TEST BOT MODE
-//gameConf.enable_bot_mode = enable_bot_mode->isChecked()?1:0;
-//      android::saveIntSetting(appMain, "enable_bot_mode", gameConf.enable_bot_mode);
+
 //gameConf.defaultOT = defaultOT->isChecked()?1:0;
 //    android::saveIntSetting(appMain, "defaultOT", gameConf.defaultOT);
 //gameConf.control_mode = control_mode->isChecked()?1:0;
@@ -1689,6 +1687,7 @@ void Game::SaveConfig() {
 //	  android::saveIntSetting(appMain, "draw_field_spell", gameConf.draw_field_spell);
 //gameConf.separate_clear_button = separate_clear_button->isChecked()?1:0;
 //	  android::saveIntSetting(appMain, "separate_clear_button", gameConf.separate_clear_button);
+//TEST BOT MODE
 //gameConf.enable_bot_mode = enable_bot_mode->isChecked()?1:0;
 //	  android::saveIntSetting(appMain, "enable_bot_mode", gameConf.enable_bot_mode);
 }
