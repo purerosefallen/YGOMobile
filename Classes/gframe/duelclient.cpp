@@ -595,6 +595,7 @@ void DuelClient::HandleSTOCPacketLan(char* data, unsigned int len) {
 		mainGame->dInfo.time_left[0] = 0;
 		mainGame->dInfo.time_left[1] = 0;
 		mainGame->dInfo.time_player = 2;
+		mainGame->dInfo.isReplaySwapped = false;
 		mainGame->is_building = false;
 		mainGame->wCardImg->setVisible(true);
 		mainGame->wInfos->setVisible(true);
@@ -1087,7 +1088,13 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		mainGame->dInfo.turn = 0;
 		mainGame->dInfo.is_shuffling = false;
 		//modded - to check swapped
-		mainGame->dInfo.is_swapped = false;		
+		mainGame->dInfo.is_swapped = false;
+		if(mainGame->dInfo.isReplaySwapped) {
+			std::swap(mainGame->dInfo.hostname, mainGame->dInfo.clientname);
+			std::swap(mainGame->dInfo.hostname_tag, mainGame->dInfo.clientname_tag);
+			mainGame->dInfo.isReplaySwapped = false;
+			mainGame->dField.ReplaySwap();
+		}
 		mainGame->gMutex.Unlock();
 		return true;
 	}
