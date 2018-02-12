@@ -12,11 +12,11 @@ android {
 
 
 
-        versionCode 310409
+        versionCode 310501
 
 
 
-        versionName "Koishi"
+
         vectorDrawables.useSupportLibrary = true
         ndk {
             abiFilters "armeabi-v7a", "x86"
