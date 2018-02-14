@@ -187,7 +187,7 @@
     <string name="tip_network_image">image server is close</string>
     <string name="game_version">Game Version</string>
     <string name="tip">Info</string>
-    <string name="error_game_ver">it should be X.0XX.X，less of F.099.F</string>
+    <string name="error_game_ver">Wrong！be right as "0x1342"(as 1.034.2)</string>
     <string name="tip_no_netwrok">please confirm net works</string>
     <string name="message">Copying datas...</string>
     <string name="ex_pack">Extend cards</string>

@@ -82,9 +82,6 @@ class CardSearchInfo {
         }
 
         if (linkKey > 0) {
-            Log.i( "废话","card.Defense"+ card.Defense);
-            Log.i( "废话","card.Defense & linkKey"+!((card.Defense & linkKey)== linkKey));
-            Log.i("废话","card.isType(CardType.Link)"+card.isType(CardType.Link));
             if (!((card.Defense & linkKey) == linkKey && (card.isType(CardType.Link)))) {
                 return false;
             }
