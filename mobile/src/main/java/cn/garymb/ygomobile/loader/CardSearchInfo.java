@@ -1,6 +1,7 @@
 package cn.garymb.ygomobile.loader;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.List;
 

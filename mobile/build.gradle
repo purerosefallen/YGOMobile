@@ -12,7 +12,11 @@ android {
 
 
 
-        versionCode 310501
+
+
+        versionCode 310502
+
+
 
 
 

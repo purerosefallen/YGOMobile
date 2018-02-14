@@ -116,9 +116,9 @@ public class SettingFragment extends PreferenceFragmentPlus {
                     return true;
                 } else {
                     if (BuildConfig.DEBUG) {
-                        Toast.makeText(getContext(), getString(R.string.error_game_ver) + " " + value.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.error_game_ver) + " " + value.toString(), Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getContext(), R.string.error_game_ver, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.error_game_ver, Toast.LENGTH_LONG).show();
                     }
                     return false;
                 }
