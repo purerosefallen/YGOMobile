@@ -1,6 +1,7 @@
 package cn.garymb.ygomobile.ui.home;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -8,6 +9,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import cn.garymb.ygomobile.AppsSettings;
+import cn.garymb.ygomobile.Constants;
 import cn.garymb.ygomobile.GameUriManager;
 import cn.garymb.ygomobile.YGOMobileActivity;
 import cn.garymb.ygomobile.YGOStarter;
@@ -16,10 +24,14 @@ import cn.garymb.ygomobile.lite.R;
 import cn.garymb.ygomobile.ui.plus.DialogPlus;
 import cn.garymb.ygomobile.ui.plus.VUiKit;
 import cn.garymb.ygomobile.utils.ComponentUtils;
+import cn.garymb.ygomobile.utils.IOUtils;
 import cn.garymb.ygomobile.utils.NetUtils;
 
 import static cn.garymb.ygomobile.Constants.ACTION_RELOAD;
+import static cn.garymb.ygomobile.Constants.CORE_PICS_ZIP;
 import static cn.garymb.ygomobile.Constants.NETWORK_IMAGE;
+import static cn.garymb.ygomobile.Constants.PREF_DEF_GAME_DIR;
+import static cn.garymb.ygomobile.ui.home.ResCheckTask.getDatapath;
 
 public class MainActivity extends HomeActivity {
     private GameUriManager mGameUriManager;
@@ -120,8 +132,22 @@ public class MainActivity extends HomeActivity {
 
     @Override
     public void updateImages() {
-        checkResourceDownload((result, isNewVersion) -> {
-            Toast.makeText(this, R.string.tip_reset_game_res, Toast.LENGTH_SHORT).show();
+        DialogPlus dialog  = DialogPlus.show(this, null, getString(R.string.message));
+        dialog.show();
+        VUiKit.defer().when(()->{
+            if (IOUtils.hasAssets(this, ResCheckTask.getDatapath(Constants.CORE_PICS_ZIP))) {
+                try {
+                    IOUtils.copyFilesFromAssets(this, ResCheckTask.getDatapath(Constants.CORE_PICS_ZIP),
+                            AppsSettings.get().getResourcePath(), true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).done((rs)->{
+            dialog.dismiss();
         });
     }
+/*        checkResourceDownload((result, isNewVersion) -> {
+            Toast.makeText(this, R.string.tip_reset_game_res, Toast.LENGTH_SHORT).show();
+        });*/
 }
