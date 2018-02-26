@@ -595,6 +595,7 @@ void DuelClient::HandleSTOCPacketLan(char* data, unsigned int len) {
 		mainGame->dInfo.time_left[0] = 0;
 		mainGame->dInfo.time_left[1] = 0;
 		mainGame->dInfo.time_player = 2;
+		mainGame->dInfo.isReplaySwapped = false;
 		mainGame->is_building = false;
 		mainGame->wCardImg->setVisible(true);
 		mainGame->wInfos->setVisible(true);
@@ -706,6 +707,7 @@ void DuelClient::HandleSTOCPacketLan(char* data, unsigned int len) {
 		wchar_t timetext[80];
 		mbstowcs(timetext, timebuf, size);
 		mainGame->ebRSName->setText(timetext);
+		mainGame->wReplaySave->setText(dataManager.GetSysString(1340));
 		mainGame->PopupElement(mainGame->wReplaySave);
 		mainGame->gMutex.Unlock();
 		mainGame->replaySignal.Reset();
@@ -1087,7 +1089,13 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		mainGame->dInfo.turn = 0;
 		mainGame->dInfo.is_shuffling = false;
 		//modded - to check swapped
-		mainGame->dInfo.is_swapped = false;		
+		mainGame->dInfo.is_swapped = false;
+		if(mainGame->dInfo.isReplaySwapped) {
+			std::swap(mainGame->dInfo.hostname, mainGame->dInfo.clientname);
+			std::swap(mainGame->dInfo.hostname_tag, mainGame->dInfo.clientname_tag);
+			mainGame->dInfo.isReplaySwapped = false;
+			mainGame->dField.ReplaySwap();
+		}
 		mainGame->gMutex.Unlock();
 		return true;
 	}
@@ -1134,7 +1142,6 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 				pcard->chain_code = code;
 				mainGame->dField.conti_cards.push_back(pcard);
 				mainGame->dField.conti_act = true;
-				pcard->cmdFlag |= COMMAND_OPERATION;
 			} else {
 				pcard->cmdFlag |= COMMAND_ACTIVATE;
 				if (pcard->location == LOCATION_GRAVE)
@@ -1264,7 +1271,6 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 				pcard->chain_code = code;
 				mainGame->dField.conti_cards.push_back(pcard);
 				mainGame->dField.conti_act = true;
-				pcard->cmdFlag |= COMMAND_OPERATION;
 			} else {
 				pcard->cmdFlag |= COMMAND_ACTIVATE;
 				if (pcard->location == LOCATION_GRAVE)
