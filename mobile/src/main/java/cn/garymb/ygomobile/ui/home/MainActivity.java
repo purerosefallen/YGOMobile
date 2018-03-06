@@ -51,20 +51,22 @@ public class MainActivity extends HomeActivity {
                 enableStart = true;
             }
             if (isNew) {
-                new DialogPlus(this)
-                        .setTitleText(getString(R.string.settings_about_change_log))
-                        .loadUrl("file:///android_asset/changelog.html", Color.TRANSPARENT)
-                        .hideButton()
-                        .setOnCloseLinster((dlg) -> {
-                            dlg.dismiss();
-                            //mImageUpdater
-                            if (NETWORK_IMAGE && NetUtils.isConnected(getContext())) {
-                                if (!mImageUpdater.isRunning()) {
-                                    mImageUpdater.start();
+                if(!getGameUriManager().doIntent(getIntent())) {
+                    new DialogPlus(this)
+                            .setTitleText(getString(R.string.settings_about_change_log))
+                            .loadUrl("file:///android_asset/changelog.html", Color.TRANSPARENT)
+                            .hideButton()
+                            .setOnCloseLinster((dlg) -> {
+                                dlg.dismiss();
+                                //mImageUpdater
+                                if (NETWORK_IMAGE && NetUtils.isConnected(getContext())) {
+                                    if (!mImageUpdater.isRunning()) {
+                                        mImageUpdater.start();
+                                    }
                                 }
-                            }
-                        })
-                        .show();
+                            })
+                            .show();
+                }
             } else {
                 getGameUriManager().doIntent(getIntent());
             }
