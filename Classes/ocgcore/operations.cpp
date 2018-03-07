@@ -332,8 +332,9 @@ void field::operation_replace(int32 type, int32 step, group* targets) {
 	int32 is_destroy = (type == EFFECT_DESTROY_REPLACE) ? TRUE : FALSE;
 	auto pr = effects.continuous_effect.equal_range(type);
 	std::vector<effect*> opp_effects;
-	for(auto it = pr.first; it != pr.second; ++it) {
-		effect* reffect = it->second;
+	for(auto eit = pr.first; eit != pr.second;) {
+		effect* reffect = eit->second;
+		++eit;
 		if(reffect->get_handler_player() == infos.turn_player)
 			add_process(PROCESSOR_OPERATION_REPLACE, step, reffect, targets, is_destroy, 0);
 		else
@@ -623,8 +624,9 @@ int32 field::pay_lp_cost(uint32 step, uint8 playerid, uint32 cost) {
 			core.select_effects.push_back(0);
 		}
 		auto pr = effects.continuous_effect.equal_range(EFFECT_LPCOST_REPLACE);
-		for (; pr.first != pr.second; ++pr.first) {
-			effect* peffect = pr.first->second;
+		for(auto eit = pr.first; eit != pr.second;) {
+			effect* peffect = eit->second;
+			++eit;
 			if(peffect->is_activateable(peffect->get_handler_player(), e)) {
 				core.select_options.push_back(peffect->description);
 				core.select_effects.push_back(peffect);
@@ -679,7 +681,6 @@ int32 field::remove_counter(uint16 step, uint32 reason, card* pcard, uint8 rplay
 			core.select_effects.push_back(0);
 		}
 		auto pr = effects.continuous_effect.equal_range(EFFECT_RCOUNTER_REPLACE + countertype);
-		effect* peffect;
 		tevent e;
 		e.event_cards = 0;
 		e.event_player = rplayer;
@@ -687,8 +688,9 @@ int32 field::remove_counter(uint16 step, uint32 reason, card* pcard, uint8 rplay
 		e.reason = reason;
 		e.reason_effect = core.reason_effect;
 		e.reason_player = rplayer;
-		for (; pr.first != pr.second; ++pr.first) {
-			peffect = pr.first->second;
+		for(auto eit = pr.first; eit != pr.second;) {
+			effect* peffect = eit->second;
+			++eit;
 			if(peffect->is_activateable(peffect->get_handler_player(), e)) {
 				core.select_options.push_back(peffect->description);
 				core.select_effects.push_back(peffect);
@@ -756,7 +758,6 @@ int32 field::remove_overlay_card(uint16 step, uint32 reason, card* pcard, uint8 
 			core.select_effects.push_back(0);
 		}
 		auto pr = effects.continuous_effect.equal_range(EFFECT_OVERLAY_REMOVE_REPLACE);
-		effect* peffect;
 		tevent e;
 		e.event_cards = 0;
 		e.event_player = rplayer;
@@ -764,8 +765,9 @@ int32 field::remove_overlay_card(uint16 step, uint32 reason, card* pcard, uint8 
 		e.reason = reason;
 		e.reason_effect = core.reason_effect;
 		e.reason_player = rplayer;
-		for (; pr.first != pr.second; ++pr.first) {
-			peffect = pr.first->second;
+		for(auto eit = pr.first; eit != pr.second;) {
+			effect* peffect = eit->second;
+			++eit;
 			if(peffect->is_activateable(peffect->get_handler_player(), e)) {
 				core.select_options.push_back(peffect->description);
 				core.select_effects.push_back(peffect);
@@ -3137,7 +3139,7 @@ int32 field::destroy(uint16 step, group * targets, effect * reason_effect, uint3
 						pduel->lua->add_param(pcard->current.reason_player, PARAM_TYPE_INT);
 						int32 ct;
 						if(ct = eset[i]->get_value(3)) {
-							auto it = pcard->indestructable_effects.insert(std::make_pair(eset[i]->id, 0));
+							auto it = pcard->indestructable_effects.emplace(eset[i]->id, 0);
 							if(++it.first->second <= ct) {
 								indestructable_effect_set.insert(eset[i]);
 								is_destructable = false;
@@ -3340,7 +3342,7 @@ int32 field::destroy(uint16 step, group * targets, effect * reason_effect, uint3
 						pduel->lua->add_param(pcard->current.reason_player, PARAM_TYPE_INT);
 						int32 ct;
 						if(ct = eset[i]->get_value(3)) {
-							auto it = pcard->indestructable_effects.insert(std::make_pair(eset[i]->id, 0));
+							auto it = pcard->indestructable_effects.emplace(eset[i]->id, 0);
 							if(++it.first->second <= ct) {
 								pduel->write_buffer8(MSG_HINT);
 								pduel->write_buffer8(HINT_CARD);
