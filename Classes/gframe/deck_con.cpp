@@ -85,6 +85,7 @@ void DeckBuilder::Initialize() {
 	is_starting_dragging = false;
 	prev_deck = mainGame->cbDBDecks->getSelected();
 	prev_operation = 0;
+	prev_sel = -1;
 	is_modified = false;
 	mainGame->device->setEventReceiver(this);
 }
@@ -122,7 +123,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 		return true;
 	}
 #endif
-    if(mainGame->dField.OnCommonEvent(event))
+	if(mainGame->dField.OnCommonEvent(event))
 		return false;
 	switch(event.EventType) {
 	case irr::EET_GUI_EVENT: {
@@ -203,6 +204,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 				mainGame->PopupElement(mainGame->wQuery);
 				mainGame->gMutex.Unlock();
 				prev_operation = id;
+				prev_sel = sel;
 				mainGame->soundEffectPlayer->doDelete();
 				break;
 			}
@@ -286,7 +288,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 					deckManager.current_deck.extra.clear();
 					deckManager.current_deck.side.clear();
 				} else if(prev_operation == BUTTON_DELETE_DECK) {
-					int sel = mainGame->cbDBDecks->getSelected();
+					int sel = prev_sel;
 					if(deckManager.DeleteDeck(deckManager.current_deck, mainGame->cbDBDecks->getItem(sel))) {
 						mainGame->cbDBDecks->removeItem(sel);
 						int count = mainGame->cbDBDecks->getItemCount();
@@ -300,6 +302,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 						prev_deck = sel;
 						is_modified = false;
 					}
+					prev_sel = -1;
 				} else if(prev_operation == BUTTON_LEAVE_GAME) {
 					Terminate();
 				} else if(prev_operation == COMBOBOX_DBDECKS) {
@@ -894,7 +897,7 @@ void DeckBuilder::FilterCards() {
 		for (auto elements_iterator = query_elements.begin(); elements_iterator != query_elements.end(); elements_iterator++) {
 			const wchar_t* element_pointer = elements_iterator->c_str();
 			if (element_pointer[0] == L'$') {
-				if(!CardNameContains(text.name, &element_pointer[1])){
+				if(!CardNameContains(text.name.c_str(), &element_pointer[1])){
 					is_target = false;
 					break;
 				}
@@ -905,7 +908,7 @@ void DeckBuilder::FilterCards() {
 					break;
 				}
 			} else {
-				if (!CardNameContains(text.name, elements_iterator->c_str()) && wcsstr(text.text, elements_iterator->c_str()) == 0
+				if (!CardNameContains(text.name.c_str(), elements_iterator->c_str()) && text.text.find(elements_iterator->c_str()) == std::wstring::npos
 					&& (!set_code_map[*elements_iterator] || !check_set_code(data, set_code_map[*elements_iterator]))) {
 					is_target = false;
 					break;
