@@ -1373,8 +1373,10 @@ void Game::MainLoop() {
 			cur_time -= 1000;
 			timer->setTime(0);
 			if(dInfo.time_player == 0 || dInfo.time_player == 1)
-				if(dInfo.time_left[dInfo.time_player])
+				if(dInfo.time_left[dInfo.time_player]) {
 					dInfo.time_left[dInfo.time_player]--;
+					RefreshTimeDisplay();
+				}
 		}
 		//modded
 		if (DuelClient::try_needed) {
@@ -1397,6 +1399,11 @@ void Game::MainLoop() {
 	delete soundEffectPlayer;
 	usleep(500000);
 //	device->drop();
+}
+void Game::RefreshTimeDisplay() {
+	myswprintf(dInfo.str_time_left[0], L"%d", dInfo.time_left[0]);
+	myswprintf(dInfo.str_time_left[1], L"%d", dInfo.time_left[1]);
+	myswprintf(dInfo.str_time_limit, L"%d", dInfo.time_limit);
 }
 void Game::BuildProjectionMatrix(irr::core::matrix4& mProjection, f32 left, f32 right, f32 bottom, f32 top, f32 znear, f32 zfar) {
 	for(int i = 0; i < 16; ++i)
@@ -1622,7 +1629,7 @@ void Game::LoadConfig() {
 	gameConf.chkIgnoreDeckChanges = android::getIntSetting(appMain, "chkIgnoreDeckChanges", 0);
 	gameConf.defaultOT = android::getIntSetting(appMain, "defaultOT", 1);
 	//TEST BOT MODE
-	gameConf.enable_bot_mode = 0;
+	gameConf.enable_bot_mode = 1;
 }
 
 void Game::SaveConfig() {
@@ -1760,7 +1767,7 @@ void Game::ShowCardInfo(int code) {
 		}
 		stDataInfo->setText(formatBuffer);
 		//modded
-		if ((cd.type & TYPE_LINK) && (cd.level == 8)) {
+		if ((cd.type & TYPE_LINK) && (cd.level > 5)) {
 			stDataInfo->setRelativePosition(rect<s32>(15 * xScale, 60 * yScale, 296 * xScale, 98 * yScale));
 			stSetName->setRelativePosition(rect<s32>(15 * xScale, 98 * yScale, 296 * xScale, 121 * yScale));
 			stText->setRelativePosition(rect<s32>(15 * xScale, (98 + offset) * yScale, 287 * xScale, 324 * yScale));

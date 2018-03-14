@@ -652,6 +652,7 @@ void ClientField::ReplaySwap() {
 	mainGame->dInfo.isReplaySwapped = !mainGame->dInfo.isReplaySwapped;
 	std::swap(mainGame->dInfo.lp[0], mainGame->dInfo.lp[1]);
 	std::swap(mainGame->dInfo.strLP[0], mainGame->dInfo.strLP[1]);
+	std::swap(mainGame->dInfo.start_lp[0], mainGame->dInfo.start_lp[1]);
 	std::swap(mainGame->dInfo.hostname, mainGame->dInfo.clientname);
 	std::swap(mainGame->dInfo.hostname_tag, mainGame->dInfo.clientname_tag);
 	for(auto chit = chains.begin(); chit != chains.end(); ++chit) {
@@ -1394,7 +1395,7 @@ void ClientField::UpdateDeclarableCodeType(bool enter) {
 	if(dataManager.GetString(trycode, &cstr) && dataManager.GetData(trycode, &cd) && is_declarable(cd, declarable_type)) {
 		mainGame->lstANCard->clear();
 		ancard.clear();
-		mainGame->lstANCard->addItem(cstr.name);
+		mainGame->lstANCard->addItem(cstr.name.c_str());
 		ancard.push_back(trycode);
 		return;
 	}
@@ -1403,15 +1404,15 @@ void ClientField::UpdateDeclarableCodeType(bool enter) {
 	mainGame->lstANCard->clear();
 	ancard.clear();
 	for(auto cit = dataManager._strings.begin(); cit != dataManager._strings.end(); ++cit) {
-		if(wcsstr(cit->second.name, pname) != 0) {
+		if(cit->second.name.find(pname) != std::wstring::npos) {
 			auto cp = dataManager.GetCodePointer(cit->first);	//verified by _strings
 			//datas.alias can be double card names or alias
 			if(is_declarable(cp->second, declarable_type)) {
-				if(wcscmp(pname, cit->second.name) == 0) { //exact match
-					mainGame->lstANCard->insertItem(0, cit->second.name, -1);
+				if(pname == cit->second.name) { //exact match
+					mainGame->lstANCard->insertItem(0, cit->second.name.c_str(), -1);
 					ancard.insert(ancard.begin(), cit->first);
 				} else {
-					mainGame->lstANCard->addItem(cit->second.name);
+					mainGame->lstANCard->addItem(cit->second.name.c_str());
 					ancard.push_back(cit->first);
 				}
 			}
@@ -1426,7 +1427,7 @@ void ClientField::UpdateDeclarableCodeOpcode(bool enter) {
 	if(dataManager.GetString(trycode, &cstr) && dataManager.GetData(trycode, &cd) && is_declarable(cd, opcode)) {
 		mainGame->lstANCard->clear();
 		ancard.clear();
-		mainGame->lstANCard->addItem(cstr.name);
+		mainGame->lstANCard->addItem(cstr.name.c_str());
 		ancard.push_back(trycode);
 		return;
 	}
@@ -1435,15 +1436,15 @@ void ClientField::UpdateDeclarableCodeOpcode(bool enter) {
 	mainGame->lstANCard->clear();
 	ancard.clear();
 	for(auto cit = dataManager._strings.begin(); cit != dataManager._strings.end(); ++cit) {
-		if(wcsstr(cit->second.name, pname) != 0) {
+		if(cit->second.name.find(pname) != std::wstring::npos) {
 			auto cp = dataManager.GetCodePointer(cit->first);	//verified by _strings
 			//datas.alias can be double card names or alias
 			if(is_declarable(cp->second, opcode)) {
-				if(wcscmp(pname, cit->second.name) == 0) { //exact match
-					mainGame->lstANCard->insertItem(0, cit->second.name, -1);
+				if(pname == cit->second.name) { //exact match
+					mainGame->lstANCard->insertItem(0, cit->second.name.c_str(), -1);
 					ancard.insert(ancard.begin(), cit->first);
 				} else {
-					mainGame->lstANCard->addItem(cit->second.name);
+					mainGame->lstANCard->addItem(cit->second.name.c_str());
 					ancard.push_back(cit->first);
 				}
 			}

@@ -28,7 +28,7 @@ public class GameUriManager {
         this.activity = activity;
     }
 
-    public void doIntent(Intent intent) {
+    public boolean doIntent(Intent intent) {
         if (ACTION_OPEN_DECK.equals(intent.getAction())) {
             if (intent.getData() != null) {
                 doUri(intent.getData());
@@ -54,7 +54,10 @@ public class GameUriManager {
                 Toast.makeText(getActivity(), R.string.start_game_error, Toast.LENGTH_SHORT).show();
                 activity.finish();
             }
+        }else{
+            return false;
         }
+        return true;
     }
 
     public Activity getActivity() {
