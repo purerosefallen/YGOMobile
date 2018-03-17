@@ -20,7 +20,6 @@ android {
 
 
 
-
         versionName "THC"
         vectorDrawables.useSupportLibrary = true
         ndk {
