@@ -43,9 +43,6 @@ dependencies:
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Smile-DK/ygopro-scripts/archive/master.zip
     - 7z x -y ygopro-scripts-master.zip > /dev/null
-    - rm -rf ygopro-scripts-master.zip
-    - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Fluorohydride/ygopro-scripts/archive/master.zip
-    - 7z x -y ygopro-scripts-master.zip > /dev/null
     - mv -f ygopro-scripts-master script
 
     - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
