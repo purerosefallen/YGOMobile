@@ -523,11 +523,11 @@ void Game::DrawMisc() {
 	}
 	if(!dInfo.isReplay && dInfo.player_type < 7 && dInfo.time_limit) {
 		numFont->draw(L"/", recti(455 * mainGame->xScale, 31 * mainGame->yScale, 525 * mainGame->xScale, 50 * mainGame->yScale), 0xffffffff, true, false, 0);
-		numFont->draw(L"/", recti(795 * mainGame->xScale, 31 * mainGame->yScale, 865 * mainGame->xScale, 50 * mainGame->yScale), 0xffffffff, true, false, 0);
+		numFont->draw(L"/", recti(916 * mainGame->xScale, 31 * mainGame->yScale, 986 * mainGame->xScale, 50 * mainGame->yScale), 0xffffffff, true, false, 0);
 		numFont->draw(dInfo.str_time_left[0], recti(455 * mainGame->xScale, 31 * mainGame->yScale, 490 * mainGame->xScale, 50 * mainGame->yScale), 0xffffffff, true, false, 0);
 		numFont->draw(dInfo.str_time_limit, recti(490 * mainGame->xScale, 31 * mainGame->yScale, 525 * mainGame->xScale, 50 * mainGame->yScale), 0xffffffff, true, false, 0);
-		numFont->draw(dInfo.str_time_left[1], recti(795 * mainGame->xScale, 31 * mainGame->yScale, 830 * mainGame->xScale, 50 * mainGame->yScale), 0xffffffff, true, false, 0);
-		numFont->draw(dInfo.str_time_limit, recti(830 * mainGame->xScale, 31 * mainGame->yScale, 865 * mainGame->xScale, 50 * mainGame->yScale), 0xffffffff, true, false, 0);
+		numFont->draw(dInfo.str_time_left[1], recti(916 * mainGame->xScale, 31 * mainGame->yScale, 951 * mainGame->xScale, 50 * mainGame->yScale), 0xffffffff, true, false, 0);
+		numFont->draw(dInfo.str_time_limit, recti(951 * mainGame->xScale, 31 * mainGame->yScale, 986 * mainGame->xScale, 50 * mainGame->yScale), 0xffffffff, true, false, 0);
 		driver->draw2DRectangle(recti(525 * mainGame->xScale, 34 * mainGame->yScale, (525 + dInfo.time_left[0] * 100 / dInfo.time_limit) * mainGame->xScale, 44 * mainGame->yScale), 0xa0e0e0e0, 0xa0e0e0e0, 0xa0c0c0c0, 0xa0c0c0c0);
 		driver->draw2DRectangleOutline(recti(525 * mainGame->xScale, 34 * mainGame->yScale, 625 * mainGame->xScale, 44 * mainGame->yScale), 0xffffffff);
 		driver->draw2DRectangle(recti((795 - dInfo.time_left[1] * 100 / dInfo.time_limit) * mainGame->xScale, 34 * mainGame->yScale, 795 * mainGame->xScale, 44 * mainGame->yScale), 0xa0e0e0e0, 0xa0e0e0e0, 0xa0c0c0c0, 0xa0c0c0c0);
