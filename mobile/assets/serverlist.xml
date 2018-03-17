@@ -8,13 +8,6 @@
         <port>7210</port>
         <keep>true</keep>
     </server>
-	<server>
-        <player-name>Komeiji Koishi</player-name>
-        <name>YGOPRO 233 Server</name>
-        <ip>s1.ygo233.com</ip>
-        <port>233</port>
-        <keep>true</keep>
-    </server>
     <server>
         <player-name>Komeiji Koishi</player-name>
         <name>YGOPRO 233 Server</name>
