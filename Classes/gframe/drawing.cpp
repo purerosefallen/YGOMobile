@@ -522,8 +522,11 @@ void Game::DrawMisc() {
 		}
 	}
 	if(!dInfo.isReplay && dInfo.player_type < 7 && dInfo.time_limit) {
-		numFont->draw(dInfo.str_time_left[0], recti(490 * mainGame->xScale, 31 * mainGame->yScale, 525 * mainGame->xScale, 50 * mainGame->yScale), 0xffffffff, true, false, 0);
-		numFont->draw(dInfo.str_time_left[1], recti(795 * mainGame->xScale, 31 * mainGame->yScale, 830 * mainGame->xScale, 50 * mainGame->yScale), 0xffffffff, true, false, 0);
+		numFont->draw(dInfo.str_time_left[0], recti(490 * mainGame->xScale, 30 * mainGame->yScale, 523 * mainGame->xScale, 50 * mainGame->yScale), 0xff000000, true, false, 0);
+		numFont->draw(dInfo.str_time_left[0], recti(490 * mainGame->xScale, 31 * mainGame->yScale, 525 * mainGame->xScale, 50 * mainGame->yScale), dInfo.time_color[0], true, false, 0);
+		numFont->draw(dInfo.str_time_left[1], recti(795 * mainGame->xScale, 30 * mainGame->yScale, 828 * mainGame->xScale, 50 * mainGame->yScale), 0xff000000, true, false, 0);
+		numFont->draw(dInfo.str_time_left[1], recti(795 * mainGame->xScale, 31 * mainGame->yScale, 830 * mainGame->xScale, 50 * mainGame->yScale), dInfo.time_color[1], true, false, 0);
+
 		driver->draw2DRectangle(recti(525 * mainGame->xScale, 34 * mainGame->yScale, (525 + dInfo.time_left[0] * 100 / dInfo.time_limit) * mainGame->xScale, 44 * mainGame->yScale), 0xa0e0e0e0, 0xa0e0e0e0, 0xa0c0c0c0, 0xa0c0c0c0);
 		driver->draw2DRectangleOutline(recti(525 * mainGame->xScale, 34 * mainGame->yScale, 625 * mainGame->xScale, 44 * mainGame->yScale), 0xffffffff);
 		driver->draw2DRectangle(recti((795 - dInfo.time_left[1] * 100 / dInfo.time_limit) * mainGame->xScale, 34 * mainGame->yScale, 795 * mainGame->xScale, 44 * mainGame->yScale), 0xa0e0e0e0, 0xa0e0e0e0, 0xa0c0c0c0, 0xa0c0c0c0);

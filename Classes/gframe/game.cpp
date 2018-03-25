@@ -1401,6 +1401,19 @@ void Game::MainLoop() {
 //	device->drop();
 }
 void Game::RefreshTimeDisplay() {
+	for(int i = 0; i < 2; ++i) {
+		if(dInfo.time_left[i] && dInfo.time_limit) {
+			if(dInfo.time_left[i] >= dInfo.time_limit / 2)
+				dInfo.time_color[i] = 0xffffffff;
+			else if(dInfo.time_left[i] >= dInfo.time_limit / 3)
+				dInfo.time_color[i] = 0xffffff00;
+			else if(dInfo.time_left[i] >= dInfo.time_limit / 6)
+				dInfo.time_color[i] = 0xffff7f00;
+			else
+				dInfo.time_color[i] = 0xffff0000;
+		} else
+			dInfo.time_color[i] = 0xffffffff;
+	}
 	myswprintf(dInfo.str_time_left[0], L"%d", dInfo.time_left[0]);
 	myswprintf(dInfo.str_time_left[1], L"%d", dInfo.time_left[1]);
 	myswprintf(dInfo.str_time_limit, L"%d", dInfo.time_limit);
