@@ -9,8 +9,8 @@ android {
         applicationId "cn.garymb.ygomobile"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 3106010
-        versionName "3.1.6"
+        versionCode 310701
+        versionName "3.1.7"
         vectorDrawables.useSupportLibrary = true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -22,7 +22,7 @@ android {
     }
     productFlavors {
         core {
-            applicationIdSuffix ".lite"
+            applicationIdSuffix ""
         }
         mycard {
 
