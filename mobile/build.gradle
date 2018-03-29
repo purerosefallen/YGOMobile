@@ -14,7 +14,7 @@ android {
 
 
 
-        versionCode 3106010
+        versionCode 310701
 
 
 
@@ -32,7 +32,7 @@ android {
     }
     productFlavors {
         core {
-            applicationIdSuffix ".lite"
+            applicationIdSuffix ""
         }
         mycard {
 
