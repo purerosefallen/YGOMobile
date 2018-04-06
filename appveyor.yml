@@ -35,36 +35,26 @@ install:
   - refreshenv
   
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-windows-x86_64.zip
-  - 7z x android-ndk-r15b-windows-x86_64.zip
+  - 7z x -y android-ndk-r15b-windows-x86_64.zip
 
-  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY/archive/local.zip
-  - 7z x ygopro-222DIY-local.zip
-  - cp -rf ygopro-222DIY-local/ocgcore Classes
-  - mv -f ygopro-222DIY-local/strings.conf mobile/assets/data/conf
-  - mv -f ygopro-222DIY-local/lflist.conf mobile/assets/data/conf
-  - mv -f ygopro-222DIY-local/cards.cdb mobile/assets/data
-  
-  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/Smile-DK/ygopro-scripts/archive/master.zip
-  - 7z x -y ygopro-scripts-master.zip
-  - mv -f ygopro-scripts-master script
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro/archive/master.zip
+  - 7z x -y ygopro-master.zip
+  - mv -f ygopro-master/cards.cdb mobile/assets/data
+  - mv -f ygopro-master/strings.conf mobile/assets/data/conf
+  - mv -f ygopro-master/lflist.conf mobile/assets/data/conf
+
+  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-core/archive/master.zip
+  - 7z x -y ygopro-core-master.zip
+  - cp -rf ygopro-core-master/* Classes/ocgcore/
 
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
-  - 7z x ygopro222-images-master.zip
+  - 7z x -y ygopro222-images-master.zip
   - mv -f ygopro222-images-master pics
   
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-starter-pack/archive/master.zip
-  - 7z x ygopro-starter-pack-master.zip
+  - 7z x -y ygopro-starter-pack-master.zip
   - cp -rf ygopro-starter-pack-master/* mobile/assets/data
-  
-  - mkdir mobile\assets\data\expansions
 
-  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY-data/archive/master.zip
-  - 7z x ygopro-222DIY-data-master.zip
-  - cp -rf ygopro-222DIY-data-master/deck mobile/assets/data
-  - cp -rf ygopro-222DIY-data-master/expansions/pics .
-  - cp -rf ygopro-222DIY-data-master/expansions/script .
-  - cp -rf ygopro-222DIY-data-master/expansions/*.cdb mobile/assets/data/expansions
-  - cp -rf ygopro-222DIY-data-master/expansions/*.conf mobile/assets/data/expansions
   - rm -rf pics/thumbnail pics/*.db
   - cd pics && ls *.jpg | xargs -I {} -P 4 magick -size 177x254! -quality %QUALITY% {} {} && cd ..
 
