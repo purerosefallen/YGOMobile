@@ -82,12 +82,12 @@ script:
 
 before_deploy:
   - mkdir op
-  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk ygomobile-$TRAVIS_TAG.apk
+  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk KoishiMobile-$TRAVIS_TAG.apk
 
 deploy:
   provider: releases
   api-key: $NANAHIRA
-  file: ygomobile-$TRAVIS_TAG.apk
+  file: KoishiMobile-$TRAVIS_TAG.apk
   skip_cleanup: true
   on:
     tags: true
