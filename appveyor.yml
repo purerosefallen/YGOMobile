@@ -18,6 +18,8 @@ cache:
   - libcore\libs
   - libcore\obj
 install:
+  - git submodule update --init --recursive
+
   - mkdir %ANDROID_HOME%
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/tools_r25.2.5-windows.zip
   - 7z x -o%ANDROID_HOME% tools_r25.2.5-windows.zip
@@ -43,10 +45,6 @@ install:
   - mv -f ygopro-master/strings.conf mobile/assets/data/conf
   - mv -f ygopro-master/lflist.conf mobile/assets/data/conf
 
-  - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-core/archive/master.zip
-  - 7z x -y ygopro-core-master.zip
-  - cp -rf ygopro-core-master/* Classes/ocgcore/
-
   - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
   - 7z x -y ygopro222-images-master.zip
   - mv -f ygopro222-images-master pics
@@ -58,8 +56,9 @@ install:
   - rm -rf pics/thumbnail pics/*.db
   - cd pics && ls *.jpg | xargs -I {} -P 4 magick -size 177x254! -quality %QUALITY% {} {} && cd ..
 
-  - 7z a -mx0 mobile/assets/data/pics.zip pics
-  - 7z a -mx0 mobile/assets/data/scripts.zip script
+  - mv -f Classes/script .
+  - 7z a -mx0 -xr!.git* mobile/assets/data/pics.zip pics > /dev/null
+  - 7z a -mx0 -xr!.git* mobile/assets/data/scripts.zip script > /dev/null
 
   - cp -rf tools/Application.mk libcore/jni
   - cp -rf tools/*.png mobile/src/main/res/drawable
