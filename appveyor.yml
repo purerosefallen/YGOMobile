@@ -72,10 +72,10 @@ after_build:
   - find . -name *.lock -print | xargs -I {} -P 4 rm -rf {}
   - find %HOMEPATH%\.gradle -name *.lock -print | xargs -I {} -P 4 rm -rf {}
   - find %HOMEPATH%\.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
-  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk ygomobile-%APPVEYOR_REPO_BRANCH%.apk
+  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk KoishiMobile-%APPVEYOR_REPO_BRANCH%.apk
 
 test: off
 
 artifacts:
-  - path: ygomobile-%APPVEYOR_REPO_BRANCH%.apk
-    name: ygomobile
+  - path: KoishiMobile-%APPVEYOR_REPO_BRANCH%.apk
+    name: KoishiMobile
