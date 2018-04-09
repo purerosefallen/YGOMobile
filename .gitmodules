@@ -1,3 +1,6 @@
 [submodule "Classes/ocgcore"]
 	path = Classes/ocgcore
 	url = https://github.com/purerosefallen/ygopro-core
+[submodule "Classes/script"]
+	path = Classes/script
+	url = https://github.com/Smile-DK/ygopro-scripts
