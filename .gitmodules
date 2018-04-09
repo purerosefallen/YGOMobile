@@ -1,0 +1,3 @@
+[submodule "Classes/ocgcore"]
+	path = Classes/ocgcore
+	url = https://github.com/purerosefallen/ygopro-core
