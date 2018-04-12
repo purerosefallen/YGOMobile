@@ -60,6 +60,9 @@ void card::attacker_map::addcard(card* pcard) {
 	auto pr = emplace(fid, std::make_pair(pcard, 0));
 	pr.first->second.second++;
 }
+void card_data::clear() {
+	std::memset(this, 0, sizeof(card_data));
+}
 card::card(duel* pd) {
 	scrtype = 1;
 	ref_handle = 0;
@@ -3162,7 +3165,7 @@ int32 card::is_setable_mzone(uint8 playerid, uint8 ignore_count, effect* peffect
 	return TRUE;
 }
 int32 card::is_setable_szone(uint8 playerid, uint8 ignore_fd) {
-	if(!(data.type & TYPE_FIELD) && !ignore_fd && pduel->game_field->get_useable_count(current.controler, LOCATION_SZONE, current.controler, LOCATION_REASON_TOFIELD) <= 0)
+	if(!(data.type & TYPE_FIELD) && !ignore_fd && pduel->game_field->get_useable_count(this, current.controler, LOCATION_SZONE, current.controler, LOCATION_REASON_TOFIELD) <= 0)
 		return FALSE;
 	if(data.type & TYPE_MONSTER && !is_affected_by_effect(EFFECT_MONSTER_SSET))
 		return FALSE;
@@ -3311,6 +3314,17 @@ int32 card::is_releasable_by_nonsummon(uint8 playerid) {
 int32 card::is_releasable_by_effect(uint8 playerid, effect* peffect) {
 	if(!peffect)
 		return TRUE;
+	if(current.controler != playerid && !is_affected_by_effect(EFFECT_EXTRA_RELEASE)) {
+		effect_set eset;
+		filter_effect(EFFECT_EXTRA_RELEASE_NONSUM, &eset);
+		for(int32 i = 0; i < eset.size(); ++i) {
+			pduel->lua->add_param(peffect, PARAM_TYPE_EFFECT);
+			pduel->lua->add_param(REASON_EFFECT, PARAM_TYPE_INT);
+			pduel->lua->add_param(playerid, PARAM_TYPE_INT);
+			if(!eset[i]->check_value_condition(3))
+				return FALSE;
+		}
+	}
 	effect_set eset;
 	filter_effect(EFFECT_UNRELEASABLE_EFFECT, &eset);
 	for(int32 i = 0; i < eset.size(); ++i) {
@@ -3523,9 +3537,9 @@ int32 card::is_control_can_be_changed(int32 ignore_mzone, uint32 zone) {
 		return FALSE;
 	if(current.location != LOCATION_MZONE)
 		return FALSE;
-	if(!ignore_mzone && pduel->game_field->get_useable_count(1 - current.controler, LOCATION_MZONE, current.controler, LOCATION_REASON_CONTROL, zone) <= 0)
+	if(!ignore_mzone && pduel->game_field->get_useable_count(this, 1 - current.controler, LOCATION_MZONE, current.controler, LOCATION_REASON_CONTROL, zone) <= 0)
 		return FALSE;
-	if((get_type() & TYPE_TRAPMONSTER) && pduel->game_field->get_useable_count(1 - current.controler, LOCATION_SZONE, current.controler, LOCATION_REASON_CONTROL) <= 0)
+	if((get_type() & TYPE_TRAPMONSTER) && pduel->game_field->get_useable_count(this, 1 - current.controler, LOCATION_SZONE, current.controler, LOCATION_REASON_CONTROL) <= 0)
 		return FALSE;
 	if(is_affected_by_effect(EFFECT_CANNOT_CHANGE_CONTROL))
 		return FALSE;

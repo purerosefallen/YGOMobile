@@ -50,6 +50,7 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 			break;
 		}
 		switch(event.GUIEvent.EventType) {
+//dont merge these cases
 		case irr::gui::EGET_BUTTON_CLICKED: {
 			switch(id) {
 			case BUTTON_MODE_EXIT: {
@@ -336,8 +337,8 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 					sprintf(arg2, "%d", flag);
 					char arg3[8];
 					sprintf(arg3, "%d", mainGame->gameConf.serverport);
-					execl("sh","sh","Bot.sh", arg1, arg2, arg3, NULL);
-					//execl("./bot", "bot", arg1, arg2, arg3, NULL);
+					execl("sh","sh","WindBot.sh", arg1, arg2, arg3, NULL);
+				//	execl("./bot", "bot", arg1, arg2, arg3, NULL);
 					exit(0);
 				} else {
 					if(!NetServer::StartServer(mainGame->gameConf.serverport))

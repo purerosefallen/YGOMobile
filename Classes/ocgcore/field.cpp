@@ -568,19 +568,51 @@ int32 field::is_location_useable(uint32 playerid, uint32 location, uint32 sequen
 // list: store local flag in list
 // return: usable count of LOCATION_MZONE or real LOCATION_SZONE of playerid requested by uplayer (may be negative)
 int32 field::get_useable_count(card* pcard, uint8 playerid, uint8 location, uint8 uplayer, uint32 reason, uint32 zone, uint32* list) {
-	if(core.duel_rule >= 4 && location == LOCATION_MZONE && pcard->current.location == LOCATION_EXTRA)
+	if(location == LOCATION_MZONE && pcard && pcard->current.location == LOCATION_EXTRA)
 		return get_useable_count_fromex(pcard, playerid, uplayer, zone, list);
 	else
-		return get_useable_count(playerid, location, uplayer, reason, zone, list);
+		return get_useable_count_other(pcard, playerid, location, uplayer, reason, zone, list);
+}
+int32 field::get_useable_count_fromex(card* pcard, uint8 playerid, uint8 uplayer, uint32 zone, uint32* list) {
+	bool use_temp_card = false;
+	if(!pcard) {
+		use_temp_card = true;
+		pcard = temp_card;
+		pcard->current.location = LOCATION_EXTRA;
+	}
+	int useable_count = 0;
+	if(core.duel_rule >= 4)
+		useable_count = get_useable_count_fromex_rule4(pcard, playerid, uplayer, zone, list);
+	else
+		useable_count = get_useable_count_other(pcard, playerid, LOCATION_MZONE, uplayer, LOCATION_REASON_TOFIELD, zone, list);
+	if(use_temp_card)
+		pcard->current.location = 0;
+	return useable_count;
 }
 int32 field::get_spsummonable_count(card* pcard, uint8 playerid, uint32 zone, uint32* list) {
-	if(core.duel_rule >= 4 && pcard->current.location == LOCATION_EXTRA)
+	if(pcard->current.location == LOCATION_EXTRA)
 		return get_spsummonable_count_fromex(pcard, playerid, playerid, zone, list);
 	else
-		return get_tofield_count(playerid, LOCATION_MZONE, playerid, LOCATION_REASON_TOFIELD, zone, list);
+		return get_tofield_count(pcard, playerid, LOCATION_MZONE, playerid, LOCATION_REASON_TOFIELD, zone, list);
 }
-int32 field::get_useable_count(uint8 playerid, uint8 location, uint8 uplayer, uint32 reason, uint32 zone, uint32* list) {
-	int32 count = get_tofield_count(playerid, location, uplayer, reason, zone, list);
+int32 field::get_spsummonable_count_fromex(card* pcard, uint8 playerid, uint8 uplayer, uint32 zone, uint32* list) {
+	bool use_temp_card = false;
+	if(!pcard) {
+		use_temp_card = true;
+		pcard = temp_card;
+		pcard->current.location = LOCATION_EXTRA;
+	}
+	int spsummonable_count = 0;
+	if(core.duel_rule >= 4)
+		spsummonable_count = get_spsummonable_count_fromex_rule4(pcard, playerid, uplayer, zone, list);
+	else
+		spsummonable_count = get_tofield_count(pcard, playerid, LOCATION_MZONE, uplayer, LOCATION_REASON_TOFIELD, zone, list);
+	if(use_temp_card)
+		pcard->current.location = 0;
+	return spsummonable_count;
+}
+int32 field::get_useable_count_other(card* pcard, uint8 playerid, uint8 location, uint8 uplayer, uint32 reason, uint32 zone, uint32* list) {
+	int32 count = get_tofield_count(pcard, playerid, location, uplayer, reason, zone, list);
 	int32 limit;
 	if(location == LOCATION_MZONE)
 		limit = get_mzone_limit(playerid, uplayer, reason);
@@ -590,16 +622,28 @@ int32 field::get_useable_count(uint8 playerid, uint8 location, uint8 uplayer, ui
 		count = limit;
 	return count;
 }
-int32 field::get_tofield_count(uint8 playerid, uint8 location, uint32 uplayer, uint32 reason, uint32 zone, uint32* list) {
+int32 field::get_tofield_count(card* pcard, uint8 playerid, uint8 location, uint32 uplayer, uint32 reason, uint32 zone, uint32* list) {
 	if (location != LOCATION_MZONE && location != LOCATION_SZONE)
 		return 0;
 	uint32 flag = player[playerid].disabled_location | player[playerid].used_location;
-	effect_set eset;
 	if(location == LOCATION_MZONE && (reason & LOCATION_REASON_TOFIELD)) {
+		effect_set eset;
 		if(uplayer < 2)
 			filter_player_effect(uplayer, EFFECT_MUST_USE_MZONE, &eset);
+		if(pcard)
+			pcard->filter_effect(EFFECT_MUST_USE_MZONE, &eset);
 		for(int32 i = 0; i < eset.size(); ++i) {
-			uint32 value = eset[i]->get_value();
+			if(eset[i]->is_flag(EFFECT_FLAG_COUNT_LIMIT) && eset[i]->count_limit == 0)
+				continue;
+			uint32 value = 0x1f;
+			if(eset[i]->is_flag(EFFECT_FLAG_PLAYER_TARGET))
+				value = eset[i]->get_value();
+			else {
+				pduel->lua->add_param(playerid, PARAM_TYPE_INT);
+				pduel->lua->add_param(uplayer, PARAM_TYPE_INT);
+				pduel->lua->add_param(reason, PARAM_TYPE_INT);
+				value = eset[i]->get_value(pcard, 3);
+			}
 			if(eset[i]->get_handler_player() == playerid)
 				flag |= ~value & 0x1f;
 			else
@@ -617,20 +661,32 @@ int32 field::get_tofield_count(uint8 playerid, uint8 location, uint32 uplayer, u
 		*list = flag;
 	return count;
 }
-int32 field::get_useable_count_fromex(card* pcard, uint8 playerid, uint8 uplayer, uint32 zone, uint32* list) {
-	int32 count = get_spsummonable_count_fromex(pcard, playerid, uplayer, zone, list);
+int32 field::get_useable_count_fromex_rule4(card* pcard, uint8 playerid, uint8 uplayer, uint32 zone, uint32* list) {
+	int32 count = get_spsummonable_count_fromex_rule4(pcard, playerid, uplayer, zone, list);
 	int32 limit = get_mzone_limit(playerid, uplayer, LOCATION_REASON_TOFIELD);
 	if(count > limit)
 		count = limit;
 	return count;
 }
-int32 field::get_spsummonable_count_fromex(card* pcard, uint8 playerid, uint8 uplayer, uint32 zone, uint32* list) {
+int32 field::get_spsummonable_count_fromex_rule4(card* pcard, uint8 playerid, uint8 uplayer, uint32 zone, uint32* list) {
 	uint32 flag = player[playerid].disabled_location | player[playerid].used_location;
 	effect_set eset;
 	if(uplayer < 2)
 		filter_player_effect(uplayer, EFFECT_MUST_USE_MZONE, &eset);
+	if(pcard)
+		pcard->filter_effect(EFFECT_MUST_USE_MZONE, &eset);
 	for(int32 i = 0; i < eset.size(); ++i) {
-		uint32 value = eset[i]->get_value();
+		if(eset[i]->is_flag(EFFECT_FLAG_COUNT_LIMIT) && eset[i]->count_limit == 0)
+			continue;
+		uint32 value = 0x1f;
+		if(eset[i]->is_flag(EFFECT_FLAG_PLAYER_TARGET))
+			value = eset[i]->get_value();
+		else {
+			pduel->lua->add_param(playerid, PARAM_TYPE_INT);
+			pduel->lua->add_param(uplayer, PARAM_TYPE_INT);
+			pduel->lua->add_param(LOCATION_REASON_TOFIELD, PARAM_TYPE_INT);
+			value = eset[i]->get_value(pcard, 3);
+		}
 		if(eset[i]->get_handler_player() == playerid)
 			flag |= ~value & 0x1f;
 		else
@@ -1570,7 +1626,7 @@ effect* field::is_player_affected_by_effect(uint8 playerid, uint32 code) {
 	}
 	return 0;
 }
-int32 field::get_release_list(uint8 playerid, card_set* release_list, card_set* ex_list, int32 use_con, int32 use_hand, int32 fun, int32 exarg, card* exc, group* exg) {
+int32 field::get_release_list(uint8 playerid, card_set* release_list, card_set* ex_list, card_set* ex_list_oneof, int32 use_con, int32 use_hand, int32 fun, int32 exarg, card* exc, group* exg) {
 	uint32 rcount = 0;
 	for(auto cit = player[playerid].list_mzone.begin(); cit != player[playerid].list_mzone.end(); ++cit) {
 		card* pcard = *cit;
@@ -1594,52 +1650,55 @@ int32 field::get_release_list(uint8 playerid, card_set* release_list, card_set* 
 			}
 		}
 	}
+	int32 ex_oneof_max = 0;
 	for(auto cit = player[1 - playerid].list_mzone.begin(); cit != player[1 - playerid].list_mzone.end(); ++cit) {
 		card* pcard = *cit;
-		if(pcard && pcard != exc && !(exg && exg->has_card(pcard)) && (pcard->is_position(POS_FACEUP) || !use_con) && pcard->is_affected_by_effect(EFFECT_EXTRA_RELEASE)
+		if(pcard && pcard != exc && !(exg && exg->has_card(pcard)) && (pcard->is_position(POS_FACEUP) || !use_con)
 		        && pcard->is_releasable_by_nonsummon(playerid) && (!use_con || pduel->lua->check_matching(pcard, fun, exarg))) {
-			if(ex_list)
-				ex_list->insert(pcard);
 			pcard->release_param = 1;
-			rcount++;
-		}
-	}
-	return rcount;
-}
-int32 field::check_release_list(uint8 playerid, int32 count, int32 use_con, int32 use_hand, int32 fun, int32 exarg, card* exc, group* exg) {
-	for(auto cit = player[playerid].list_mzone.begin(); cit != player[playerid].list_mzone.end(); ++cit) {
-		card* pcard = *cit;
-		if(pcard && pcard != exc && !(exg && exg->has_card(pcard)) && pcard->is_releasable_by_nonsummon(playerid)
-		        && (!use_con || pduel->lua->check_matching(pcard, fun, exarg))) {
-			count--;
-			if(count == 0)
-				return TRUE;
-		}
-	}
-	if(use_hand) {
-		for(auto cit = player[playerid].list_hand.begin(); cit != player[playerid].list_hand.end(); ++cit) {
-			card* pcard = *cit;
-			if(pcard && pcard != exc && !(exg && exg->has_card(pcard)) && pcard->is_releasable_by_nonsummon(playerid)
-			        && (!use_con || pduel->lua->check_matching(pcard, fun, exarg))) {
-				count--;
-				if(count == 0)
-					return TRUE;
+			if(pcard->is_affected_by_effect(EFFECT_EXTRA_RELEASE)) {
+				if(ex_list)
+					ex_list->insert(pcard);
+				rcount++;
+			} else {
+				effect* peffect = pcard->is_affected_by_effect(EFFECT_EXTRA_RELEASE_NONSUM);
+				if(!peffect || (peffect->is_flag(EFFECT_FLAG_COUNT_LIMIT) && peffect->count_limit == 0))
+					continue;
+				pduel->lua->add_param(core.reason_effect, PARAM_TYPE_EFFECT);
+				pduel->lua->add_param(REASON_COST, PARAM_TYPE_INT);
+				pduel->lua->add_param(core.reason_player, PARAM_TYPE_INT);
+				if(!peffect->check_value_condition(3))
+					continue;
+				if(ex_list_oneof)
+					ex_list_oneof->insert(pcard);
+				ex_oneof_max = 1;
 			}
 		}
 	}
-	for(auto cit = player[1 - playerid].list_mzone.begin(); cit != player[1 - playerid].list_mzone.end(); ++cit) {
+	return rcount + ex_oneof_max;
+}
+int32 field::check_release_list(uint8 playerid, int32 count, int32 use_con, int32 use_hand, int32 fun, int32 exarg, card* exc, group* exg) {
+	card_set relcard;
+	card_set relcard_oneof;
+	get_release_list(playerid, &relcard, &relcard, &relcard_oneof, use_con, use_hand, fun, exarg, exc, exg);
+	bool has_oneof = false;
+	for(auto cit = core.must_select_cards.begin(); cit != core.must_select_cards.end(); ++cit) {
 		card* pcard = *cit;
-		if(pcard && pcard != exc && !(exg && exg->has_card(pcard)) && (!use_con || pcard->is_position(POS_FACEUP)) && pcard->is_affected_by_effect(EFFECT_EXTRA_RELEASE)
-		        && pcard->is_releasable_by_nonsummon(playerid) && (!use_con || pduel->lua->check_matching(pcard, fun, exarg))) {
-			count--;
-			if(count == 0)
-				return TRUE;
-		}
+		auto it = relcard.find(pcard);
+		if(it != relcard.end())
+			relcard.erase(it);
+		else if(!has_oneof && relcard_oneof.find(pcard) != relcard_oneof.end())
+			has_oneof = true;
+		else
+			return FALSE;
 	}
-	return FALSE;
+	int32 rcount = (int32)relcard.size();
+	if(!has_oneof && !relcard_oneof.empty())
+		rcount++;
+	return (rcount >= count) ? TRUE : FALSE;
 }
 // return: the max release count of mg or all monsters on field
-int32 field::get_summon_release_list(card* target, card_set* release_list, card_set* ex_list, card_set* ex_list_sum, group* mg, uint32 ex, uint32 releasable, uint32 pos) {
+int32 field::get_summon_release_list(card* target, card_set* release_list, card_set* ex_list, card_set* ex_list_oneof, group* mg, uint32 ex, uint32 releasable, uint32 pos) {
 	uint8 p = target->current.controler;
 	card_set ex_tribute;
 	effect_set eset;
@@ -1663,7 +1722,7 @@ int32 field::get_summon_release_list(card* target, card_set* release_list, card_
 			rcount += pcard->release_param;
 		}
 	}
-	uint32 ex_sum_max = 0;
+	uint32 ex_oneof_max = 0;
 	for(auto cit = player[1 - p].list_mzone.begin(); cit != player[1 - p].list_mzone.end(); ++cit) {
 		card* pcard = *cit;
 		if(!pcard || !((releasable >> (pcard->current.sequence + 16)) & 1) || !pcard->is_releasable_by_summon(p, target))
@@ -1674,22 +1733,22 @@ int32 field::get_summon_release_list(card* target, card_set* release_list, card_
 			pcard->release_param = 2;
 		else
 			pcard->release_param = 1;
-		if(ex || pcard->is_affected_by_effect(EFFECT_EXTRA_RELEASE)) {
-			if(ex_list)
-				ex_list->insert(pcard);
-			rcount += pcard->release_param;
-		} else if(ex_tribute.find(pcard) != ex_tribute.end()) {
+		if(ex || ex_tribute.find(pcard) != ex_tribute.end()) {
 			if(release_list)
 				release_list->insert(pcard);
+			rcount += pcard->release_param;
+		} else if(pcard->is_affected_by_effect(EFFECT_EXTRA_RELEASE)) {
+			if(ex_list)
+				ex_list->insert(pcard);
 			rcount += pcard->release_param;
 		} else {
 			effect* peffect = pcard->is_affected_by_effect(EFFECT_EXTRA_RELEASE_SUM);
 			if(!peffect || (peffect->is_flag(EFFECT_FLAG_COUNT_LIMIT) && peffect->count_limit == 0))
 				continue;
-			if(ex_list_sum)
-				ex_list_sum->insert(pcard);
-			if(ex_sum_max < pcard->release_param)
-				ex_sum_max = pcard->release_param;
+			if(ex_list_oneof)
+				ex_list_oneof->insert(pcard);
+			if(ex_oneof_max < pcard->release_param)
+				ex_oneof_max = pcard->release_param;
 		}
 	}
 	for(auto cit = ex_tribute.begin(); cit != ex_tribute.end(); ++cit) {
@@ -1704,7 +1763,7 @@ int32 field::get_summon_release_list(card* target, card_set* release_list, card_
 			pcard->release_param = 1;
 		rcount += pcard->release_param;
 	}
-	return rcount + ex_sum_max;
+	return rcount + ex_oneof_max;
 }
 int32 field::get_summon_count_limit(uint8 playerid) {
 	effect_set eset;
@@ -2758,23 +2817,19 @@ int32 field::check_tribute(card* pcard, int32 min, int32 max, group* mg, uint8 t
 		return FALSE;
 	zone &= 0x1f;
 	int32 s = 0;
-	if(toplayer == sumplayer) {
-		int32 ct = get_tofield_count(toplayer, LOCATION_MZONE, sumplayer, LOCATION_REASON_TOFIELD, zone);
-		if(ct <= 0 && max <= 0)
-			return FALSE;
-		for(auto it = release_list.begin(); it != release_list.end(); ++it) {
-			if((*it)->current.location == LOCATION_MZONE && (*it)->current.controler == sumplayer) {
-				s++;
-				if((zone >> (*it)->current.sequence) & 1)
-					ct++;
-			}
+	int32 ct = get_tofield_count(pcard, toplayer, LOCATION_MZONE, sumplayer, LOCATION_REASON_TOFIELD, zone);
+	if(ct <= 0 && max <= 0)
+		return FALSE;
+	for(auto it = release_list.begin(); it != release_list.end(); ++it) {
+		if((*it)->current.location == LOCATION_MZONE && (*it)->current.controler == toplayer) {
+			s++;
+			if((zone >> (*it)->current.sequence) & 1)
+				ct++;
 		}
-		if(ct <= 0)
-			return FALSE;
-		max -= (int32)ex_list.size();
-	} else {
-		s = ex_list.size();
 	}
+	if(ct <= 0)
+		return FALSE;
+	max -= (int32)ex_list.size();
 	int32 fcount = get_mzone_limit(toplayer, sumplayer, LOCATION_REASON_TOFIELD);
 	if(s < -fcount + 1)
 		return FALSE;
@@ -3118,7 +3173,9 @@ int32 field::is_player_can_flipsummon(uint8 playerid, card * pcard) {
 }
 int32 field::is_player_can_spsummon_monster(uint8 playerid, uint8 toplayer, uint8 sumpos, uint32 sumtype, card_data* pdata) {
 	temp_card->data = *pdata;
-	return is_player_can_spsummon(core.reason_effect, sumtype, sumpos, playerid, toplayer, temp_card);
+	int32 result = is_player_can_spsummon(core.reason_effect, sumtype, sumpos, playerid, toplayer, temp_card);
+	temp_card->data.clear();
+	return result;
 }
 int32 field::is_player_can_release(uint8 playerid, card * pcard) {
 	effect_set eset;
