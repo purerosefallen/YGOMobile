@@ -374,11 +374,6 @@ static const struct luaL_Reg grouplib[] = {
 };
 
 static const struct luaL_Reg duellib[] = {
-	//2pick
-	{ "SavePickDeck", scriptlib::duel_save_pick_deck },
-	{ "IsPlayerNeedToPickDeck", scriptlib::duel_is_player_need_to_pick_deck },
-	{ "GetStartCount", scriptlib::duel_get_start_count },
-	{ "ResetTimeLimit", scriptlib::duel_reset_time_limit },
 	{ "SelectField", scriptlib::duel_select_field },
 	{ "GetMasterRule", scriptlib::duel_get_master_rule },
 	{ "ReadCard", scriptlib::duel_read_card },
@@ -729,8 +724,6 @@ interpreter::interpreter(duel* pd): coroutines(256) {
 		load_script((char*) "./script/nef/msc.lua");
 	if(!load_script((char*) "./expansions/script/nef/uds.lua"))
 		load_script((char*) "./script/nef/uds.lua");
-	//2pick rule
-	load_script((char*) "./2pick/pick.lua");
 }
 interpreter::~interpreter() {
 	lua_close(lua_state);

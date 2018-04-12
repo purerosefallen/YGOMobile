@@ -71,7 +71,6 @@ struct player_info {
 	int32 lp;
 	int32 start_count;
 	int32 draw_count;
-	int32 pick_needed;
 	uint32 used_location;
 	uint32 disabled_location;
 	uint32 extra_p_count;
@@ -932,9 +931,5 @@ public:
 #define CARDDATA_LSCALE			10
 #define CARDDATA_RSCALE			11
 #define CARDDATA_LINK_MARKER	12
-
-//2pick
-#define MSG_SAVE_PICK_DECK		220
-#define MSG_RESET_TIME			221
 
 #endif /* FIELD_H_ */

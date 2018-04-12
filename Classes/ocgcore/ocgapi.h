@@ -38,7 +38,7 @@ uint32 handle_message(void* pduel, uint32 message_type);
 extern "C" DECL_DLLEXPORT ptr create_duel(uint32 seed);
 extern "C" DECL_DLLEXPORT void start_duel(ptr pduel, int32 options);
 extern "C" DECL_DLLEXPORT void end_duel(ptr pduel);
-extern "C" DECL_DLLEXPORT void set_player_info(ptr pduel, int32 playerid, int32 lp, int32 startcount, int32 drawcount, bool pick_needed = false);
+extern "C" DECL_DLLEXPORT void set_player_info(ptr pduel, int32 playerid, int32 lp, int32 startcount, int32 drawcount);
 extern "C" DECL_DLLEXPORT void get_log_message(ptr pduel, byte* buf);
 extern "C" DECL_DLLEXPORT int32 get_message(ptr pduel, byte* buf);
 extern "C" DECL_DLLEXPORT int32 process(ptr pduel);

@@ -13,57 +13,6 @@
 #include "group.h"
 #include "ocgapi.h"
 
-//2pick
-int32 scriptlib::duel_save_pick_deck(lua_State * L) {
-	check_param_count(L, 2);
-	check_param(L, PARAM_TYPE_GROUP, 2);
-	int32 playerid = lua_tointeger(L, 1);
-	if(playerid != 0 && playerid != 1)
-		luaL_error(L, "Parameter 1 should be 0 or 1.", 2);
-	group* pgroup =  *(group**) lua_touserdata(L, 2);
-	duel* pduel = pgroup->pduel;
-	if(pgroup->container.size() == 0)
-		luaL_error(L, "Deck empty.", 2);
-	pduel->write_buffer8(MSG_SAVE_PICK_DECK);
-	pduel->write_buffer8(playerid);
-	pduel->write_buffer8(pgroup->container.size());
-	for(auto cit = pgroup->container.begin(); cit != pgroup->container.end(); ++cit) {
-		pduel->write_buffer32((*cit)->data.code);
-	}
-	return 0;
-}
-int32 scriptlib::duel_is_player_need_to_pick_deck(lua_State * L) {
-	check_param_count(L, 1);
-	int32 p = lua_tointeger(L, 1);
-	if(p != 0 && p != 1)
-		luaL_error(L, "Parameter 1 should be 0 or 1.", 2);
-	duel* pduel = interpreter::get_duel_info(L);
-	lua_pushboolean(L, pduel->game_field->player[p].pick_needed);
-	return 1;
-}
-int32 scriptlib::duel_get_start_count(lua_State * L) {
-	check_param_count(L, 1);
-	int32 p = lua_tointeger(L, 1);
-	if(p != 0 && p != 1)
-		luaL_error(L, "Parameter 1 should be 0 or 1.", 2);
-	duel* pduel = interpreter::get_duel_info(L);
-	lua_pushinteger(L, pduel->game_field->player[p].start_count);
-	return 1;
-}
-int32 scriptlib::duel_reset_time_limit(lua_State * L) {
-	check_param_count(L, 1);
-	int32 p = lua_tointeger(L, 1);
-	int32 time = 0;
-	if(p != 0 && p != 1)
-		luaL_error(L, "Parameter 1 should be 0 or 1.", 2);
-	if(lua_gettop(L) >= 2)
-		time = lua_tointeger(L, 2);
-	duel* pduel = interpreter::get_duel_info(L);
-	pduel->write_buffer8(MSG_RESET_TIME);
-	pduel->write_buffer8(p);
-	pduel->write_buffer8(time);	
-	return 0;
-}
 int32 scriptlib::duel_select_field(lua_State * L) {
 	check_action_permission(L);
 	check_param_count(L, 4);
