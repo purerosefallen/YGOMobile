@@ -15,6 +15,20 @@
         <port>7210</port>
         <keep>true</keep>
     </server>
+	<server>
+        <player-name>Komeiji Koishi</player-name>
+        <name>YGOPRO 7210srv TCG</name>
+        <ip>koishi.ygopro.win</ip>
+        <port>1311</port>
+        <keep>true</keep>
+    </server>
+	<server>
+        <player-name>Komeiji Koishi</player-name>
+        <name>YGOPRO THC</name>
+        <ip>koishi.ygopro.win</ip>
+        <port>666</port>
+        <keep>true</keep>
+    </server>
     <server>
         <player-name>Komeiji Koishi</player-name>
         <name>YGOPRO 233 Server</name>

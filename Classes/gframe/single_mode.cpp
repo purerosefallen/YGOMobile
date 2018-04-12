@@ -94,12 +94,10 @@ int SingleMode::SinglePlayThread(void* param) {
 	mainGame->dField.Clear();
 	mainGame->dInfo.isFirst = true;
 	mainGame->dInfo.isStarted = true;
+	mainGame->dInfo.isFinished = false;
 	mainGame->dInfo.isSingleMode = true;
 	mainGame->device->setEventReceiver(&mainGame->dField);
 	mainGame->gMutex.Unlock();
-#ifdef _IRR_ANDROID_PLATFORM_
-		android::toggleOverlayView(mainGame->appMain, true);
-#endif
 	char engineBuffer[0x1000];
 	is_closing = false;
 	is_continuing = true;
@@ -139,6 +137,7 @@ int SingleMode::SinglePlayThread(void* param) {
 	wchar_t timetext[80];
 	mbstowcs(timetext, timebuf, size);
 	mainGame->ebRSName->setText(timetext);
+	mainGame->wReplaySave->setText(dataManager.GetSysString(1340));
 	mainGame->PopupElement(mainGame->wReplaySave);
 	mainGame->gMutex.Unlock();
 	mainGame->replaySignal.Reset();
@@ -146,12 +145,10 @@ int SingleMode::SinglePlayThread(void* param) {
 	if(mainGame->actionParam)
 		last_replay.SaveReplay(mainGame->ebRSName->getText());
 	end_duel(pduel);
-#ifdef _IRR_ANDROID_PLATFORM_
-		android::toggleOverlayView(mainGame->appMain, false);
-#endif
 	if(!is_closing) {
 		mainGame->gMutex.Lock();
 		mainGame->dInfo.isStarted = false;
+		mainGame->dInfo.isFinished = true;
 		mainGame->dInfo.isSingleMode = false;
 		mainGame->gMutex.Unlock();
 		mainGame->closeDoneSignal.Reset();
