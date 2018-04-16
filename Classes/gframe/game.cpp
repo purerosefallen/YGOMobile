@@ -814,7 +814,7 @@ bool Game::Initialize() {
 	btnSideSort->setVisible(false);
 	btnSideReload = env->addButton(rect<s32>(440 * xScale, 100 * yScale, 500 * xScale, 130 * yScale), 0, BUTTON_SIDE_RELOAD, dataManager.GetSysString(1309));
 	btnSideReload->setVisible(false);
-	btnRenameDeck = env->addButton(rect<s32>(170 * xScale, 99 * yScale, 220 * xScale, 120 * yScale), wDeckEdit, BUTTON_RENAME_DECK, dataManager.GetSysString(1362));
+	btnRenameDeck = env->addButton(rect<s32>(75 * xScale, 95 * yScale, 125 * xScale, 116 * yScale), wDeckEdit, BUTTON_RENAME_DECK, dataManager.GetSysString(1362));
 	//
 	scrFilter = env->addScrollBar(false, recti(999 * xScale, 161 * yScale, 1019 * xScale, 629 * yScale), 0, SCROLL_FILTER);
 	scrFilter->setLargeStep(10);
