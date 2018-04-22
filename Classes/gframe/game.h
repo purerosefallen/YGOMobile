@@ -139,6 +139,7 @@ public:
 	void SaveConfig();
 	void ShowCardInfo(int code);
 	void AddChatMsg(wchar_t* msg, int player);
+	void ClearChatMsg();
 	void AddDebugMsg(char* msgbuf);
 	void ClearTextures();
 	void CloseDuelWindow();
@@ -627,6 +628,7 @@ extern Game* mainGame;
 #define BUTTON_LOAD_SINGLEPLAY		351
 #define BUTTON_CANCEL_SINGLEPLAY	352
 #define CHECKBOX_AUTO_SEARCH		360
+#define CHECKBOX_DISABLE_CHAT		364
 #define COMBOBOX_SORTTYPE			370
 #define COMBOBOX_LIMIT				371
 
