@@ -6,7 +6,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "cn.garymb.ygomobile.koishi"
+        applicationId "cn.garymb.ygomobile.tsubaki"
         minSdkVersion 16
         targetSdkVersion 22
 
@@ -20,7 +20,7 @@ android {
 
 
 
-        versionName "Koishi"
+        versionName "Koishi-THC"
         vectorDrawables.useSupportLibrary = true
         ndk {
             abiFilters "armeabi-v7a", "x86"

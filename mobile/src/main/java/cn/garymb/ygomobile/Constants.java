@@ -10,7 +10,7 @@ public interface Constants {
     String PREF_LAST_YDK = "pref_last_ydk";
     String PREF_DEF_LAST_YDK = "new";
     String PREF_GAME_PATH = "pref_key_game_res_path";
-    String PREF_DEF_GAME_DIR = "ygocore-koishi";
+    String PREF_DEF_GAME_DIR = "ygocore-thc";
 
     String PREF_GAME_VERSION = "game_version";
 
@@ -150,7 +150,7 @@ public interface Constants {
      */
     String ACTION_OPEN_GAME = "ygomobile.intent.action.GAME";
     String ACTION_RELOAD = "ygomobile.intent.action.RELOAD";
-    String IMAGE_URL = "https://github.com/HuangYuNan/ygopro222-images/raw/master/%s.png";
+    String IMAGE_URL = "https://github.com/HuangYuNan/thcsvr/raw/master/expansions/pics/%s.png";
     String IMAGE_FIELD_URL = "https://github.com/moecube/ygopro-images-field/raw/master/field/%s.png";
     String IMAGE_URL_EX = ".jpg";
     String IMAGE_FIELD_URL_EX = ".png";
