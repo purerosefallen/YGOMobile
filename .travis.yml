@@ -47,9 +47,9 @@ before_install:
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro/archive/master.zip
 - 7z x -y ygopro-master.zip > /dev/null
-- mv -f ygopro-master/cards.cdb mobile/assets/data
+# - mv -f ygopro-master/cards.cdb mobile/assets/data
 - mv -f ygopro-master/strings.conf mobile/assets/data/conf
-- mv -f ygopro-master/lflist.conf mobile/assets/data/conf
+#- mv -f ygopro-master/lflist.conf mobile/assets/data/conf
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
 - 7z x -y ygopro222-images-master.zip > /dev/null
@@ -57,12 +57,21 @@ before_install:
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-starter-pack/archive/master.zip
 - 7z x -y ygopro-starter-pack-master.zip > /dev/null
-- cp -rf ygopro-starter-pack-master/* mobile/assets/data
+- cp -rf ygopro-starter-pack-master/* mobile/assets/data/conf
+
+# thc
+- git clone --depth=1 https://github.com/HuangYuNan/thcsvr
+- mv -f thcsvr/expansions/pics .
+- mv -f thcsvr/expansions/script .
+- mv -f thcsvr/expansions/thc.cdb mobile/assets/data/cards.cdb
+- mv -f thcsvr/lflist.conf mobile/assets/data/conf
+- mv -f thcsvr/expansions mobile/assets/data
 
 - rm -rf pics/thumbnail pics/*.db
 - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
 
-- mv -f Classes/script .
+- mv -f Classes/script/constant.lua script
+- mv -f Classes/script/utility.lua script
 - 7z a -mx0 -xr!.git* mobile/assets/data/pics.zip pics > /dev/null
 - 7z a -mx0 -xr!.git* mobile/assets/data/scripts.zip script > /dev/null
 
