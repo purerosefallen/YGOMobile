@@ -49,11 +49,11 @@ before_install:
 - 7z x -y ygopro-master.zip > /dev/null
 # - mv -f ygopro-master/cards.cdb mobile/assets/data
 - mv -f ygopro-master/strings.conf mobile/assets/data/conf
-#- mv -f ygopro-master/lflist.conf mobile/assets/data/conf
+# - mv -f ygopro-master/lflist.conf mobile/assets/data/conf
 
-- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
-- 7z x -y ygopro222-images-master.zip > /dev/null
-- mv -f ygopro222-images-master pics
+# - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
+# - 7z x -y ygopro222-images-master.zip > /dev/null
+# - mv -f ygopro222-images-master pics
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-starter-pack/archive/master.zip
 - 7z x -y ygopro-starter-pack-master.zip > /dev/null
