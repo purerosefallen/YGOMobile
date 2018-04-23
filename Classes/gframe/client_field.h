@@ -16,7 +16,7 @@ struct ChainInfo {
 	irr::core::vector3df chain_pos;
 	ClientCard* chain_card;
 	int code;
-	u64 desc;
+	int desc;
 	int controler;
 	int location;
 	int sequence;
@@ -43,8 +43,8 @@ public:
 	std::vector<ClientCard*> activatable_cards;
 	std::vector<ClientCard*> attackable_cards;
 	std::vector<ClientCard*> conti_cards;
-	std::vector<std::pair<u64,int>> activatable_descs;
-	std::vector<u64> select_options;
+	std::vector<std::pair<int,int>> activatable_descs;
+	std::vector<int> select_options;
 	std::vector<ChainInfo> chains;
 	int extra_p_count[2];
 
