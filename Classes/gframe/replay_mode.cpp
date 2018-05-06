@@ -378,7 +378,7 @@ bool ReplayMode::ReplayAnalyze(char* msg, unsigned int len) {
 		case MSG_SELECT_OPTION: {
 			player = BufferIO::ReadInt8(pbuf);
 			count = BufferIO::ReadInt8(pbuf);
-			pbuf += count * 4;
+			pbuf += count * 8;
 			return ReadReplayResponse();
 		}
 		case MSG_SELECT_CARD:
