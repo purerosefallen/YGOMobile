@@ -86,13 +86,15 @@ script:
 - ./gradlew :mobile:assembleMycardRelease
 
 before_deploy:
-  - mkdir op
-  - mv -f mobile/build/outputs/apk/mobile-mycard-armeabi-v7a-release.apk KoishiMobile-$TRAVIS_TAG.apk
+- mv -f ./mobile/build/outputs/apk/mycard/release/mobile-mycard-release.apk ./KoishiMobile-$TRAVIS_TAG.apk
+- mv -f ./mobile/build/outputs/apk/mycard/release/output.json ./output-$TRAVIS_TAG.json
 
 deploy:
   provider: releases
   api-key: $NANAHIRA
-  file: KoishiMobile-$TRAVIS_TAG.apk
+  file: 
+  - KoishiMobile-$TRAVIS_TAG.apk
+  - output-$TRAVIS_TAG.json
   skip_cleanup: true
   on:
     tags: true
