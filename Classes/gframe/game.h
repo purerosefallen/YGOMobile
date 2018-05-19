@@ -151,6 +151,20 @@ public:
 		irr::gui::IGUIElement* focus = env->getFocus();
 		return focus && focus->hasType(type);
 	}
+	
+	recti Resize(s32 x, s32 y, s32 x2, s32 y2);
+	recti Resize(s32 x, s32 y, s32 x2, s32 y2, s32 dx, s32 dy, s32 dx2, s32 dy2);
+	position2di Resize(s32 x, s32 y);
+	position2di ResizeReverse(s32 x, s32 y);
+	recti ResizeElem(s32 x, s32 y, s32 x2, s32 y2);
+	recti ResizeWin(s32 x, s32 y, s32 x2, s32 y2, bool chat = false);
+	recti ResizeCard(s32 x, s32 y, s32 x2, s32 y2);
+	recti ResizeCardHint(s32 x, s32 y, s32 x2, s32 y2);
+	position2di ResizeCardHint(s32 x, s32 y);
+	recti ResizeCardMid(s32 x, s32 y, s32 x2, s32 y2, s32 midx, s32 midy);
+	position2di ResizeCardMid(s32 x, s32 y, s32 midx, s32 midy);
+	recti ResizeFit(s32 x, s32 y, s32 x2, s32 y2);	
+
 // don't merge
 
 	Mutex gMutex;
