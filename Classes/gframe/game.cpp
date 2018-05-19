@@ -1966,8 +1966,8 @@ recti Game::ResizeWin(s32 x, s32 y, s32 x2, s32 y2, bool chat) {
 	s32 sx = x2 - x;
 	s32 sy = y2 - y;
 	if(chat) {
-		y = window_size.Height - sy;
-		x2 = window_size.Width;
+		y = (1024.0 * xScale) - sy;
+		x2 = 640.0 * yScale;
 		y2 = y + sy;
 		return recti(x, y, x2, y2);
 	}
