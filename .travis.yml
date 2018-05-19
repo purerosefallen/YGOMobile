@@ -38,7 +38,7 @@ env:
 before_install:
 - git submodule update --init --recursive
 
-# - cp -rf tools/licenses $ANDROID_HOME
+- yes | sdkmanager "platforms;android-27"
 
 - if [[ ! -f "android-ndk-r15b/ndk-build" ]]; then
     curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip;
