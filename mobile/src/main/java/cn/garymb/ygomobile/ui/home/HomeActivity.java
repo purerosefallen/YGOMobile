@@ -78,7 +78,7 @@ abstract class HomeActivity extends BaseActivity implements NavigationView.OnNav
         mServerListManager.bind(mServerList);
         mServerListManager.syncLoadData();
 
-        WindBot.initAndroid(AppsSettings.get().getResourcePathForced(), AppsSettings.get().getDataBaseFile().getAbsolutePath());
+        WindBot.initAndroid("/storage/emulated/0/ygocore-koishi", "/storage/emulated/0/ygocore-koishi/cards.cdb");
 
         MessageReceiver mReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
