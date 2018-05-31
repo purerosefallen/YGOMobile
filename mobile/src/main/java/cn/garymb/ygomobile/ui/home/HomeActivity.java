@@ -50,7 +50,10 @@ import cn.garymb.ygomobile.ui.online.MyCardActivity;
 import cn.garymb.ygomobile.ui.plus.DefaultOnBoomListener;
 import cn.garymb.ygomobile.ui.plus.DialogPlus;
 import cn.garymb.ygomobile.ui.preference.SettingsActivity;
+import cn.garymb.ygomobile.utils.AlipayPayUtils;
 import libwindbot.windbot.WindBot;
+  
+import static cn.garymb.ygomobile.Constants.ALIPAY_URL;
 
 abstract class HomeActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
     protected SwipeMenuRecyclerView mServerList;
