@@ -80,10 +80,10 @@ abstract class HomeActivity extends BaseActivity implements NavigationView.OnNav
 
     try {
         WindBot.initAndroid("/storage/emulated/0/ygocore-koishi", "/storage/emulated/0/ygocore-koishi/cards.cdb");
-    } catch (Exception e) {
+    } catch (Exception e1) {
         try {
             WindBot.initAndroid("/storage/sdcard/ygocore-koishi", "/storage/sdcard/ygocore-koishi/cards.cdb");
-        } catch (Exception e) {}
+        } catch (Exception e2) {}
     }
         MessageReceiver mReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
