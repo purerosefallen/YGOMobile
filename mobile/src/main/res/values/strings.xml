@@ -18,6 +18,7 @@
     <string name="scripts">scripts</string>
     <string name="images">images</string>
     <string name="single_lua">single files</string>
+    <string name="windbot_files">WindBot files</string>
     <string name="font_files">font files</string>
     <string name="game_skins">skin files</string>
     <string name="coping_pendulum_image">Coping pendulum image</string>

@@ -57,6 +57,7 @@ public interface Constants {
     String CORE_SKIN_PATH = "textures";
     String CORE_SKIN_PENDULUM_PATH = CORE_SKIN_PATH + "/extra";
     String CORE_DECK_PATH = "deck";
+    String CORE_WINDBOT_PATH = "windbot";
     String CORE_EXPANSIONS ="expansions";
     String CORE_SINGLE_PATH = "single";
     String CORE_IMAGE_PATH = "pics";
