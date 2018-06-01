@@ -380,6 +380,16 @@ public class AppsSettings {
         return mSharedPreferences.getString(Constants.PREF_GAME_PATH, defPath);
     }
 
+    public String getResourcePathForced() {
+        String defPath;
+        try {
+            defPath = new File(Environment.getExternalStorageDirectory(), Constants.PREF_DEF_GAME_DIR).getAbsolutePath();
+        } catch (Exception e) {
+            defPath = new File(context.getFilesDir(), Constants.PREF_DEF_GAME_DIR).getAbsolutePath();
+        }
+        return defPath;
+    }
+
     public void setResourcePath(String path) {
         if (TextUtils.equals(path, getResourcePath())) return;
         mSharedPreferences.putString(Constants.PREF_GAME_PATH, path);
