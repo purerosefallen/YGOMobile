@@ -3713,6 +3713,7 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 			}
 			mainGame->WaitFrameSignal(5);
 		}
+		mainGame->dField.RefreshCardCountDisplay();
 		break;
 	}
 	case MSG_RELOAD_FIELD: {
