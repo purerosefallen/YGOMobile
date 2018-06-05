@@ -33,7 +33,7 @@ before_cache:
   - find $HOME/.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
 
 env:
-- QUALITY=50 LIBWINDBOT_VERSION=0.1
+- QUALITY=50 LIBWINDBOT_VERSION=0.2
 
 before_install:
 - git submodule update --init --recursive
