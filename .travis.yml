@@ -78,7 +78,8 @@ before_install:
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY-data/archive/master.zip
 - 7z x -y ygopro-222DIY-data-master.zip > /dev/null
 - mv -f ygopro-222DIY-data-master/expansions/script/*.lua script/
-- mv -f ygopro-222DIY-data-master/expansions/pics/* pics/
+- mv -f ygopro-222DIY-data-master/expansions/pics/*.jpg pics/
+- mv -f ygopro-222DIY-data-master/expansions/pics/field/* pics/field/
 - mv -f ygopro-222DIY-data-master/expansions mobile/assets/data
 
 - 7z a -mx0 -xr!.git* mobile/assets/data/pics.zip pics > /dev/null
