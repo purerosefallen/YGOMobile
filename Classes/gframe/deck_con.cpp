@@ -62,6 +62,7 @@ static bool check_set_code(const CardDataC& data, int set_code) {
 void DeckBuilder::Initialize() {
 	mainGame->is_building = true;
 	mainGame->is_siding = false;
+	mainGame->sidedeck_available = false;
 	mainGame->wInfos->setVisible(true);
 	mainGame->wCardImg->setVisible(true);
 	mainGame->wDeckEdit->setVisible(true);
@@ -295,6 +296,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 					break;
 				}
 				mainGame->imgCard->setImage(imageManager.tCover[0]);
+				mainGame->scrFilter->setVisible(false);
 				char deckbuf[1024];
 				char* pdeck = deckbuf;
 				BufferIO::WriteInt32(pdeck, deckManager.current_deck.main.size() + deckManager.current_deck.extra.size());
@@ -572,7 +574,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 			if(draging_pointer == dataManager._datas.end())
 				break;
 			if(hovered_pos == 4) {
-				if(!check_limit(draging_pointer))
+				if(!check_limit(draging_pointer) || mainGame->is_siding)
 					break;
 			}
 			is_starting_dragging = true;
@@ -606,7 +608,7 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 			if(mainGame->is_siding) {
 				if(is_draging)
 					break;
-				if(hovered_pos == 0 || hovered_seq == -1)
+				if(hovered_pos == 0 || hovered_seq == -1 || hovered_pos == 4)
 					break;
 				auto pointer = dataManager.GetCodePointer(hovered_code);
 				if(pointer == dataManager._datas.end())
@@ -1169,5 +1171,36 @@ bool DeckBuilder::check_limit(code_pointer pointer) {
 			limit--;
 	}
 	return limit > 0;
+}
+void DeckBuilder::LoadSideDeck(int p) {
+	if(!mainGame->sidedeck_available) {
+		myswprintf(result_string, L"%d", -1);
+		return;
+	}
+	for(int i = 0; i < mainGame->sidedeck_main[p].size(); ++i) {
+		int trycode = mainGame->sidedeck_main[p][i];
+		if (dataManager.GetData(trycode, 0)) {
+			auto ptr = dataManager.GetCodePointer(trycode);
+			results.push_back(ptr);
+		}
+	}
+	for(int i = 0; i < mainGame->sidedeck_extra[p].size(); ++i) {
+		int trycode = mainGame->sidedeck_extra[p][i];
+		if (dataManager.GetData(trycode, 0)) {
+			auto ptr = dataManager.GetCodePointer(trycode);
+			results.push_back(ptr);
+		}
+	}
+	if (results.size() > 7) {
+		mainGame->scrFilter->setVisible(true);
+		mainGame->scrFilter->setMax(results.size() - 7);
+		mainGame->scrFilter->setPos(0);
+	}
+	else {
+		mainGame->scrFilter->setVisible(false);
+		mainGame->scrFilter->setPos(0);
+	}
+	SortList();
+	myswprintf(result_string, L"%d", results.size());
 }
 }
