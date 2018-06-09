@@ -5,11 +5,11 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "cn.garymb.ygomobile.koishi"
+        applicationId "cn.garymb.ygomobile.koishianother"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 32010523
-        versionName "Koishi"
+        versionName "Koishi Another"
         flavorDimensions "versionCode"
         vectorDrawables.useSupportLibrary = true
         ndk {

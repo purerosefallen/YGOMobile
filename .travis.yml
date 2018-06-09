@@ -70,6 +70,12 @@ before_install:
 - 7z x -y ygopro-starter-pack-master.zip > /dev/null
 - cp -rf ygopro-starter-pack-master/* mobile/assets/data
 
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro-222DIY-data/archive/master.zip
+- 7z x -y ygopro-222DIY-data-master.zip > /dev/null
+- mv -f ygopro-222DIY-data-master/expansions/script/* script/
+- mv -f ygopro-222DIY-data-master/expansions/pics/* pics/
+- mv -f ygopro-222DIY-data-master/expansions mobile/assets/data
+
 - rm -rf pics/thumbnail pics/*.db
 - cd pics && ls *.jpg | xargs -I {} -P 4 convert -size 177x254! -quality $QUALITY {} {} && cd ..
 
@@ -87,14 +93,14 @@ script:
 - ./gradlew :mobile:assembleMycardRelease
 
 before_deploy:
-- mv -f ./mobile/build/outputs/apk/mycard/release/mobile-mycard-release.apk ./KoishiMobile-$TRAVIS_TAG.apk
+- mv -f ./mobile/build/outputs/apk/mycard/release/mobile-mycard-release.apk ./KoishiMobile-Another-$TRAVIS_TAG.apk
 - mv -f ./mobile/build/outputs/apk/mycard/release/output.json ./output-$TRAVIS_TAG.json
 
 deploy:
   provider: releases
   api-key: $NANAHIRA
   file: 
-  - KoishiMobile-$TRAVIS_TAG.apk
+  - KoishiMobile-Another-$TRAVIS_TAG.apk
   - output-$TRAVIS_TAG.json
   skip_cleanup: true
   on:
