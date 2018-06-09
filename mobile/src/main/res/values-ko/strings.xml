@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="StringFormatInvalid"
     >
-    <string name="app_name">YGOMobile</string>
+    <string name="app_name">KoishiMobile-Another</string>
     <string name="action_settings">설정</string>
     <string name="action_game">게임 시작</string>
     <string name="action_about">정보</string>
