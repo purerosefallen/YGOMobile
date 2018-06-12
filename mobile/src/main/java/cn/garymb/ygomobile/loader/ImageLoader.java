@@ -184,11 +184,11 @@ public class ImageLoader implements Closeable {
         for (String ex : Constants.IMAGE_EX) {
             File file = new File(AppsSettings.get().getResourcePath(), name + ex);
             File file_ex = new File(AppsSettings.get().getResourcePath(), name_ex + ex);
-			if (file_ex.exists()) {
+            if (file_ex.exists()) {
                 bind(file_ex, imageview, Constants.BPG.equals(ex), code, pre, isBig);
                 bind = true;
                 return;				
-			} else
+            } else
             if (file.exists()) {
                 bind(file, imageview, Constants.BPG.equals(ex), code, pre, isBig);
                 bind = true;
