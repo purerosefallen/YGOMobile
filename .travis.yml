@@ -75,7 +75,7 @@ before_install:
 - mv -f thcsvr/expansions/pics .
 - mv -f thcsvr/expansions/script .
 - mv -f thcsvr/expansions/thc.cdb mobile/assets/data/cards.cdb
-- mv -f thcsvr/lflist.conf mobile/assets/data/conf
+# - mv -f thcsvr/lflist.conf mobile/assets/data/conf
 - mv -f thcsvr/expansions mobile/assets/data
 
 - rm -rf pics/thumbnail pics/*.db
