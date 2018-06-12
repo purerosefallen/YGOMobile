@@ -1,6 +1,9 @@
 package cn.garymb.ygomobile.ui.home;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -47,6 +50,10 @@ import cn.garymb.ygomobile.ui.online.MyCardActivity;
 import cn.garymb.ygomobile.ui.plus.DefaultOnBoomListener;
 import cn.garymb.ygomobile.ui.plus.DialogPlus;
 import cn.garymb.ygomobile.ui.preference.SettingsActivity;
+import cn.garymb.ygomobile.utils.AlipayPayUtils;
+import libwindbot.windbot.WindBot;
+  
+import static cn.garymb.ygomobile.Constants.ALIPAY_URL;
 
 abstract class HomeActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
     protected SwipeMenuRecyclerView mServerList;
@@ -70,6 +77,16 @@ abstract class HomeActivity extends BaseActivity implements NavigationView.OnNav
         mServerListManager = new ServerListManager(this, mServerListAdapter);
         mServerListManager.bind(mServerList);
         mServerListManager.syncLoadData();
+
+        try {
+            WindBot.initAndroid(AppsSettings.get().getResourcePath(), AppsSettings.get().getDataBaseFile().getAbsolutePath());
+        }  catch (Exception err) {}
+
+        MessageReceiver mReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("RUN_WINDBOT");
+        getContext().registerReceiver(mReceiver, filter);
+
         //event
         EventBus.getDefault().register(this);
         initBoomMenuButton($(R.id.bmb));
@@ -80,6 +97,17 @@ abstract class HomeActivity extends BaseActivity implements NavigationView.OnNav
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+    public class MessageReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals("RUN_WINDBOT")) {
+                String args=intent.getStringExtra("args");
+                WindBot.runAndroid(args);
+            }
+        }
+    };
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onServerInfoEvent(ServerInfoEvent event) {

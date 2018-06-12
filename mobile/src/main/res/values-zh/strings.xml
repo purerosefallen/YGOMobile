@@ -17,6 +17,7 @@
     <string name="scripts">脚本</string>
     <string name="images">图片</string>
     <string name="single_lua">残局文件</string>
+    <string name="windbot_files">人机文件</string>
     <string name="font_files">字体文件</string>
     <string name="game_skins">皮肤文件</string>
     <string name="coping_pendulum_image">复制灵摆数字图片</string>

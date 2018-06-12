@@ -141,6 +141,11 @@ public class ResCheckTask extends AsyncTask<Void, Integer, Integer> {
                 IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.CORE_SINGLE_PATH),
                         new File(resPath, Constants.CORE_SINGLE_PATH).getAbsolutePath(), needsUpdate);
             }
+            if (needsUpdate) {
+                setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.windbot_files)));
+                IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.CORE_WINDBOT_PATH),
+                        new File(resPath, Constants.CORE_WINDBOT_PATH).getAbsolutePath(), needsUpdate);
+            }
             if (IOUtils.hasAssets(mContext, getDatapath(Constants.CORE_SCRIPTS_ZIP))) {
                 setMessage(mContext.getString(R.string.check_things, mContext.getString(R.string.scripts)));
                 IOUtils.copyFilesFromAssets(mContext, getDatapath(Constants.CORE_SCRIPTS_ZIP),

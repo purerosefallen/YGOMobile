@@ -33,7 +33,7 @@ before_cache:
   - find $HOME/.android -name *.lock -print | xargs -I {} -P 4 rm -rf {}
 
 env:
-- QUALITY=50
+- QUALITY=50 LIBWINDBOT_VERSION=0.2
 
 before_install:
 - git submodule update --init --recursive
@@ -45,6 +45,9 @@ before_install:
     curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip;
     7z x -y android-ndk-r15b-linux-x86_64.zip > /dev/null;
   fi
+  
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/mercury233/libWindbot/releases/download/$LIBWINDBOT_VERSION/libWindbot.aar
+- mv -f libWindbot.aar mobile/libs/
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/ygopro/archive/master.zip
 - 7z x -y ygopro-master.zip > /dev/null
@@ -55,6 +58,13 @@ before_install:
 # - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/HuangYuNan/ygopro222-images/archive/master.zip
 # - 7z x -y ygopro222-images-master.zip > /dev/null
 # - mv -f ygopro222-images-master pics
+
+- curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/purerosefallen/windbot/archive/master.zip
+- 7z x -y windbot-master.zip > /dev/null
+- mv -f windbot-master/BotWrapper/bot.conf mobile/assets/data/conf
+- mkdir mobile/assets/data/windbot
+- mv -f windbot-master/Decks mobile/assets/data/windbot
+- mv -f windbot-master/Dialogs mobile/assets/data/windbot
 
 - curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/moecube/ygopro-starter-pack/archive/master.zip
 - 7z x -y ygopro-starter-pack-master.zip > /dev/null

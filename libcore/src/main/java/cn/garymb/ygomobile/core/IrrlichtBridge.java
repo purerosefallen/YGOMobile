@@ -169,6 +169,8 @@ public final class IrrlichtBridge {
         float getScreenHeight();
 
         void playSoundEffect(String path);
+
+        void runWindbot(String args);
 //        float getSmallerSize();
 //        float getXScale();
 //        float getYScale();

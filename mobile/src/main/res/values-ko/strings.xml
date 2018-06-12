@@ -17,6 +17,7 @@
     <string name="scripts">scripts</string>
     <string name="images">이미지</string>
     <string name="single_lua">single files</string>
+    <string name="windbot_files">WindBot files</string>
     <string name="font_files">폰트 파일</string>
     <string name="game_skins">스킨 파일</string>
     <string name="coping_pendulum_image">Coping pendulum image</string>

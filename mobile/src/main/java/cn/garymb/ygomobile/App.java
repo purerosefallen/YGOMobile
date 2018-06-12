@@ -2,6 +2,7 @@ package cn.garymb.ygomobile;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatDelegate;
 
 public class App extends GameApplication {
@@ -97,5 +98,13 @@ public class App extends GameApplication {
     @Override
     public float getScreenHeight() {
         return AppsSettings.get().getScreenHeight();
+    }
+
+    @Override
+    public void runWindbot(String args) {
+        Intent intent = new Intent();
+        intent.putExtra("args", args);
+        intent.setAction("RUN_WINDBOT");
+        getBaseContext().sendBroadcast(intent);
     }
 }

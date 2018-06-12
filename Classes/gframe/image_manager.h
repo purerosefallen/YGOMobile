@@ -18,6 +18,8 @@ public:
 	irr::video::ITexture* GetTexture(int code);
 	irr::video::ITexture* GetTextureThumb(int code);
 	irr::video::ITexture* GetTextureField(int code);
+	
+	path image_work_path;
 
 	std::unordered_map<int, irr::video::ITexture*> tMap;
 	std::unordered_map<int, irr::video::ITexture*> tThumb;
@@ -47,6 +49,7 @@ public:
 	irr::video::ITexture* tFieldTransparent[2];
 	irr::video::ITexture* tRScale[14];
 	irr::video::ITexture* tLScale[14];
+	irr::video::ITexture* tClock;
 	std::list<std::string> support_types;
 };
 
