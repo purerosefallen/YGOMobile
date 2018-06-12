@@ -88,20 +88,20 @@ irr::video::ITexture* ImageManager::GetTexture(int code) {
 		sprintf(file, "expansions/pics/%d.jpg", code);
 		irr::video::ITexture* img = NULL;
 		std::list<std::string>::iterator iter;
-		if(img == NULL) {
-			for (iter = support_types.begin(); iter != support_types.end(); ++iter) {	
-				sprintf(file, "/expansions/pics/%d.%s", code, iter->c_str());
+		for (iter = support_types.begin(); iter != support_types.end(); ++iter) {	
+			sprintf(file, "/expansions/pics/%d.%s", code, iter->c_str());
 				img = driver->getTexture(image_work_path + path(file));
+			if (img != NULL) {
+				break;
+			}
+		}
+		if(img == NULL) {
+			for (iter = support_types.begin(); iter != support_types.end(); ++iter) {
+				sprintf(file, "%s/%d.%s", irr::android::getCardImagePath(mainGame->appMain).c_str(), code, iter->c_str());
+				img = driver->getTexture(file);
 				if (img != NULL) {
 					break;
 				}
-			}
-		}
-		for (iter = support_types.begin(); iter != support_types.end(); ++iter) {
-			sprintf(file, "%s/%d.%s", irr::android::getCardImagePath(mainGame->appMain).c_str(), code, iter->c_str());
-			img = driver->getTexture(file);
-			if (img != NULL) {
-				break;
 			}
 		}
 		if(img == NULL){//sdcard first, then zip
