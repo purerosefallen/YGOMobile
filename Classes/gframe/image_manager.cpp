@@ -52,6 +52,7 @@ bool ImageManager::Initial(const path dir) {
 	support_types.push_back(std::string("jpg"));
 	support_types.push_back(std::string("png"));
 	support_types.push_back(std::string("bpg"));
+	image_work_path = path;
 	return true;
 }
 void ImageManager::SetDevice(irr::IrrlichtDevice* dev) {
@@ -87,6 +88,15 @@ irr::video::ITexture* ImageManager::GetTexture(int code) {
 		sprintf(file, "expansions/pics/%d.jpg", code);
 		irr::video::ITexture* img = NULL;
 		std::list<std::string>::iterator iter;
+		if(img == NULL) {
+			for (iter = support_types.begin(); iter != support_types.end(); ++iter) {	
+				sprintf(file, "/expansions/pics/%d.%s", code, iter->c_str());
+				img = driver->getTexture(image_work_path + path(file));
+				if (img != NULL) {
+					break;
+				}
+			}
+		}
 		for (iter = support_types.begin(); iter != support_types.end(); ++iter) {
 			sprintf(file, "%s/%d.%s", irr::android::getCardImagePath(mainGame->appMain).c_str(), code, iter->c_str());
 			img = driver->getTexture(file);
@@ -128,6 +138,24 @@ irr::video::ITexture* ImageManager::GetTextureThumb(int code) {
 		char file[256];
 		sprintf(file, "%s/%d.jpg", irr::android::getCardImagePath(mainGame->appMain).c_str(), code);
 		irr::video::ITexture* img = driver->getTexture(file);
+		if(img == NULL) {
+			for (iter = support_types.begin(); iter != support_types.end(); ++iter) {	
+				sprintf(file, "/expansions/pics/%d.%s", code, iter->c_str());
+				img = driver->getTexture(image_work_path + path(file));
+				if (img != NULL) {
+					break;
+				}
+			}
+		}
+		if(img == NULL) {
+			for (iter = support_types.begin(); iter != support_types.end(); ++iter) {	
+				sprintf(file, "/expansions/pics/thumbnail/%d.%s", code, iter->c_str());
+				img = driver->getTexture(image_work_path + path(file));
+				if (img != NULL) {
+					break;
+				}
+			}
+		}
 		if(img == NULL) {
 			tThumb[code] = NULL;
 			return tUnknown;
