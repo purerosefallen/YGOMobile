@@ -151,7 +151,7 @@ void imageScaleNNAA(irr::video::IImage *src, irr::video::IImage *dest) {
 			dest->setPixel(dx, dy, pxl);
 		}
 }
-irr::video::ITexture* ImageManager::GetTextureFromFile(char* file, s32 width, s32 height) {
+irr::video::ITexture* ImageManager::GetTextureFromFile(void* file, s32 width, s32 height) {
 	irr::video::ITexture* texture;
 	irr::video::IImage* srcimg = driver->createImageFromFile(file);
 	if(srcimg == NULL)
