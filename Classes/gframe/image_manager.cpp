@@ -79,7 +79,97 @@ void ImageManager::RemoveTexture(int code) {
 		tMap.erase(tit);
 	}
 }
+void imageScaleNNAA(irr::video::IImage *src, irr::video::IImage *dest) {
+	double sx, sy, minsx, maxsx, minsy, maxsy, area, ra, ga, ba, aa, pw, ph, pa;
+	u32 dy, dx;
+	irr::video::SColor pxl;
+
+	// Cache rectsngle boundaries.
+	double sw = src->getDimension().Width * 1.0;
+	double sh = src->getDimension().Height * 1.0;
+
+	// Walk each destination image pixel.
+	// Note: loop y around x for better cache locality.
+	irr::core::dimension2d<u32> dim = dest->getDimension();
+	for(dy = 0; dy < dim.Height; dy++)
+		for(dx = 0; dx < dim.Width; dx++) {
+
+			// Calculate floating-point source rectangle bounds.
+			minsx = dx * sw / dim.Width;
+			maxsx = minsx + sw / dim.Width;
+			minsy = dy * sh / dim.Height;
+			maxsy = minsy + sh / dim.Height;
+
+			// Total area, and integral of r, g, b values over that area,
+			// initialized to zero, to be summed up in next loops.
+			area = 0;
+			ra = 0;
+			ga = 0;
+			ba = 0;
+			aa = 0;
+
+			// Loop over the integral pixel positions described by those bounds.
+			for(sy = floor(minsy); sy < maxsy; sy++)
+				for(sx = floor(minsx); sx < maxsx; sx++) {
+
+					// Calculate width, height, then area of dest pixel
+					// that's covered by this source pixel.
+					pw = 1;
+					if(minsx > sx)
+						pw += sx - minsx;
+					if(maxsx < (sx + 1))
+						pw += maxsx - sx - 1;
+					ph = 1;
+					if(minsy > sy)
+						ph += sy - minsy;
+					if(maxsy < (sy + 1))
+						ph += maxsy - sy - 1;
+					pa = pw * ph;
+
+					// Get source pixel and add it to totals, weighted
+					// by covered area and alpha.
+					pxl = src->getPixel((u32)sx, (u32)sy);
+					area += pa;
+					ra += pa * pxl.getRed();
+					ga += pa * pxl.getGreen();
+					ba += pa * pxl.getBlue();
+					aa += pa * pxl.getAlpha();
+				}
+
+			// Set the destination image pixel to the average color.
+			if(area > 0) {
+				pxl.setRed(ra / area + 0.5);
+				pxl.setGreen(ga / area + 0.5);
+				pxl.setBlue(ba / area + 0.5);
+				pxl.setAlpha(aa / area + 0.5);
+			} else {
+				pxl.setRed(0);
+				pxl.setGreen(0);
+				pxl.setBlue(0);
+				pxl.setAlpha(0);
+			}
+			dest->setPixel(dx, dy, pxl);
+		}
+}
+irr::video::ITexture* ImageManager::GetTextureFromFile(char* file, s32 width, s32 height) {
+	irr::video::ITexture* texture;
+	irr::video::IImage* srcimg = driver->createImageFromFile(file);
+	if(srcimg == NULL)
+		return NULL;
+	if(srcimg->getDimension() == irr::core::dimension2d<u32>(width, height)) {
+		texture = driver->addTexture(file, srcimg);
+	} else {
+		video::IImage *destimg = driver->createImage(srcimg->getColorFormat(), irr::core::dimension2d<u32>(width, height));
+		imageScaleNNAA(srcimg, destimg);
+		texture = driver->addTexture(file, destimg);
+		destimg->drop();
+}
+	srcimg->drop();
+	return texture;
+}
 irr::video::ITexture* ImageManager::GetTexture(int code) {
+	int width = CARD_IMG_WIDTH;
+	int height = CARD_IMG_HEIGHT;
 	if(code == 0)
 		return tUnknown;
 	auto tit = tMap.find(code);
@@ -90,7 +180,7 @@ irr::video::ITexture* ImageManager::GetTexture(int code) {
 		std::list<std::string>::iterator iter;
 		for (iter = support_types.begin(); iter != support_types.end(); ++iter) {	
 			sprintf(file, "/expansions/pics/%d.%s", code, iter->c_str());
-				img = driver->getTexture(image_work_path + path(file));
+				img = GetTextureFromFile(image_work_path + path(file), width, height);
 			if (img != NULL) {
 				break;
 			}
@@ -98,7 +188,7 @@ irr::video::ITexture* ImageManager::GetTexture(int code) {
 		if(img == NULL) {
 			for (iter = support_types.begin(); iter != support_types.end(); ++iter) {
 				sprintf(file, "%s/%d.%s", irr::android::getCardImagePath(mainGame->appMain).c_str(), code, iter->c_str());
-				img = driver->getTexture(file);
+				img = GetTextureFromFile(file, width, height);
 				if (img != NULL) {
 					break;
 				}
@@ -110,7 +200,7 @@ irr::video::ITexture* ImageManager::GetTexture(int code) {
 				//load image in zip
 				irr::io::IReadFile* in_zip_file = device->getFileSystem()->createAndOpenFile(file);
 				if (in_zip_file && in_zip_file->getSize() > 0) {
-					img = driver->getTexture(in_zip_file);
+					img = GetTextureFromFile(in_zip_file, width, height);
 					if (img != NULL) {
 						break;
 					}
