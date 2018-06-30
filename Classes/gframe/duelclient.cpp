@@ -768,10 +768,9 @@ void DuelClient::HandleSTOCPacketLan(char* data, unsigned int len) {
 	case STOC_TIME_LIMIT: {
 		STOC_TimeLimit* pkt = (STOC_TimeLimit*)pdata;
 		int lplayer = mainGame->LocalPlayer(pkt->player);
-		//if(lplayer == 0)
-		//	DuelClient::SendPacketToServer(CTOS_TIME_CONFIRM);
-		if(lplayer == 1)
-			mainGame->dInfo.time_player = lplayer;
+		if(lplayer == 0)
+			DuelClient::SendPacketToServer(CTOS_TIME_CONFIRM);
+		mainGame->dInfo.time_player = lplayer;
 		mainGame->dInfo.time_left[lplayer] = pkt->left_time;
 		mainGame->RefreshTimeDisplay();
 		break;
@@ -3942,7 +3941,6 @@ void DuelClient::SendResponse() {
 		mainGame->singleSignal.Set();
 	} else {
 		mainGame->dInfo.time_player = 2;
-		SendPacketToServer(CTOS_TIME_CONFIRM);
 		SendBufferToServer(CTOS_RESPONSE, response_buf, response_len);
 	}
 }
