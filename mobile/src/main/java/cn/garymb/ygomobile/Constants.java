@@ -5,6 +5,11 @@ import android.view.Gravity;
 import cn.garymb.ygomobile.lite.BuildConfig;
 
 public interface Constants {
+    //support mycard - will pass to mycard
+    String ORIGIN_APP_ID = "cn.garymb.ygomobile";
+    String ORIGIN_VER_NAME = "3.3.0";
+    int ORIGIN_VER_CODE = 32010530;
+
     boolean DEBUG = BuildConfig.DEBUG;
     String PREF_START = "game_pref_";
     String PREF_LAST_YDK = "pref_last_ydk";
