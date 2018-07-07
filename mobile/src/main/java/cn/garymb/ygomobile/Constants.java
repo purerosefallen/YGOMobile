@@ -7,8 +7,8 @@ import cn.garymb.ygomobile.lite.BuildConfig;
 public interface Constants {
     //support mycard - will pass to mycard
     String ORIGIN_APP_ID = "cn.garymb.ygomobile";
-    String ORIGIN_VER_NAME = "3.3.0";
-    int ORIGIN_VER_CODE = 32010530;
+    String ORIGIN_VER_NAME = "3.3.2";
+    int ORIGIN_VER_CODE = 32010532;
 
     boolean DEBUG = BuildConfig.DEBUG;
     String PREF_START = "game_pref_";
