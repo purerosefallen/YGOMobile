@@ -32,6 +32,10 @@ import cn.garymb.ygomobile.lite.R;
 import cn.garymb.ygomobile.ui.activities.BaseActivity;
 import cn.garymb.ygomobile.ui.cards.DeckManagerActivity;
 
+import static cn.garymb.ygomobile.Constants.ORIGIN_APP_ID;
+import static cn.garymb.ygomobile.Constants.ORIGIN_VER_NAME;
+import static cn.garymb.ygomobile.Constants.ORIGIN_VER_CODE;
+
 public class MyCardActivity extends BaseActivity implements MyCard.MyCardListener, NavigationView.OnNavigationItemSelectedListener {
 
     private MyCardWebView mWebViewPlus;
@@ -67,9 +71,12 @@ public class MyCardActivity extends BaseActivity implements MyCard.MyCardListene
         XWalkSettings settings = mWebViewPlus.getSettings();
         settings.setUserAgentString(settings.getUserAgentString() + MessageFormat.format(
                 " YGOMobile/{0} ({1} {2,number,#})",
-                BuildConfig.VERSION_NAME,
-                BuildConfig.APPLICATION_ID,
-                BuildConfig.VERSION_CODE
+                //BuildConfig.VERSION_NAME,
+                //BuildConfig.APPLICATION_ID,
+                //BuildConfig.VERSION_CODE
+                ORIGIN_VER_NAME,
+                ORIGIN_APP_ID,
+                ORIGIN_VER_CODE
         ));
 
         mWebViewPlus.setUIClient(new XWalkUIClient(mWebViewPlus) {
