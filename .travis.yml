@@ -97,7 +97,5 @@ deploy:
   - KoishiMobile-$TRAVIS_TAG.apk
   - output-$TRAVIS_TAG.json
   skip_cleanup: true
-  overwrite: true
-  prerelease: true
   on:
     tags: true
