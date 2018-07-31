@@ -101,6 +101,7 @@ public:
 	void ShowSelectCard(bool buttonok = false, bool chain = false);
 	void ShowChainCard();
 	void ShowLocationCard();
+	void ShowSelectOption(int select_hint = 0);
 	void ReplaySwap();
 	void RefreshAllCards();
 
@@ -144,6 +145,7 @@ public:
 	void ShowCancelOrFinishButton(int buttonOp);
 	void SetShowMark(ClientCard* pcard, bool enable);
 	void SetResponseSelectedCards() const;
+	void SetResponseSelectedOption() const;
 	void CancelOrFinish();
 };
 
