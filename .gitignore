@@ -55,3 +55,6 @@ Thumbs.db
 /temp
 /Compile.log
 /mobile/libs/libWindbot.aar
+
+*.orig
+*.rej

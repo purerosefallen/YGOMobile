@@ -1396,17 +1396,7 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		mainGame->dField.select_options.clear();
 		for (int i = 0; i < count; ++i)
 			mainGame->dField.select_options.push_back(BufferIO::ReadInt32(pbuf));
-		mainGame->gMutex.Lock();
-		mainGame->SetStaticText(mainGame->stOptions, 310 * mainGame->xScale, mainGame->textFont,
-		                        (wchar_t*)dataManager.GetDesc(mainGame->dField.select_options[0]));
-		mainGame->btnOptionp->setVisible(false);
-		if(count > 1)
-			mainGame->btnOptionn->setVisible(true);
-		else mainGame->btnOptionn->setVisible(false);
-		mainGame->dField.selected_option = 0;
-		if(select_hint)
-			myswprintf(textBuffer, L"%ls", dataManager.GetDesc(select_hint));
-		else myswprintf(textBuffer, dataManager.GetSysString(555));
+		mainGame->dField.ShowSelectOption(select_hint);
 		select_hint = 0;
 		mainGame->wOptions->setText(textBuffer);
 		mainGame->PopupElement(mainGame->wOptions);
@@ -1603,7 +1593,10 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 					pcard->cmdFlag |= COMMAND_RESET;
 				else
 					pcard->cmdFlag |= COMMAND_ACTIVATE;
-				if(l == LOCATION_GRAVE)
+				if(pcard->location == LOCATION_DECK) {
+					pcard->SetCode(code);
+					mainGame->dField.deck_act = true;
+				} else if(l == LOCATION_GRAVE)
 					mainGame->dField.grave_act = true;
 				else if(l == LOCATION_REMOVED)
 					mainGame->dField.remove_act = true;
