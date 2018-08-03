@@ -1,7 +1,9 @@
 language: cpp
 
 script:
-- git checkout master
+- mkdir importion
+- cd importion
+- git init
 - echo $KEYSTORE_PASS > KEYSTORE_PASS.txt
 - echo $ALIAS_NAME > ALIAS_NAME.txt
 - echo $ALIAS_PASS > ALIAS_PASS.txt
