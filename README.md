@@ -1,6 +1,7 @@
 # License
  GPL
 # YGOMobile
+This Project is finished because of not maintaining. I will start a new fork `SekkaMobile` instead.
 [![Build Status](https://travis-ci.org/purerosefallen/ygopro-222DIY-mobile.svg?branch=master)](https://travis-ci.org/purerosefallen/ygopro-222DIY-mobile)
 Android编译环境
 ---------------------
