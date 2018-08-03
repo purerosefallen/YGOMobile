@@ -6,4 +6,4 @@ script:
 - echo $ALIAS_PASS > ALIAS_PASS.txt
 - git add .
 - git commit -m "That's all."
-- git push https://$NANAHIRA@github.com/purerosefallen/YGOMobile-importion master -f
+- git push https://$NANAHIRA@github.com/purerosefallen/YGOMobile-importion HEAD:master -f
